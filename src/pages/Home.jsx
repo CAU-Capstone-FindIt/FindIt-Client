@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import RoofingIcon from '@mui/icons-material/Roofing';
 import Input from '@mui/material/Input';
 import { useState } from 'react';
+import Vision_model from '../vision/Vision_model';
 
 const Home = () => {
   const [inputValue, setInputValue] = useState('');
@@ -23,6 +24,7 @@ const Home = () => {
         <RoofingIcon onClick = {handleClick}/>
       </IconButton>
       <Input placeholder="Placeholder" value={inputValue} onChange={inputChange} />
+      <Vision_model></Vision_model>
     </Container>
   )
 }
