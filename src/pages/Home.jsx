@@ -12,7 +12,7 @@ const Home = () => {
   const handleStartReport = (mode) => {
     setReportMode(mode);
     if (markerVisible) {
-      markerVisible(true); // 마커 표시
+      markerVisible(true); // 마커 표시 입니다
     }
   };
 
