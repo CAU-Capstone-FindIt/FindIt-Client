@@ -15,7 +15,6 @@ const Home = () => {
       markerVisible(true); // 마커 표시
     }
   };
-  const [inputValue, setInputValue] = useState("");
 
   const handleInfoInputClick = () => {
     console.log("정보 입력 버튼 클릭됨");
