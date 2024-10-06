@@ -60,31 +60,38 @@ const Form = () => {
     navigate("/");
   };
 
+  // 이미지 미리보기 클릭 시 파일 입력창 열기
+  const handleImagePreviewClick = () => {
+    document.getElementById("file-upload").click();
+  };
+
   return (
     <Container>
       <TopNavBack />
       <FormBox>
         <form onSubmit={handleSubmit}>
-          <h2>{reportInfo.mode === "lost" ? "분실물 신고" : "습득물 신고"}</h2>
+          <Title mode={reportInfo.mode}>
+            {reportInfo.mode === "lost" ? "분실물 신고" : "습득물 신고"}
+          </Title>
           <p>
             위도 경도: {reportInfo.position.lat}, {reportInfo.position.lng}
           </p>
-          <ImagePreview>
+          <ImagePreview onClick={handleImagePreviewClick}>
             {selectedImage ? (
               <img src={selectedImage} alt="미리보기" />
             ) : (
-              <h2>이미지를 업로드 해주세요</h2>
+              <>
+                <ImgIcon src="/img/UploadIconBlue.png" alt="이미지 아이콘" />
+                <h3>Upload Your Image File</h3>
+              </>
             )}
           </ImagePreview>
-          <CustomFileInput>
-            <InputFile
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              id="file-upload" // ID 추가
-            />
-            <ImgLabel htmlFor="file-upload">이미지 등록</ImgLabel>
-          </CustomFileInput>
+          <InputFile
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            id="file-upload"
+          />
           <InputBox>
             <InputLabel for="name">명칭</InputLabel>
             <InputText type="text" id="name" placeholder="명칭" required />
@@ -172,32 +179,46 @@ const FormBox = styled.div`
   }
 `;
 
+const Title = styled.h4`
+  background-color: ${(props) =>
+    props.mode === "lost" ? "#ffb978" : "#FF0000"};
+  color: #ffffff;
+  width: 30%;
+  padding: 5px;
+  border-radius: 1.5rem;
+  text-align: center;
+`;
+
 const ImagePreview = styled.div`
   width: 100%;
   height: 200px; /* 미리보기 영역 높이 */
   border: 1px dashed #ccc; /* 테두리 스타일 */
   border-radius: 10px; /* 모서리 둥글게 */
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px; /* 입력 필드와 간격 추가 */
+  cursor: pointer;
 
   img {
     max-width: 100%;
     max-height: 100%;
     border-radius: 10px; /* 이미지 둥글게 */
   }
+  h2 {
+    text-aling: center;
+  }
 `;
 
-const CustomFileInput = styled.div`
-  position: relative;
-  margin-bottom: 20px; /* 입력 필드 간격 */
+const ImgIcon = styled.img`
+  width: 50px;
 `;
 
 const InputBox = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 15px; /* 입력 필드 간격 */
+  margin-bottom: 1rem; /* 입력 필드 간격 */
 `;
 
 const InputLabel = styled.label`
@@ -207,21 +228,6 @@ const InputLabel = styled.label`
 
 const InputFile = styled.input`
   display: none; /* 기본 파일 입력 숨기기 */
-`;
-
-const ImgLabel = styled.label`
-  display: inline-block;
-  width: 100%;
-  padding: 10px 0;
-  background-color: #007cff;
-  color: white;
-  text-align: center;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0051a8; /* hover 시 색상 변경 */
-  }
 `;
 
 const InputText = styled.input`
@@ -250,23 +256,24 @@ const SelectCategory = styled.select`
 const InputDate = styled.input`
   width: 80%;
   padding: 10px;
-  margin-bottom: 15px; /* 입력 필드 간격 */
   border: 1px solid #ccc; /* 테두리 스타일 */
   border-radius: 5px; /* 모서리 둥글게 */
   font-size: 16px;
 `;
 
 const TextArea = styled.textarea`
-  width: 90%;
+  width: 100%;
   padding: 20px;
-  margin-bottom: 15px; /* 입력 필드 간격 */
+  margin: 0 auto;
+  margin-bottom: 1rem; /* 입력 필드 간격 */
   // border: 1px solid #ccc; /* 파란색 테두리 */
   border-radius: 5px; /* 모서리 둥글게 */
   border: none;
   font-size: 16px;
   background-color: #f9f9f9;
   resize: none; // 크기 고정
-  min-height: 100px; /* 최소 높이 설정 */
+  min-height: 120px; /* 최소 높이 설정 */
+  box-sizing: border-box; /* 패딩이 포함되도록 설정 */
 
   &:focus {
     border: none;
@@ -275,6 +282,20 @@ const TextArea = styled.textarea`
 
   &::placeholder {
     font-weight: bold;
+  }
+
+  // 스크롤바 숨기기
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(110, 110, 110); /* 스크롤바 색상 */
+    border-radius: 10px; /* 스크롤바 둥근 테두리 */
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(110, 110, 110, 0.1); /*스크롤바 뒷 배경 색상*/
   }
 `;
 
