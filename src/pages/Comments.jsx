@@ -36,7 +36,7 @@ const Comments = ({ report }) => {
       comments: updatedComments,
     };
 
-    // 흠
+    // 흠 풀리퀘스트 전용 주석
     try {
       await axios.put(
         `http://localhost:3001/findlist/${report.id}`,
