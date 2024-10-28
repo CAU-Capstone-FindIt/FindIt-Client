@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
 const Modal = ({ isOpen, onClose, report }) => {
+  const navigate = useNavigate();
+
   if (!isOpen) return null;
 
   return (
@@ -25,6 +28,13 @@ const Modal = ({ isOpen, onClose, report }) => {
                 <h4>{report.location}</h4>
                 <h4>{report.brand}</h4>
                 <h4>{report.date}</h4>
+                <DetailBtn
+                  onClick={() =>
+                    navigate(`/detail/${report.name}`, { state: report })
+                  }
+                >
+                  상세보기
+                </DetailBtn>
               </>
             ) : (
               <p>신고 정보가 없습니다.</p>
@@ -149,4 +159,15 @@ const CategoryBox = styled.h5`
   border-radius: 1.5rem;
   text-align: center;
   margin-bottom: 1rem;
+`;
+
+const DetailBtn = styled.button`
+  width: 40%;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  background-color: #007cff;
 `;
