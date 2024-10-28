@@ -96,7 +96,7 @@ export default Detail;
 
 const Container = styled.div`
   background-color: white;
-  width: 600px;
+  width: 500px;
   height: 100%;
 `;
 
@@ -110,7 +110,7 @@ const Box = styled.div`
   flex-direction: column;
   align-items: center;
 
-  @media (max-width: 600px) {
+  @media (max-width: 500px) {
     top: calc(var(--vh, 1vh) * 8);
     max-height: calc(100% - (calc(var(--vh, 1vh) * 16)));
   }
