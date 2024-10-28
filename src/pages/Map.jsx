@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Modal from "./Modal";
+import axios from "axios";
+import { useFindListQuery } from "../apis/FindQuery";
+import { useLostListQuery } from "../apis/LostQuery";
 
 const { kakao } = window;
 
@@ -14,9 +17,12 @@ const Map = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
   const [selectedReport, setSelectedReport] = useState(null); // 선택된 신고 정보
 
+  const { data: findReports } = useFindListQuery();
+  const { data: lostReports } = useLostListQuery();
+
   useEffect(() => {
     initializeMap();
-  }, []);
+  }, [findReports]);
 
   const initializeMap = async () => {
     // useRef훅을 사용하여 mapRef를 생성함(참조 객체) => 지도를 가르키게 될 예정
@@ -30,38 +36,103 @@ const Map = () => {
     // 지도를 생성하는 카카오 맵 api 함수
     const map = new kakao.maps.Map(container, options);
 
-    // 로컬 스토리지에서 데이터 가져오기
-    const reports = JSON.parse(localStorage.getItem("lostAndFoundData")) || [];
+    // api로 데이터 가져오기
 
-    // 각 신고에 대해 마커 생성하기
-    reports.forEach((report) => {
-      const { lat, lng } = report.position; // 좌표 가져오기
-      const markerPosition = new kakao.maps.LatLng(lat, lng);
+    // 습득물 api get
+    try {
+      // 각 신고에 대해 마커 생성하기
+      findReports.forEach((report) => {
+        const { lat, lng } = report.position; // 좌표 가져오기
+        const markerPosition = new kakao.maps.LatLng(lat, lng);
 
-      const markerImageUrl =
-        report.mode === "lost"
-          ? `img/LostIconTemp.png`
-          : `img/FindIconTemp.png`;
+        const markerImageUrl =
+          report.mode === "lost"
+            ? `img/LostIconTemp.png`
+            : `img/FindIconTemp.png`;
 
-      // 마커 이미지 생성
-      const markerImage = new kakao.maps.MarkerImage(
-        markerImageUrl,
-        new kakao.maps.Size(20, 32)
-      );
+        // 마커 이미지 생성
+        const markerImage = new kakao.maps.MarkerImage(
+          markerImageUrl,
+          new kakao.maps.Size(20, 32)
+        );
 
-      // 마커 생성
-      const newMarker = new kakao.maps.Marker({
-        position: markerPosition,
-        image: markerImage,
-        map: map,
+        // 마커 생성
+        const newMarker = new kakao.maps.Marker({
+          position: markerPosition,
+          image: markerImage,
+          map: map,
+        });
+
+        kakao.maps.event.addListener(newMarker, "click", () => {
+          console.log(report);
+          setSelectedReport(report); // 선택된 신고 정보 설정
+          setIsModalOpen(true); // 모달 열기
+        });
       });
 
-      kakao.maps.event.addListener(newMarker, "click", () => {
-        console.log(report);
-        setSelectedReport(report); // 선택된 신고 정보 설정
-        setIsModalOpen(true); // 모달 열기
+      // 각 신고에 대해 마커 생성하기
+      lostReports.forEach((report) => {
+        const { lat, lng } = report.position; // 좌표 가져오기
+        const markerPosition = new kakao.maps.LatLng(lat, lng);
+
+        const markerImageUrl =
+          report.mode === "lost"
+            ? `img/LostIconTemp.png`
+            : `img/FindIconTemp.png`;
+
+        // 마커 이미지 생성
+        const markerImage = new kakao.maps.MarkerImage(
+          markerImageUrl,
+          new kakao.maps.Size(20, 32)
+        );
+
+        // 마커 생성
+        const newMarker = new kakao.maps.Marker({
+          position: markerPosition,
+          image: markerImage,
+          map: map,
+        });
+
+        kakao.maps.event.addListener(newMarker, "click", () => {
+          console.log(report);
+          setSelectedReport(report); // 선택된 신고 정보 설정
+          setIsModalOpen(true); // 모달 열기
+        });
       });
-    });
+    } catch {}
+
+    // // 로컬 스토리지에서 데이터 가져오기
+    // const reports = JSON.parse(localStorage.getItem("lostAndFoundData")) || [];
+
+    // // 각 신고에 대해 마커 생성하기
+    // reports.forEach((report) => {
+    //   const { lat, lng } = report.position; // 좌표 가져오기
+    //   const markerPosition = new kakao.maps.LatLng(lat, lng);
+
+    //   const markerImageUrl =
+    //     report.mode === "lost"
+    //       ? `img/LostIconTemp.png`
+    //       : `img/FindIconTemp.png`;
+
+    //   // 마커 이미지 생성
+    //   const markerImage = new kakao.maps.MarkerImage(
+    //     markerImageUrl,
+    //     new kakao.maps.Size(20, 32)
+    //   );
+
+    //   // 마커 생성
+    //   const newMarker = new kakao.maps.Marker({
+    //     position: markerPosition,
+    //     image: markerImage,
+    //     map: map,
+    //   });
+
+    //   kakao.maps.event.addListener(newMarker, "click", () => {
+    //     console.log(report);
+    //     setSelectedReport(report); // 선택된 신고 정보 설정
+    //     setIsModalOpen(true); // 모달 열기
+    //   });
+    // });
   };
 
   const closeModal = () => {

@@ -6,6 +6,7 @@ import { useNavContext } from "../apis/NavContext";
 const Nav = () => {
   const { activeNav, setActiveNav } = useNavContext(); // 상태 및 setter 가져오기
   const navigate = useNavigate();
+  const storedActiveNav = localStorage.getItem("activeNav");
 
   const handleNavClick = (index, path) => {
     setActiveNav(index);
