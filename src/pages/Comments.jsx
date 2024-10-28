@@ -36,6 +36,7 @@ const Comments = ({ report }) => {
       comments: updatedComments,
     };
 
+    // 흠
     try {
       await axios.put(
         `http://localhost:3001/findlist/${report.id}`,
