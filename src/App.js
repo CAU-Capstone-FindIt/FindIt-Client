@@ -39,7 +39,7 @@ function App() {
 export default App;
 
 const AppDom = styled.div`
-  width: min(100vw, 600px); // 화면 너비에 맞추면서 최대 600px로 제한
+  width: min(100vw, 500px); // 화면 너비에 맞추면서 최대 600px로 제한
   height: 100vh; // 웹 뷰
   margin: 0 auto;
 
@@ -47,7 +47,7 @@ const AppDom = styled.div`
   align-items: center;
   position: relative;
 
-  @media (max-width: 600px) {
+  @media (max-width: 500px) {
     width: 100vw;
     height: calc(var(--vh, 1vh) * 100);
   }

@@ -53,7 +53,7 @@ export default Find;
 
 const Container = styled.div`
   background-color: white;
-  width: 600px;
+  width: 500px;
   height: 100%;
 `;
 
@@ -83,7 +83,7 @@ const ListContainer = styled.div`
     background: rgba(150, 150, 150, 0.1); /*스크롤바 뒷 배경 색상*/
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 500px) {
     top: calc(var(--vh, 1vh) * 8);
     max-height: calc(100% - (calc(var(--vh, 1vh) * 16)));
   }
@@ -122,9 +122,9 @@ const Content = styled.div`
   width: 55%;
   text-align: end;
 
-  h2 {
+  /* h2 {
     margin: ;
-  }
+  } */
   h4 {
     margin-bottom: 10px;
   }

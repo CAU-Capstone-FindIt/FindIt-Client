@@ -59,7 +59,7 @@ const Overlay = styled.div`
   z-index: 999;
 
   pointer-events: none; // 오버레이말고 다른걸 클릭할수는 없게되는데 그냥 무시하고 되어버리긴 함. 의도는 됨
-  @media (max-width: 600px) {
+  @media (max-width: 500px) {
     position: fixed;
   }
 `;
@@ -106,7 +106,7 @@ const FixedButton = styled.button`
 
   transition: background-color 0.5s; // 색상 변경 시 1초의 변화를 줌
 
-  @media (max-width: 600px) {
+  @media (max-width: 500px) {
     position: fixed;
     bottom: 15vh; // 화면 높이의 5% 위치에 버튼이 오도록 설정
     right: 10vw; // 화면 너비의 5% 위치에 버튼이 오도록 설정
@@ -138,7 +138,7 @@ const ButtonContainer = styled.div`
           ${slideDown} 0.7s ease-in forwards
         `};
 
-  @media (max-width: 600px) {
+  @media (max-width: 500px) {
     position: fixed;
     bottom: 25vh; // 동일하게 vh 단위로 설정
     right: 10vw;
