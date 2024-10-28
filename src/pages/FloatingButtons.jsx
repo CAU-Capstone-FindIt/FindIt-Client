@@ -119,7 +119,7 @@ const ButtonContainer = styled.div`
   right: 6%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 2.5vh;
   z-index: 1000;
 
   cursor: pointer;
@@ -140,7 +140,7 @@ const ButtonContainer = styled.div`
 
   @media (max-width: 600px) {
     position: fixed;
-    bottom: 22vh; // 동일하게 vh 단위로 설정
+    bottom: 25vh; // 동일하게 vh 단위로 설정
     right: 10vw;
   }
 `;

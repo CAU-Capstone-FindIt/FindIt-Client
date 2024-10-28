@@ -114,11 +114,13 @@ const ModalContent = styled.div`
 const ContentBox = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const ModalImg = styled.img`
   width: 40%;
   height: 40%;
+  aspect-ratio: 1/1; // 가로세로비율. 1대1비율로 넣어야 정사각형이 된다
   border-radius: 10px;
 `;
 

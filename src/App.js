@@ -8,23 +8,31 @@ import { NavProvider } from "./apis/NavContext";
 import Lost from "./pages/Lost";
 import { ReportProvider } from "./apis/ReportContext";
 import Form from "./pages/Form";
+import Detail from "./pages/Detail";
+import Test from "./pages/Test";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function App() {
   return (
-    <NavProvider>
-      <ReportProvider>
-        <AppDom>
-          <Routes>
-            <Route path="/" element={<Home></Home>}></Route>
-            <Route path="/map" element={<Map></Map>}></Route>
-            <Route path="/report" element={<ReportMode></ReportMode>}></Route>
-            <Route path="/find" element={<Find></Find>}></Route>
-            <Route path="/lost" element={<Lost></Lost>}></Route>
-            <Route path="/form" element={<Form></Form>}></Route>
-          </Routes>
-        </AppDom>
-      </ReportProvider>
-    </NavProvider>
+    // Test가 QueryClientProvider이다
+    <Test>
+      <NavProvider>
+        <ReportProvider>
+          <AppDom>
+            <Routes>
+              <Route path="/" element={<Home></Home>}></Route>
+              <Route path="/map" element={<Map></Map>}></Route>
+              <Route path="/report" element={<ReportMode></ReportMode>}></Route>
+              <Route path="/find" element={<Find></Find>}></Route>
+              <Route path="/lost" element={<Lost></Lost>}></Route>
+              <Route path="/form" element={<Form></Form>}></Route>
+              <Route path="/detail/*" element={<Detail></Detail>}></Route>
+            </Routes>
+          </AppDom>
+        </ReportProvider>
+      </NavProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </Test>
   );
 }
 

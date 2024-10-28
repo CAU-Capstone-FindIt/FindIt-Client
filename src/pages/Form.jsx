@@ -3,12 +3,15 @@ import TopNavBack from "./TopNavBack";
 import { useReportContext } from "../apis/ReportContext";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Form = () => {
   const { reportInfo } = useReportContext(); // Context에서 reportInfo 가져오기
   const [selectedImage, setSelectedImage] = useState(null); // 선택된 이미지 상태
   const [selectedCategory, setSelectedCategory] = useState(""); // 선택된 카테고리 상태
   const [description, setDescription] = useState(""); // 설명 상태
+
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -32,7 +35,7 @@ const Form = () => {
     setDescription(e.target.value); // 설명 상태 업데이트
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // 기본 폼 제출 동작 방지
 
     const formData = {
@@ -46,15 +49,37 @@ const Form = () => {
       date: e.target.date.value,
       description: description,
       image: selectedImage,
+      comments: [],
     };
 
-    // 로컬스토리지에 저장
-    const existingData =
-      JSON.parse(localStorage.getItem("lostAndFoundData")) || [];
-    localStorage.setItem(
-      "lostAndFoundData",
-      JSON.stringify([...existingData, formData])
-    );
+    // api에 넣기
+    try {
+      let apiUrl = "";
+
+      // reportInfo.mode에 따라 API 엔드포인트 설정
+      if (reportInfo.mode === "found") {
+        apiUrl = "http://localhost:3001/findlist";
+      } else if (reportInfo.mode === "lost") {
+        apiUrl = "http://localhost:3001/lostlist";
+      }
+
+      // POST 요청으로 데이터 추가
+      const response = await axios.post(apiUrl, formData);
+      console.log("Response:", response.data);
+
+      // 성공 후 원하는 로직 추가 (예: 알림, 화면 전환)
+    } catch (err) {
+      setError(err.message);
+      console.error("Error:", err);
+    }
+
+    // // 로컬스토리지에 저장
+    // const existingData =
+    //   JSON.parse(localStorage.getItem("lostAndFoundData")) || [];
+    // localStorage.setItem(
+    //   "lostAndFoundData",
+    //   JSON.stringify([...existingData, formData])
+    // );
 
     // 메인 화면으로 네비게이트
     navigate("/");
@@ -290,12 +315,12 @@ const TextArea = styled.textarea`
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba(110, 110, 110); /* 스크롤바 색상 */
+    background: rgba(150, 150, 150); /* 스크롤바 색상 */
     border-radius: 10px; /* 스크롤바 둥근 테두리 */
   }
 
   &::-webkit-scrollbar-track {
-    background: rgba(110, 110, 110, 0.1); /*스크롤바 뒷 배경 색상*/
+    background: rgba(150, 150, 150, 0.1); /*스크롤바 뒷 배경 색상*/
   }
 `;
 
