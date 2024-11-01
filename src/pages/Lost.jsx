@@ -51,7 +51,7 @@ export default Lost;
 
 const Container = styled.div`
   background-color: white;
-  width: 500px;
+  width: 600px;
   height: 100%;
 `;
 
@@ -81,7 +81,7 @@ const ListContainer = styled.div`
     background: rgba(150, 150, 150, 0.1); /*스크롤바 뒷 배경 색상*/
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     top: calc(var(--vh, 1vh) * 8);
     max-height: calc(100% - (calc(var(--vh, 1vh) * 16)));
   }

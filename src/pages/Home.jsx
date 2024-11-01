@@ -36,6 +36,6 @@ export default Home;
 
 const Container = styled.div`
   background-color: gray;
-  width: 500px;
+  width: 600px;
   height: 100%;
 `;

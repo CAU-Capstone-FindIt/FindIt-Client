@@ -82,7 +82,7 @@ const ModalOverlay = styled.div`
 
   // 이렇게 해야 모바일 화면 넓이에도 전체로 덮여짐(그전에는 화면 넓이 60%만 차지)
   // 플로팅버튼이랑 같은 맥락인듯?
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     position: fixed;
   }
 `;
@@ -114,7 +114,7 @@ const ModalContent = styled.div`
   animation: ${slideUp} 0.4s forwards; /* 슬라이드 애니메이션 적용 */
   margin-bottom: 8vh; /* 네브바 높이만큼 아래 여백 추가 */
 
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     //하단 nav바가 모바일환경에서는 10vh 높이이므로
     margin-bottom: 10vh; /* 네브바 높이만큼 아래 여백 추가 */
     // height: 20%;
