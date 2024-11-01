@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const Vision_model = () => {
+const Vision_google = () => {
     const [selectedFile, setSelectedFile] = useState(null);  // 업로드된 파일 (base64)
     const [preview, setPreview] = useState(null);            // 이미지 미리보기 URL
     const [result, setResult] = useState(null);              // Vision API 분석 결과
@@ -90,4 +90,4 @@ const Vision_model = () => {
     );
 };
 
-export default Vision_model;
+export default Vision_google;

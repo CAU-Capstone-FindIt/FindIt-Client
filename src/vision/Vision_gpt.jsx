@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_KEY = 'YOUR_API_KEY'; // 환경변수로 설정하자.
+const API_KEY = process.env.REACT_APP_VISION_KEY;
 const API_URL = 'https://api.openai.com/v1/chat/completions';
 
 const sendMessageToChatGPT = async (message) => {
@@ -12,11 +12,18 @@ const sendMessageToChatGPT = async (message) => {
                 messages: [
                     {
                         role: 'system',
-                        content: '' // 여기에 프롬프트 작성하기
+                        content: "You are an assistant that analyzes images to identify item name, category, color, keywords, and brand in the given order." // 프롬프트
                     },
                     {
                         role: 'user',
-                        content: message // 여기에 내가 보낼 이미지 url 넣으면 될 듯
+                        content: [
+                            {
+                                type: "image_url",
+                                image_url: {
+                                    url : `data:image/jpeg;base64,${message}`
+                                }
+                            }
+                        ]
                     }
                 ],
                 max_tokens: 200,
@@ -31,12 +38,12 @@ const sendMessageToChatGPT = async (message) => {
         );
 
         const chatResponse = response.data.choices[0].message.content;
-        console.log('ChatGPT의 응답:', chatResponse);
+        console.log('gpi 응답', chatResponse);
         return chatResponse;
     } catch (error) {
-        console.error('API 요청 중 오류 발생:', error);
+        console.error('에러', error);
+        throw error;
     }
 };
 
-// 사용 예시
-sendMessageToChatGPT(); // 여기에 함수 인자로 이미지 url 넣기
+export default sendMessageToChatGPT;

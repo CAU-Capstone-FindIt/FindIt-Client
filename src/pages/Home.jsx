@@ -20,9 +20,6 @@ const Home = () => {
 
   return (
     <Container>
-      <IconButton variant="text">
-        <RoofingIcon onClick = {handleClick}/>
-      </IconButton>
       <Input placeholder="Placeholder" value={inputValue} onChange={inputChange} />
       <Vision_model></Vision_model>
     </Container>
