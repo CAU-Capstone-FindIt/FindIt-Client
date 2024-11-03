@@ -11,7 +11,8 @@ const dummy = {
   itemTag: "전자기기",
   loca: "경영경제관 일대",
   date: 20241010,
-  id:11
+  id:11,
+  isFind: false
 }
 
 const formatDate = (date) => {
