@@ -67,7 +67,6 @@ const Container = styled.div`
   width: 600px;
   height: 250px;
   background-color: #f1f1f1;
-  margin-top: 8vh;
 `;
 
 const ImageBox = styled.img`

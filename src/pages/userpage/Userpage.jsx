@@ -8,13 +8,17 @@ import MenuBeforLogin from "../../component/userpage/MenuBeforLogin";
 import MenuAfterLogin from "../../component/userpage/MenuAfterLogin";
 
 const Userpage = () => {
+  // 추후 로그인 여부에 따른 컴포넌트 랜더링 변경 필요
+
   return (
     <Container>
       <TopNav />
-      <UserBox />
-      <MenuBeforLogin />
-      <LoginButton />
-      {/* <MenuAfterLogin/> */}
+      <InnerContainer>
+        <UserBox />
+        <MenuBeforLogin />
+        <LoginButton />
+        <MenuAfterLogin />
+      </InnerContainer>
       <Nav />
     </Container>
   );
@@ -31,3 +35,11 @@ const Container = styled.div`
   align-items: center;
   overflow-y: auto;
 `;
+
+const InnerContainer = styled.div`
+margin-top: 9vh;
+margin-bottom: 9vh;
+display: flex;
+flex-direction:column;
+align-items:center;
+`

@@ -22,6 +22,5 @@ const Button = styled.div`
   font-size: 28px;
   font-weight: 1000;
   margin-top: 20px;
-  margin-bottom: 9vh;
   cursor: pointer;
 `;

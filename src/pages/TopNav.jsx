@@ -6,7 +6,10 @@ const TopNav = () => {
   const navigate = useNavigate();
   return (
     <Container>
-      <h1>FIND IT</h1>
+      <AppTitle>
+        <MainTitle>FIND IT</MainTitle>
+        <SubTitle>for CAU</SubTitle>
+      </AppTitle>
     </Container>
   );
 };
@@ -32,3 +35,19 @@ const Container = styled.div`
 
   z-index: 100;
 `;
+
+const AppTitle = styled.div`
+display:flex;
+flex-direction:column;
+align-items:flex-end;
+`
+
+
+const MainTitle = styled.div`
+  font-size: 60px;
+  font-weight: 800;
+`
+
+const SubTitle = styled.div`
+font-weight: 900;
+`

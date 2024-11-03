@@ -25,12 +25,10 @@ export default MenuAfterLogin;
 const Container = styled.div`
   width: 100%;
   max-width: 600px;
-  margin-top: 50px;
   min-height: 400px;
   background-color: white;
   display: flex;
   flex-direction: column;
-  margin-bottom: 9vh;
 `;
 
 const MenuItem = styled.div`
