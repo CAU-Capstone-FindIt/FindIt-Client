@@ -40,7 +40,6 @@ const InnerContainer = styled.div`
 const Text = styled.div`
   font-size: 24px;
   font-weight: 700;
-  margin-bottom: 10px;
 `;
 const ListBox = styled.div`
   background-color: #f0f0f0;
@@ -50,4 +49,5 @@ const ListBox = styled.div`
   flex-direction: column;
   align-items:center;
   overflow-y: auto;
+  margin-top:10px;
 `;
