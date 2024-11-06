@@ -1,19 +1,23 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const TopNavBack = () => {
   const navigate = useNavigate();
   return (
     <Container>
-      <Img
+      <BackIcon
         onClick={() => {
           navigate(-1);
         }}
-      >
-        <img src="/img/arrowBack.png" alt="뒤로가기 버튼" />
-      </Img>
-      <h1>FIND IT</h1>
+        style={{ fontSize: "40px" }}
+      />
+      <AppTitle>
+        <MainTitle>FIND IT</MainTitle>
+        <SubTitle>for CAU</SubTitle>
+      </AppTitle>
+      <EmptyBox/>
     </Container>
   );
 };
@@ -29,7 +33,7 @@ const Container = styled.div`
   bottom: 0;
   background-color: white;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   @media (max-width: 600px) {
     height: calc(
@@ -43,9 +47,29 @@ const Container = styled.div`
     width: 1.5rem;
   }
 `;
-
-const Img = styled.div`
+const BackIcon = styled(ArrowBackIosNewIcon)`
   cursor: pointer;
-  position: absolute;
-  left: 5%;
+  margin-left:20px;
 `;
+
+const EmptyBox = styled.div`
+  width:40px;
+  height:40px;
+  margin-left:20px;
+`
+
+const AppTitle = styled.div`
+display:flex;
+flex-direction:column;
+align-items:flex-end;
+`
+
+
+const MainTitle = styled.div`
+  font-size: 60px;
+  font-weight: 800;
+`
+
+const SubTitle = styled.div`
+font-weight: 900;
+`

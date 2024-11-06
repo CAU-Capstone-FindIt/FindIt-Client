@@ -122,9 +122,9 @@ const Content = styled.div`
   width: 55%;
   text-align: end;
 
-  h2 {
+  /* h2 {
     margin: ;
-  }
+  } */
   h4 {
     margin-bottom: 10px;
   }
