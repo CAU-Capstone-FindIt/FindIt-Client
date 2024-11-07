@@ -38,8 +38,16 @@ const Container = styled.div`
 `;
 
 const ListContainer = styled.div`
-  position: relative;
-  top: 8vh;
+margin-top: 75px;
+margin-bottom: 75px;
+display: flex;
+flex-direction:column;
+align-items:center;
+background-color: #f8f8f8;
+min-height: 100%;
+
+/* position: relative;
+  top: 75px;
   background-color: #f8f8f8;
   padding: 16px;
   overflow-y: auto;
@@ -55,18 +63,18 @@ const ListContainer = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba(150, 150, 150); /* 스크롤바 색상 */
-    border-radius: 10px; /* 스크롤바 둥근 테두리 */
-  }
+    background: rgba(150, 150, 150); //스크롤바 색상
+    border-radius: 10px; //스크롤바 둥근 테두리
+  } */
 
-  &::-webkit-scrollbar-track {
-    background: rgba(150, 150, 150, 0.1); /*스크롤바 뒷 배경 색상*/
-  }
+  /* &::-webkit-scrollbar-track {
+    background: rgba(150, 150, 150, 0.1); //스크롤바 뒷 배경 색상
+  } */
 
-  @media (max-width: 600px) {
+  /* @media (max-width: 600px) {
     top: calc(var(--vh, 1vh) * 8);
     max-height: calc(100% - (calc(var(--vh, 1vh) * 16)));
-  }
+  } */
 `;
 
 const ReportItem = styled.div`
