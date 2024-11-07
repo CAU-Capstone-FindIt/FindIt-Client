@@ -5,8 +5,10 @@ import styled from "styled-components";
 import TopNavBack from "../TopNavBack";
 import { styled as muiStyled } from "@mui/material/styles"; // muiStyled로 이름 변경
 import Switch from "@mui/material/Switch";
+import { useFindListQuery } from "../../apis/FindQuery";
 
 const Registeitem = () => {
+  const { data: findReports, isLoading } = useFindListQuery();
   return (
     <Container>
       <TopNavBack />
@@ -16,9 +18,10 @@ const Registeitem = () => {
         <AntSwitch />
         </TitleSwitch>
         <ListBox>
-          <Item />
-          <Item />
-          <Item />
+        {!isLoading ? (
+          <Item findReports={findReports}></Item>
+        ) : (<div></div>
+        )}
         </ListBox>
       </InnerContainer>
       <Nav />
@@ -68,7 +71,6 @@ const ListBox = styled.div`
   align-items: center;
   overflow-y: auto;
   margin-top:10px;
-  gap:10px;
 `;
 
 const AntSwitch = muiStyled(Switch)(({ theme }) => ({

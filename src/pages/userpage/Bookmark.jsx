@@ -3,17 +3,20 @@ import Nav from "../Nav";
 import Item from "../../component/item/Item";
 import styled from "styled-components";
 import TopNavBack from "../TopNavBack";
+import { useFindListQuery } from "../../apis/FindQuery";
 
 const Bookmark = () => {
+  const { data: findReports, isLoading } = useFindListQuery();
   return (
     <Container>
       <TopNavBack />
       <InnerContainer>
         <Text>즐겨찾기</Text>
         <ListBox>
-          <Item />
-          <Item />
-          <Item />
+        {!isLoading ? (
+          <Item findReports={findReports}></Item>
+        ) : (<div></div>
+        )}
         </ListBox>
       </InnerContainer>
       <Nav />
@@ -53,5 +56,4 @@ const ListBox = styled.div`
   align-items: center;
   overflow-y: auto;
   margin-top:10px;
-  gap: 10px;
 `;
