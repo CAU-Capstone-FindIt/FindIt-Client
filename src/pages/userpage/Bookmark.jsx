@@ -24,30 +24,34 @@ const Bookmark = () => {
 export default Bookmark;
 
 const Container = styled.div`
+  background-color: white;
+  width: 100%;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  overflow-y: auto;
 `;
 
 const InnerContainer = styled.div`
-  margin-top:10vh;
-  margin-bottom:9vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+  margin-top: 9vh;
+margin-bottom: 9vh;
+display: flex;
+flex-direction:column;
+align-items:center;
+gap: 2vh;
 `
 const Text = styled.div`
   font-size: 24px;
   font-weight: 700;
 `;
 const ListBox = styled.div`
-  background-color: #f0f0f0;
   width: 600px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
   overflow-y: auto;
   margin-top:10px;
+  gap: 10px;
 `;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import EditIcon from "@mui/icons-material/Edit";
 
-const UserBox = () => {
+const UserBox = ({point}) => {
   // 나중에 이름 받아와야 함
   // 나중에 포인트 받아와야 함
 
@@ -12,7 +12,6 @@ const UserBox = () => {
   const dummey = {
     name: "김태진",
     nicname: "kimtree24",
-    point: 10,
   };
 
   const editNickname = () => {
@@ -51,7 +50,7 @@ const UserBox = () => {
         ) : (
           <Text>{nickname}</Text>
         )}
-        <Text>{dummey.point}P</Text>
+        <Text>{point}P</Text>
       </TextBox2>
       <EditIcon onClick={editNickname} style={{ cursor: "pointer" }} />
     </Container>
