@@ -1,128 +1,104 @@
 import React from "react";
 import styled from "styled-components";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import TestImage from "../../source/testimage.png";
+import { useNavigate } from "react-router-dom";
 
-const dummy = {
-  image: "",
-  isBookmark: false,
-  itemTitle: "아이폰 미니13",
-  itemTag: "전자기기",
-  loca: "경영경제관 일대",
-  date: 20241010,
-  id: 11,
-  isFind: false,
-};
+const Item = ({ findReports }) => {
+  const navigate = useNavigate();
 
-const formatDate = (date) => {
-  const dateString = date.toString();
-  const year = dateString.slice(0, 4);
-  const month = dateString.slice(4, 6);
-  const day = dateString.slice(6, 8);
-  return `${year}.${month}.${day}.`;
-};
-
-const Item = () => {
   return (
-    <Container>
-      {dummy.image ? (
-        <ImageBox src={dummy.image} alt="Item Image" />
-      ) : (
-        <NoImageBox>등록 이미지 없음</NoImageBox>
-      )}
-      <ContentBox>
-        <TitleLine>
-          {dummy.isBookmark ? (
-            <StarIcon style={{ color: "#1876D2", fontSize: "30px" }} />
-          ) : (
-            <StarBorderIcon style={{ color: "black", fontSize: "30px" }} />
-          )}
-          {dummy.itemTitle}
-        </TitleLine>
-        <Tag>{dummy.itemTag}</Tag>
-        <Text>{dummy.loca}</Text>
-        <Text>{formatDate(dummy.date)}</Text>
-      </ContentBox>
-    </Container>
+    <>
+      {findReports.map((report, index) => (
+        <ReportItem
+          key={index}
+          onClick={() => navigate(`/detail/${report.name}`, { state: report })}
+        >
+          {/* Customize this to show whatever fields you have in your report */}
+          <ListImg src={report.image} alt="" />
+          <Content>
+            <TitleBox>
+              <img src="/img/StarBlack.png" alt="" />
+              <h2>{report.name}</h2>
+            </TitleBox>
+            <div>
+              <CategoryBox>{report.category}</CategoryBox>
+            </div>
+            <div>{report.location}</div>
+            <div>{report.date}</div>
+          </Content>
+        </ReportItem>
+      ))}
+    </>
   );
 };
 
 export default Item;
 
-const Container = styled.div`
-  width: 590px;
-  height: 200px;
-  background-color: #ffffff;
-  border-radius: 40px;
-  border: 1px solid #ddd;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+const ReportItem = styled.div`
+  width: 100%;
+  height: 22vh;
+  background: white;
+  margin: 1rem 0;
+  padding: 18px 36px;
+  border-radius: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+
+  cursor: pointer;
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+
   transition: transform 0.2s, box-shadow 0.2s;
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   }
+
+  div {
+    font-weight: bold;
+    color: #555;
+  }
 `;
 
-const ImageBox = styled.img`
-  width: 180px;
-  height: 180px;
-  border-radius: 30px;
-  margin-left: 30px;
+const ListImg = styled.img`
+  width: 35%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5%;
 `;
 
-const NoImageBox = styled.div`
-  width: 180px;
-  height: 180px;
-  border-radius: 30px;
-  margin-left: 30px;
-  background-color: #f0f0f0;
-  color: #888;
-  font-size: 18px;
+const Content = styled.div`
+  width: 55%;
+  text-align: end;
+
+  /* h2 {
+    margin: ;
+  } */
+  h4 {
+    margin-bottom: 10px;
+  }
+  div {
+    display: flex;
+    justify-content: flex-end;
+  }
+`;
+
+const TitleBox = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-weight: 600;
+  img {
+    width: 10%;
+    height: 10%;
+  }
 `;
 
-const ContentBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: space-between;
-  height: 180px;
-  margin-right: 30px;
-`;
-
-const TitleLine = styled.div`
-  font-size: 26px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #333;
-`;
-
-const Tag = styled.div`
-  width: 90px;
-  height: 30px;
-  border-radius: 15px;
+const CategoryBox = styled.h6`
   background-color: #1876d2;
-  font-size: 18px;
-  font-weight: 700;
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 25%;
+  padding: 5px;
+  border-radius: 1.5rem;
+  text-align: center;
+  margin: 10px 0;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
-`;
-
-const Text = styled.div`
-  font-size: 18px;
-  font-weight: 500;
-  color: #555;
 `;

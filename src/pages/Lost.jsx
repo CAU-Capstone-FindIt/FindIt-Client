@@ -2,6 +2,7 @@ import React from "react";
 import Nav from "./Nav";
 import styled from "styled-components";
 import TopNav from "./TopNav";
+import Item from "../component/item/Item";
 import { useNavigate } from "react-router-dom";
 import { useLostListQuery } from "../apis/LostQuery";
 
@@ -16,28 +17,7 @@ const Lost = () => {
       <TopNav></TopNav>
       <ListContainer>
         {!isLoading ? (
-          findReports.map((report, index) => (
-            <ReportItem
-              key={index}
-              onClick={() =>
-                navigate(`/detail/${report.name}`, { state: report })
-              }
-            >
-              {/* Customize this to show whatever fields you have in your report */}
-              <ListImg src={report.image} alt="" />
-              <Content>
-                <TitleBox>
-                  <img src="/img/StarBlack.png" alt="" />
-                  <h2>{report.name}</h2>
-                </TitleBox>
-                <div>
-                  <CategoryBox>{report.category}</CategoryBox>
-                </div>
-                <h4>{report.location}</h4>
-                <h4>{report.date}</h4>
-              </Content>
-            </ReportItem>
-          ))
+          <Item findReports={findReports}></Item>
         ) : (
           <NoReportsMessage>No reports found.</NoReportsMessage>
         )}
