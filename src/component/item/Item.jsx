@@ -33,7 +33,7 @@ export default Item;
 
 const ReportItem = styled.div`
   width: 590px;
-  height: 100px;
+  height: 200px;
   background: white;
   margin: 1rem 0;
   padding: 18px 36px;

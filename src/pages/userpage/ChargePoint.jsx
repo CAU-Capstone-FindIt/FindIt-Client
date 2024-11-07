@@ -39,8 +39,8 @@ const Container = styled.div`
 `;
 
 const InnerContainer = styled.div`
-margin-top: 9vh;
-margin-bottom: 9vh;
+margin-top: 75px;
+margin-bottom: 75px;
 display: flex;
 flex-direction:column;
 align-items:center;
