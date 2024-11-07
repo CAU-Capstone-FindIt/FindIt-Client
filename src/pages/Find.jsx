@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Nav from "./Nav";
 import styled from "styled-components";
 import TopNav from "./TopNav";
+import Item from "../component/item/Item";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -18,28 +19,7 @@ const Find = () => {
       <TopNav></TopNav>
       <ListContainer>
         {!isLoading ? (
-          findReports.map((report, index) => (
-            <ReportItem
-              key={index}
-              onClick={() =>
-                navigate(`/detail/${report.name}`, { state: report })
-              }
-            >
-              {/* Customize this to show whatever fields you have in your report */}
-              <ListImg src={report.image} alt="" />
-              <Content>
-                <TitleBox>
-                  <img src="/img/StarBlack.png" alt="" />
-                  <h2>{report.name}</h2>
-                </TitleBox>
-                <div>
-                  <CategoryBox>{report.category}</CategoryBox>
-                </div>
-                <h4>{report.location}</h4>
-                <h4>{report.date}</h4>
-              </Content>
-            </ReportItem>
-          ))
+          <Item findReports={findReports}></Item>
         ) : (
           <NoReportsMessage>No reports found.</NoReportsMessage>
         )}
@@ -95,7 +75,7 @@ const ReportItem = styled.div`
   background: white;
   margin: 8px 0;
   padding: 18px 36px;
-  border-radius: 4px;
+  border-radius: 30px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 
@@ -103,6 +83,17 @@ const ReportItem = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  transition: transform 0.2s, box-shadow 0.2s;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  div {
+    font-weight: bold;
+    color: #555;
+  }
 `;
 
 const NoReportsMessage = styled.p`
@@ -144,11 +135,12 @@ const TitleBox = styled.div`
 `;
 
 const CategoryBox = styled.h6`
-  background-color: #007cff;
+  background-color: #1876d2;
   color: white;
   width: 25%;
   padding: 5px;
   border-radius: 1.5rem;
   text-align: center;
-  margin-bottom: 15px;
+  margin: 10px 0;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 `;
