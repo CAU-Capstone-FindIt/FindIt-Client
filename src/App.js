@@ -11,6 +11,11 @@ import Form from "./pages/Form";
 import Detail from "./pages/Detail";
 import Test from "./pages/Test";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Userpage from "./pages/userpage/Userpage";
+import Bookmark from "./pages/userpage/Bookmark";
+import RegisteItem from "./pages/userpage/Registeitem";
+import ChargePoint from "./pages/userpage/ChargePoint";
+import Message from "./pages/userpage/Message";
 
 function App() {
   return (
@@ -26,7 +31,13 @@ function App() {
               <Route path="/find" element={<Find></Find>}></Route>
               <Route path="/lost" element={<Lost></Lost>}></Route>
               <Route path="/form" element={<Form></Form>}></Route>
+              <Route path="/oauth" element={<div>login...</div>}></Route>
               <Route path="/detail/*" element={<Detail></Detail>}></Route>
+              <Route path="/userpage" element={<Userpage></Userpage>}></Route>
+              <Route path="/bookmark" element={<Bookmark></Bookmark>}></Route>
+              <Route path="/registeitem" element={<RegisteItem></RegisteItem>}></Route>
+              <Route path="/chargepoint" element={<ChargePoint></ChargePoint>}></Route>
+              <Route path="/message" element={<Message></Message>}></Route>
             </Routes>
           </AppDom>
         </ReportProvider>

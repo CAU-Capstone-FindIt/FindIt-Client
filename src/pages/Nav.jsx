@@ -50,7 +50,7 @@ const Nav = () => {
             alt="Search"
           />
         </IconButton>
-        <IconButton onClick={() => handleNavClick(4, "/user")}>
+        <IconButton onClick={() => handleNavClick(4, "/userpage")}>
           <img
             src={activeNav === 4 ? "/img/UserBlue.png" : "/img/UserBlack.png"}
             alt="User"
