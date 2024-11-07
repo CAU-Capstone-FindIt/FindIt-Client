@@ -29,7 +29,7 @@ const Container = styled.div`
   top: 0;
   width: 100%;
   max-width: 600px;
-  height: 8vh; // 네비게이션 바의 높이를 화면 비율에 맞춰 설정 (전체 화면의 10%)
+  height: 80px;; // 네비게이션 바의 높이를 화면 비율에 맞춰 설정 (전체 화면의 10%)
   bottom: 0;
   background-color: white;
   display: flex;
@@ -66,10 +66,12 @@ align-items:flex-end;
 
 
 const MainTitle = styled.div`
-  font-size: 60px;
+  font-size: 50px;
   font-weight: 800;
 `
 
 const SubTitle = styled.div`
+font-size: 13px;
 font-weight: 900;
+margin-top: -5px;
 `

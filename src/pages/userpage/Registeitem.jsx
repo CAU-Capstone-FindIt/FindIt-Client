@@ -60,7 +60,7 @@ const Text = styled.div`
 `;
 
 const ListBox = styled.div`
-  background-color: #f0f0f0;
+  //background-color: #f0f0f0;
   width: 600px;
   min-height: 100vh;
   display: flex;
@@ -68,6 +68,7 @@ const ListBox = styled.div`
   align-items: center;
   overflow-y: auto;
   margin-top:10px;
+  gap:10px;
 `;
 
 const AntSwitch = muiStyled(Switch)(({ theme }) => ({
