@@ -8,6 +8,8 @@ const Comments = ({ report }) => {
   const [replyIndex, setReplyIndex] = useState(null); // 대댓글 입력 상태를 관리할 인덱스
   const [newReply, setNewReply] = useState(""); // 대댓글 텍스트 상태
 
+  const [value, setValue] = useState("");
+
   // 댓글을 가져오는 함수
   const fetchComments = async () => {
     try {
@@ -40,6 +42,10 @@ const Comments = ({ report }) => {
       ...report,
       comments: updatedComments,
     };
+
+    console.log("Submitting comment:", comments);
+    console.log("Submitting comment:", newComment);
+    console.log("Updated report data:", updatedReportData);
 
     try {
       await axios.put(
@@ -82,6 +88,12 @@ const Comments = ({ report }) => {
     }
   };
 
+  const handleInput = (event) => {
+    event.target.style.height = "auto"; // 높이를 자동으로 초기화
+    event.target.style.height = `${event.target.scrollHeight}px`; // 내용에 맞게 높이 설정
+    setValue(event.target.value);
+  };
+
   useEffect(() => {
     fetchComments();
   }, [report]);
@@ -93,17 +105,21 @@ const Comments = ({ report }) => {
           {comments.map((comment, index) => (
             <CommentItem key={index}>
               <UserContainer>
-                <UserIcon src="/img/User.png" alt="User Icon" />
-                <span>이름</span>
+                <UserNameIconBox>
+                  <UserIcon src="/img/User.png" alt="User Icon" />
+                  <span>
+                    <strong>이름</strong>
+                  </span>
+                </UserNameIconBox>
+                <ReplyButton onClick={() => setReplyIndex(index)}>
+                  <img src="/img/ChatIconBlue.png" alt="ChatIconBlue" />
+                </ReplyButton>
               </UserContainer>
               <div>
-                {comment.text}
+                <div>{comment.text}</div>
                 <Timestamp>
                   {new Date(comment.timestamp).toLocaleString()}
                 </Timestamp>
-                <ReplyButton onClick={() => setReplyIndex(index)}>
-                  답글
-                </ReplyButton>
                 {comment.replies && comment.replies.length > 0 && (
                   <ReplyList>
                     {comment.replies.map((reply, replyIndex) => (
@@ -129,11 +145,11 @@ const Comments = ({ report }) => {
               type="text"
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
+              onInput={handleInput} // 입력 시마다 높이를 조정
               placeholder="댓글을 입력하세요"
             />
             <SubmitButton type="submit">
-              {" "}
-              <img src="/img/SendBlue.png" alt="" />
+              <img src="/img/SendBlue.png" alt="SendIcon" />
             </SubmitButton>
           </InputBox>
         </InputContainer>
@@ -144,6 +160,7 @@ const Comments = ({ report }) => {
               type="text"
               value={newReply}
               onChange={(e) => setNewReply(e.target.value)}
+              onInput={handleInput} // 입력 시마다 높이를 조정
               placeholder="대댓글을 입력하세요"
             />
             <CancelReplyButton
@@ -153,10 +170,10 @@ const Comments = ({ report }) => {
               댓글 입력으로 돌아가기
             </CancelReplyButton>
             <SubmitButton
-              type="button"
+              type="submit"
               onClick={(e) => handleReplySubmit(e, replyIndex)}
             >
-              <img src="/img/SendBlue.png" alt="" />
+              <img src="/img/SendBlue.png" alt="SendIcon" />
             </SubmitButton>
           </InputBox>
         </InputContainer>
@@ -210,6 +227,23 @@ const CommentInput = styled.textarea`
   border: none;
   resize: none; // 크기 고정
   font-family: Arial, sans-serif; /* Adjust font family */
+
+  overflow: auto; /* 기본적으로 스크롤 가능하게 설정 */
+
+  /* 스크롤바 스타일링 */
+  &::-webkit-scrollbar {
+    width: 2px; /* 얇은 스크롤바 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #b4b4b4; /* 스크롤thumb의 색상 */
+    border-radius: 4px; /* thumb에 둥근 모서리 */
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* hover 시 색상 변경 */
+  }
+
   &:focus {
     border: none;
     outline: none; /* 포커스 상태에서도 테두리를 보이지 않게 설정 */
@@ -229,6 +263,22 @@ const ReplyInput = styled.textarea`
   resize: none; // 크기 고정
   font-family: Arial, sans-serif; /* Adjust font family */
 
+  overflow: auto; /* 기본적으로 스크롤 가능하게 설정 */
+
+  /* 스크롤바 스타일링 */
+  &::-webkit-scrollbar {
+    width: 8px; /* 얇은 스크롤바 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #888; /* 스크롤thumb의 색상 */
+    border-radius: 4px; /* thumb에 둥근 모서리 */
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* hover 시 색상 변경 */
+  }
+
   &:focus {
     border: none;
     outline: none; /* 포커스 상태에서도 테두리를 보이지 않게 설정 */
@@ -239,7 +289,7 @@ const ReplyInput = styled.textarea`
   }
 `;
 
-const SubmitButton = styled.div`
+const SubmitButton = styled.button`
   width: 10%;
   border: none;
   background: none;
@@ -251,10 +301,9 @@ const SubmitButton = styled.div`
 `;
 
 const CommentItem = styled.div`
-  padding: 5px;
-  border: 1px solid #ccc;
+  padding: 10px;
+  border-top: 1px solid #ccc;
   margin-top: 5px;
-  border-radius: 5px;
 `;
 
 const UserContainer = styled.div`
@@ -262,20 +311,27 @@ const UserContainer = styled.div`
   align-items: center; /* 아이콘과 이름을 수직 중앙 정렬 */
 `;
 
+const UserNameIconBox = styled.div`
+  display: flex;
+  align-items: center; /* 아이콘과 이름을 수직 중앙 정렬 */
+`;
+
 const UserIcon = styled.img`
-  width: 25px; /* 아이콘 크기 조정 */
-  height: 25px; /* 아이콘 크기 조정 */
+  width: 5%;
   margin-right: 5px; /* 아이콘과 이름 사이 여백 추가 */
 `;
 
-const ReplyButton = styled.button`
-  margin-left: 10px; /* 답글 버튼과 댓글 사이 여백 */
-  background-color: #007bff; /* 버튼 배경색 */
+const ReplyButton = styled.div`
+  width: 4%;
+  background-color: white;
   color: white; /* 버튼 글자색 */
   border: none; /* 테두리 없애기 */
-  border-radius: 4px; /* 모서리 둥글게 */
   cursor: pointer; /* 커서 포인터로 변경 */
   padding: 5px; /* 버튼 패딩 */
+
+  img {
+    width: 100%;
+  }
 `;
 
 const ReplyList = styled.div`
