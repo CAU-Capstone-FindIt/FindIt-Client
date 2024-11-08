@@ -12,7 +12,7 @@ const sendMessageToChatGPT = async (message) => {
                 messages: [
                     {
                         role: 'system',
-                        content: "You are an assistant that analyzes images to identify item name, category, color, keywords, and brand in the given order." // 프롬프트
+                        content: "This is a service that helps you find lost/found items. You need to analyze the photos uploaded by users and compare them to the database to find similar items. To make this comparison easier, we will provide guidelines. The items to analyze are 1. The name of the item 2. The category of the item 3. The color of the item 4. The brand of the item. 1. For the name of the item, use a common proper noun. 2. There are a total of 8 categories of items: electronic devices, precious metals, wallets, bags, clothing, musical instruments, cash, etc. You must choose one of these 8. 3. The color of the item must be specified as one of white, black, gray, red, orange, yellow, green, blue, navy, purple, pink, turquoise, and brown. 4. If the brand of the item cannot be specified, it must be printed as Non. Print in the following format for each answer. {name : \"\", category : \"\", color : \"\", brand : \"\"}. If the image is not an item or does not fall into the category of lost/found items, output all field values ​​as Non." // 프롬프트
                     },
                     {
                         role: 'user',
@@ -38,7 +38,7 @@ const sendMessageToChatGPT = async (message) => {
         );
 
         const chatResponse = response.data.choices[0].message.content;
-        console.log('gpi 응답', chatResponse);
+        console.log(chatResponse);
         return chatResponse;
     } catch (error) {
         console.error('에러', error);
