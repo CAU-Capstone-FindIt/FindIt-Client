@@ -102,7 +102,7 @@ const Container = styled.div`
 
 const Box = styled.div`
   position: relative;
-  top: 8vh;
+  top: 75px;
   padding: 16px;
   box-sizing: border-box;
 

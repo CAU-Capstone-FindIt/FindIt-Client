@@ -17,13 +17,30 @@ export const handleOAuth = async () => {
   
   if (code) {
     try {
-      const result = await axios.get(`http://findit.p-e.kr:8080/api/users/login/callback/?code=${code}`);
 
-      localStorage.setItem("access", result.data.access_token); // 받아온 액세스 토큰을 로컬스토리지에 저장하여 관리
-      localStorage.setItem("refresh", result.data.refresh_token); // 받아온 리프레시 토큰을 로컬스토리지에 저장하여 관리
-      localStorage.setItem("nickname", result.data.user.nickname); 
-      localStorage.setItem("email", result.data.user.email); 
-      localStorage.setItem("profile", result.data.user.profile);
+      // axios.post("http://localhost:8080/api/users/login/callback", {
+      //   code: "authorization_code_from_kakao", // 카카오에서 받은 인가 코드
+      //   token: "fcm_token_if_any" // FCM 토큰 (선택 사항)
+      // })
+      // .then(response => {
+      //   console.log("JWT Token:", response.data);
+      // })
+      // .catch(error => {
+      //   console.error("Error:", error);
+      // });
+
+
+      const result = await axios.post("http://findit.p-e.kr:8080/api/users/login/callback", {
+        code: code,
+      });
+
+      console.log(result.data)
+
+      localStorage.setItem("access", result.data.token); // 받아온 액세스 토큰을 로컬스토리지에 저장하여 관리
+      //localStorage.setItem("refresh", result.data.refresh_token); // 받아온 리프레시 토큰을 로컬스토리지에 저장하여 관리
+      localStorage.setItem("nickname", result.data.nickname); 
+      //localStorage.setItem("email", result.data.user.email); 
+      localStorage.setItem("profile", result.data.profileImage);
       
       window.location.href = "/";
       
