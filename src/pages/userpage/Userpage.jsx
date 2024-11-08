@@ -6,10 +6,10 @@ import UserBox from "../../component/userpage/UserBox";
 import LoginButton from "../../component/userpage/LoginButton";
 import MenuBeforLogin from "../../component/userpage/MenuBeforLogin";
 import MenuAfterLogin from "../../component/userpage/MenuAfterLogin";
+import axios from "axios";
 
 const Userpage = () => {
   // 추후 로그인 여부에 따른 컴포넌트 랜더링 변경 필요
-
   return (
     <Container>
       <TopNav />
