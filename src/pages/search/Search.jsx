@@ -7,8 +7,9 @@ import { useFindListQuery } from "../../apis/FindQuery";
 import Item from "../../component/item/Item";
 import { styled as muiStyled } from "@mui/material/styles"; // muiStyled로 이름 변경
 import Switch from "@mui/material/Switch";
+import SearchForm from "../../component/search/SearchForm";
 
-const Userpage = () => {
+const Search = () => {
   // 추후 로그인 여부에 따른 컴포넌트 랜더링 변경 필요
 
   const { data: findReports, isLoading } = useFindListQuery();
@@ -19,6 +20,7 @@ const Userpage = () => {
       <TopNav />
       <InnerContainer>
       <AntSwitch />
+      <SearchForm/>
       <ListBox>
         {!isLoading ? (
           <Item findReports={findReports}></Item>
@@ -31,7 +33,7 @@ const Userpage = () => {
   );
 };
 
-export default Userpage;
+export default Search;
 
 const Container = styled.div`
   background-color: white;
