@@ -7,7 +7,9 @@ const REDIRECT_URI2 = "http://finditforcau.s3-website.ap-northeast-2.amazonaws.c
 const kakao_login_uri = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI1}&response_type=code`;
 
 export const loginHandler = () => {
-  window.location.href = kakao_login_uri;
+  localStorage.setItem("access", "key")
+  window.location.href = "/"
+  //window.location.href = kakao_login_uri;
 };
 
 // OAuth 처리를 위한 함수
@@ -17,18 +19,6 @@ export const handleOAuth = async () => {
   
   if (code) {
     try {
-
-      // axios.post("http://localhost:8080/api/users/login/callback", {
-      //   code: "authorization_code_from_kakao", // 카카오에서 받은 인가 코드
-      //   token: "fcm_token_if_any" // FCM 토큰 (선택 사항)
-      // })
-      // .then(response => {
-      //   console.log("JWT Token:", response.data);
-      // })
-      // .catch(error => {
-      //   console.error("Error:", error);
-      // });
-
 
       const result = await axios.post("http://findit.p-e.kr:8080/api/users/login/callback", {
         code: code,
