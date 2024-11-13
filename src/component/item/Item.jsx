@@ -16,8 +16,7 @@ const Item = ({ findReports }) => {
           <ListImg src={report.image} alt="" />
           <Content>
             <TitleBox>
-              <img src="/img/StarBlack.png" alt="" />
-              <h2>{report.name}</h2>
+              {report.name}
             </TitleBox>
             <div>
               <CategoryBox>{report.category}</CategoryBox>
@@ -65,6 +64,7 @@ const ListImg = styled.img`
   height: 100%;
   object-fit: cover;
   border-radius: 5%;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 `;
 
 const Content = styled.div`
@@ -86,10 +86,8 @@ const Content = styled.div`
 const TitleBox = styled.div`
   display: flex;
   align-items: center;
-  img {
-    width: 10%;
-    height: 10%;
-  }
+  font-size: 35px;
+  margin-bottom: 15px;
 `;
 
 const CategoryBox = styled.h6`
@@ -101,4 +99,5 @@ const CategoryBox = styled.h6`
   text-align: center;
   margin: 10px 0;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+  font-size: 17px;
 `;
