@@ -34,6 +34,7 @@ const Container = styled.div`
   flex-direction: column;
   overflow: hidden;
   gap: 10px;
+  margin-top: 60px;
 `;
 
 const MenuItem = styled.div`

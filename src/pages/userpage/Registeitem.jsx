@@ -6,11 +6,9 @@ import TopNavBack from "../TopNavBack";
 import { styled as muiStyled } from "@mui/material/styles"; // muiStyled로 이름 변경
 import Switch from "@mui/material/Switch";
 import { useFindListQuery } from "../../apis/FindQuery";
-import { useFindListQuery } from "../../apis/FindQuery";
 
 const Registeitem = () => {
   const { data: findReports, isLoading } = useFindListQuery();
-
   return (
     <Container>
       <TopNavBack />
@@ -38,8 +36,8 @@ const Container = styled.div`
 `;
 
 const InnerContainer = styled.div`
-  margin-top: 75px;
-  margin-bottom: 75px;
+  margin-top: 10vh;
+  margin-bottom: 9vh;
   display: flex;
   flex-direction: column;
   align-items: center;

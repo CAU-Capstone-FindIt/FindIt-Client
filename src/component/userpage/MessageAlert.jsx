@@ -43,6 +43,12 @@ const Container = styled.div`
   border-radius: 12px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 15px;
+
+  transition: transform 0.2s, box-shadow 0.2s;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const IconWrapper = styled.div`

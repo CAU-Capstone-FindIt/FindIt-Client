@@ -45,11 +45,14 @@ const Container = styled.div`
 `;
 
 const InnerContainer = styled.div`
+background-color: #f8f8f8;
 margin-top: 75px;
 margin-bottom: 75px;
 display: flex;
 flex-direction:column;
 align-items:center;
+padding-top:10px;
+
 `
 
 const ListBox = styled.div`

@@ -84,10 +84,8 @@ const Content = styled.div`
 const TitleBox = styled.div`
   display: flex;
   align-items: center;
-  img {
-    width: 10%;
-    height: 10%;
-  }
+  font-size: 35px;
+  margin-bottom: 15px;
 `;
 
 const CategoryBox = styled.h6`
