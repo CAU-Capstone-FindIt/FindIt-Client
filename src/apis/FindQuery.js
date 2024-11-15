@@ -12,34 +12,42 @@ export const useFindListQuery = () => {
 };
 
 // const initializeFindList = async () => {
-//   // api로 데이터 가져오기
-
 //   try {
 //     const responseFind = await axios.get("http://localhost:3001/findlist");
 
-//     console.log(responseFind);
+//     // comments가 배열로 초기화되도록 보장
+//     const findlistData = responseFind.data.map((item) => ({
+//       ...item,
+//       comments: item.comments || [], // comments를 빈 배열로 초기화
+//     }));
 
-//     return responseFind.data;
-//   } catch {}
+//     return findlistData;
+//   } catch (error) {
+//     console.error(error);
+//     return []; // 빈 배열을 반환하거나 오류를 처리
+//   }
 // };
 
 const initializeFindList = async () => {
   try {
-    const responseFind = await axios.get("http://localhost:3001/findlist");
+    const responseFind = await axios.get(
+      "http://findit.p-e.kr:8080/api/items/found/all"
+    );
+
+    console.log(responseFind);
 
     // comments가 배열로 초기화되도록 보장
-    const findlistData = responseFind.data.map((item) => ({
-      ...item,
-      comments: item.comments || [], // comments를 빈 배열로 초기화
-    }));
+    // const findlistData = responseFind.data.map((item) => ({
+    //   ...item,
+    //   comments: item.comments || [], // comments를 빈 배열로 초기화
+    // }));
 
-    return findlistData;
+    return responseFind;
   } catch (error) {
     console.error(error);
     return []; // 빈 배열을 반환하거나 오류를 처리
   }
 };
-
 // 댓글 업데이트 함수
 export const useUpdateComments = () => {
   const queryClient = useQueryClient();
