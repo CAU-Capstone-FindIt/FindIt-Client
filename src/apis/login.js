@@ -7,9 +7,9 @@ const REDIRECT_URI2 = "http://finditforcau.s3-website.ap-northeast-2.amazonaws.c
 const kakao_login_uri = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI1}&response_type=code`;
 
 export const loginHandler = () => {
-  localStorage.setItem("access", "key")
-  window.location.href = "/"
-  //window.location.href = kakao_login_uri;
+  //localStorage.setItem("access", "key")
+  //window.location.href = "/"
+  window.location.href = kakao_login_uri;
 };
 
 // OAuth 처리를 위한 함수
