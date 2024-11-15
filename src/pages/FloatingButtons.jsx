@@ -109,11 +109,11 @@ const FixedButton = styled.button`
 
 const ButtonContainer = styled.div`
   position: absolute;
-  bottom: 24%; // 동일하게 vh 단위로 설정
-  right: 6%;
+  bottom: 190px; // 동일하게 vh 단위로 설정
+  right: 50px;
   display: flex;
   flex-direction: column;
-  gap: 2.5vh;
+  gap: 20px;
   z-index: 1000;
 
   cursor: pointer;
@@ -134,8 +134,6 @@ const ButtonContainer = styled.div`
 
   @media (max-width: 600px) {
     position: fixed;
-    bottom: 25vh; // 동일하게 vh 단위로 설정
-    right: 10vw;
   }
 `;
 

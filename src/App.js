@@ -36,8 +36,14 @@ function App() {
               <Route path="/detail/*" element={<Detail></Detail>}></Route>
               <Route path="/userpage" element={<Userpage></Userpage>}></Route>
               <Route path="/bookmark" element={<Bookmark></Bookmark>}></Route>
-              <Route path="/registeitem" element={<RegisteItem></RegisteItem>}></Route>
-              <Route path="/chargepoint" element={<ChargePoint></ChargePoint>}></Route>
+              <Route
+                path="/registeitem"
+                element={<RegisteItem></RegisteItem>}
+              ></Route>
+              <Route
+                path="/chargepoint"
+                element={<ChargePoint></ChargePoint>}
+              ></Route>
               <Route path="/message" element={<Message></Message>}></Route>
               <Route path="/search" element={<Search></Search>}></Route>
             </Routes>
