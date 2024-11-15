@@ -9,6 +9,8 @@ import { styled as muiStyled } from "@mui/material/styles"; // muiStyled로 이�
 import Switch from "@mui/material/Switch";
 import SearchForm from "../../component/search/SearchForm";
 
+//주석
+
 const Search = () => {
   // 추후 로그인 여부에 따른 컴포넌트 랜더링 변경 필요
 
