@@ -12,11 +12,10 @@ const Item = ({ findReports }) => {
           key={index}
           onClick={() => navigate(`/detail/${report.name}`, { state: report })}
         >
-          {/* Customize this to show whatever fields you have in your report */}
           <ListImg src={report.image} alt="" />
           <Content>
             <TitleBox>
-              {report.name}
+              <h2>{report.name}</h2>
             </TitleBox>
             <div>
               <CategoryBox>{report.category}</CategoryBox>
@@ -33,8 +32,9 @@ const Item = ({ findReports }) => {
 export default Item;
 
 const ReportItem = styled.div`
-  width: 590px;
-  height: 200px;
+  width: 100%;
+  height: 25vh;
+  max-height: 180px;
   background: white;
   margin: 1rem 0;
   padding: 18px 36px;
@@ -63,17 +63,16 @@ const ListImg = styled.img`
   width: 35%;
   height: 100%;
   object-fit: cover;
-  border-radius: 5%;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 10%;
 `;
 
 const Content = styled.div`
   width: 55%;
   text-align: end;
 
-  /* h2 {
-    margin: ;
-  } */
+  h2 {
+    font-size: 1.8rem;
+  }
   h4 {
     margin-bottom: 10px;
   }
@@ -94,10 +93,9 @@ const CategoryBox = styled.h6`
   background-color: #1876d2;
   color: white;
   width: 25%;
-  padding: 5px;
+  padding: 5px 10px;
   border-radius: 1.5rem;
   text-align: center;
-  margin: 10px 0;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
-  font-size: 17px;
+  margin: 1rem 0 0.5rem 0;
+  font-size: 1rem;
 `;
