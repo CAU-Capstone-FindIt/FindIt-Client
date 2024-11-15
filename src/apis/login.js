@@ -8,8 +8,8 @@ const REDIRECT_URI2 =
 const kakao_login_uri = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI1}&response_type=code`;
 
 export const loginHandler = () => {
-  // localStorage.setItem("access", "key")
-  // window.location.href = "/"
+  //localStorage.setItem("access", "key")
+  //window.location.href = "/"
   window.location.href = kakao_login_uri;
 };
 
