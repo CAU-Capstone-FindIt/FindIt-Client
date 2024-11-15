@@ -35,8 +35,8 @@ const Container = styled.div`
 `;
 
 const InnerContainer = styled.div`
-margin-top: 9vh;
-margin-bottom: 9vh;
+margin-top: 75px;
+margin-bottom: 75px;
 display: flex;
 flex-direction:column;
 align-items:center;
@@ -49,7 +49,7 @@ const Text = styled.div`
 `;
 
 const ListBox = styled.div`
-  background-color: #f0f0f0;
+  //background-color: #f0f0f0;
   width: 600px;
   min-height: 100vh;
   display: flex;

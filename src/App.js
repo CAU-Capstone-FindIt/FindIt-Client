@@ -16,6 +16,7 @@ import Bookmark from "./pages/userpage/Bookmark";
 import RegisteItem from "./pages/userpage/Registeitem";
 import ChargePoint from "./pages/userpage/ChargePoint";
 import Message from "./pages/userpage/Message";
+import Search from "./pages/search/Search";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
               <Route path="/registeitem" element={<RegisteItem></RegisteItem>}></Route>
               <Route path="/chargepoint" element={<ChargePoint></ChargePoint>}></Route>
               <Route path="/message" element={<Message></Message>}></Route>
+              <Route path="/search" element={<Search></Search>}></Route>
             </Routes>
           </AppDom>
         </ReportProvider>
