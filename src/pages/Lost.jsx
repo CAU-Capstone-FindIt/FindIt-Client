@@ -10,7 +10,6 @@ const Lost = () => {
   const { data: findReports, isLoading } = useLostListQuery();
 
   console.log(findReports);
-  const navigate = useNavigate();
 
   return (
     <Container>

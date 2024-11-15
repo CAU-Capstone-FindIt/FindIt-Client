@@ -37,16 +37,15 @@ const Container = styled.div`
 `;
 
 const AppTitle = styled.div`
-display:flex;
-flex-direction:column;
-align-items:flex-end;
-`
-
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
 
 const MainTitle = styled.div`
-  font-size: 50px;;
+  font-size: 50px;
   font-weight: 800;
-`
+`;
 
 const SubTitle = styled.div`
 font-size: 13px;

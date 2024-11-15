@@ -44,6 +44,7 @@ flex-direction:column;
 align-items:center;
 min-height:100%;
 `
+
 const Text = styled.div`
   font-size: 24px;
   font-weight: 700;
