@@ -30,7 +30,7 @@ export default Lost;
 
 const Container = styled.div`
   background-color: white;
-  width: 600px;
+  width: 100%;
   height: 100%;
 `;
 
@@ -38,11 +38,11 @@ const ListContainer = styled.div`
   position: relative;
   top: 70px;
   background-color: #f8f8f8;
-  padding: 16px;
+  padding: 0.5rem;
   overflow-y: auto;
   height: 100%;
   max-height: calc(
-    100% - 16vh
+    100% - 141px
   ); // 위 아래 네브바 합쳐서 16vh안으로 보이게 한다.
   box-sizing: border-box;
 
@@ -60,10 +60,10 @@ const ListContainer = styled.div`
     background: rgba(150, 150, 150, 0.1); //스크롤바 뒷 배경 색상
   }
 
-  /@media (max-width: 600px) {
-    top: calc(var(--vh, 1vh) * 8);
-    max-height: calc(100% - (calc(var(--vh, 1vh) * 16)));
-  }
+  // @media (max-width: 600px) {
+  //   top: calc(var(--vh, 1vh) * 8);
+  //   max-height: calc(100% - (calc(var(--vh, 1vh) * 16)));
+  // }
 `;
 
 const ReportItem = styled.div`

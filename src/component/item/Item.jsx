@@ -99,4 +99,8 @@ const CategoryBox = styled.h6`
   margin: 1rem 0 0.5rem 0;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
   font-size: 1rem;
+
+  @media (max-width: 600px) {
+    width: 40%;
+  }
 `;

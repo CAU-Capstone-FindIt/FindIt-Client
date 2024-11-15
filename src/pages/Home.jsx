@@ -43,7 +43,7 @@ export default Home;
 
 const Container = styled.div`
   background-color: gray;
-  width: 600px;
+  width: 100%;
   height: 100%;
   position: relative;
 `;

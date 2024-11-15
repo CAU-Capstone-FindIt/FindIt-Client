@@ -105,11 +105,15 @@ const FixedButton = styled.button`
     pressed ? "#0051a8" : "#007cff"}; // 눌렸을 때 색상 변경
 
   transition: background-color 0.5s; // 색상 변경 시 1초의 변화를 줌
+
+  @media (max-width: 600px) {
+    right: 30px;
+  }
 `;
 
 const ButtonContainer = styled.div`
   position: absolute;
-  bottom: 180px;
+  bottom: 190px;
   right: 50px;
   display: flex;
   flex-direction: column;
@@ -133,9 +137,8 @@ const ButtonContainer = styled.div`
         `};
 
   @media (max-width: 600px) {
-    position: fixed;
-    bottom: 25vh; // 동일하게 vh 단위로 설정
-    right: 10vw;
+    bottom: 190px;
+    right: 30px;
   }
 `;
 
