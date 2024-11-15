@@ -15,9 +15,7 @@ const Item = ({ findReports }) => {
           {/* Customize this to show whatever fields you have in your report */}
           <ListImg src={report.image} alt="" />
           <Content>
-            <TitleBox>
-              {report.name}
-            </TitleBox>
+            <TitleBox>{report.name}</TitleBox>
             <div>
               <CategoryBox>{report.category}</CategoryBox>
             </div>
