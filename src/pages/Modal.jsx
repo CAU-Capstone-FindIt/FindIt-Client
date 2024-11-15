@@ -56,6 +56,7 @@ const ModalOverlay = styled.div`
 const ModalContent = styled.div`
   background: white;
   padding: 4% 6%;
+  // 높이 중요!!
   height: 260px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
