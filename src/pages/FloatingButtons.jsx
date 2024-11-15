@@ -109,8 +109,8 @@ const FixedButton = styled.button`
 
 const ButtonContainer = styled.div`
   position: absolute;
-  bottom: 24%; // 동일하게 vh 단위로 설정
-  right: 6%;
+  bottom: 180px;
+  right: 50px;
   display: flex;
   flex-direction: column;
   gap: 2.5vh;
