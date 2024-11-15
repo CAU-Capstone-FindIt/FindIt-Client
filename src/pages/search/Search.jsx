@@ -1,18 +1,26 @@
-import React from "react";
-import Nav from "../Nav";
-import Item from "../../component/item/Item";
 import styled from "styled-components";
-import TopNavBack from "../TopNavBack";
+import React from "react";
+import TopNav from "../TopNav";
+import Nav from "../Nav";
+import axios from "axios";
 import { useFindListQuery } from "../../apis/FindQuery";
+import Item from "../../component/item/Item";
+import { styled as muiStyled } from "@mui/material/styles"; // muiStyled로 이름 변경
+import Switch from "@mui/material/Switch";
+import SearchForm from "../../component/search/SearchForm";
 
-const Bookmark = () => {
+const Search = () => {
+  // 추후 로그인 여부에 따른 컴포넌트 랜더링 변경 필요
+
   const { data: findReports, isLoading } = useFindListQuery();
+
+
   return (
     <Container>
-      <TopNavBack />
+      <TopNav />
       <InnerContainer>
-        <Text>즐겨찾기</Text>
-        <ListBox>
+      <SearchForm/>
+      <ListBox>
         {!isLoading ? (
           <Item findReports={findReports}></Item>
         ) : (<div></div>
@@ -24,7 +32,7 @@ const Bookmark = () => {
   );
 };
 
-export default Bookmark;
+export default Search;
 
 const Container = styled.div`
   background-color: white;
@@ -37,19 +45,18 @@ const Container = styled.div`
 `;
 
 const InnerContainer = styled.div`
-  margin-top: 75px;
+background-color: #f8f8f8;
+margin-top: 75px;
 margin-bottom: 75px;
 display: flex;
 flex-direction:column;
 align-items:center;
-min-height:100%;
+padding-top:10px;
+
 `
 
-const Text = styled.div`
-  font-size: 24px;
-  font-weight: 700;
-`;
 const ListBox = styled.div`
+  //background-color: #f0f0f0;
   width: 600px;
   min-height: 100vh;
   display: flex;

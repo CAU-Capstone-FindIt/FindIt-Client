@@ -1,14 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const MessageAlert = () => {
-
   // 나중에 백에서 받아올 데이터
-  const dummey = {
+  const dummy = {
     title: "아이폰 미니13",
-    content: "쪽지내용쪽지내용……쪽지내용쪽지내용……쪽지내용쪽지내용……쪽지내용쪽지내용……쪽지내용쪽지내용……쪽지내용쪽지내용……",
-    date: 20241001
+    content:
+      "쪽지내용쪽지내용……쪽지내용쪽지내용……쪽지내용쪽지내용……쪽지내용쪽지내용……쪽지내용쪽지내용……쪽지내용쪽지내용……",
+    date: 20241001,
   };
 
   const formatDate = (date) => {
@@ -19,17 +18,16 @@ const MessageAlert = () => {
     return `${year}.${month}.${day}.`;
   };
 
-
   return (
     <Container>
       <IconWrapper>
-        <ImageBox/>
+        <ImageBox />
       </IconWrapper>
       <ContentWrapper>
-        <Title>{dummey.title}</Title>
-        <MessageText>{dummey.content}</MessageText>
+        <Title>{dummy.title}</Title>
+        <MessageText>{dummy.content}</MessageText>
       </ContentWrapper>
-      <DateText>{formatDate(dummey.date)}</DateText>
+      <DateText>{formatDate(dummy.date)}</DateText>
     </Container>
   );
 };
@@ -38,24 +36,36 @@ export default MessageAlert;
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
-  background-color: #f4f4f4;
-  padding: 15px;
-  width: 100%;
-  max-width: 600px;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  align-items: flex-start;
+  background-color: #ffffff;
+  padding: 20px;
+  width: 500px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+
+  transition: transform 0.2s, box-shadow 0.2s;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const IconWrapper = styled.div`
+  flex-shrink: 0;
   margin-right: 15px;
-  margin-left: 20px;
 `;
 
-const ImageBox = styled.img`
-  width: 100px;
-  height: 100px;
+const ImageBox = styled.div`
+  width: 60px;
+  height: 60px;
   background-color: #d9d9d9;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  color: #ffffff;
 `;
 
 const ContentWrapper = styled.div`
@@ -65,21 +75,26 @@ const ContentWrapper = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
 `;
 
 const MessageText = styled.div`
-  font-size: 16px;
-  color: #333;
+  font-size: 14px;
+  color: #666;
   line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
 `;
 
 const DateText = styled.div`
-  font-size: 14px;
-  color: #666;
+  font-size: 12px;
+  color: #999;
   margin-left: auto;
-  margin-right: 5px;
-  padding-top: 100px;
+  padding-top: 5px;
+  white-space: nowrap;
 `;

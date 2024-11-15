@@ -44,7 +44,7 @@ const ModalOverlay = styled.div`
   z-index: 2000;
   transition: opacity 0.3s ease; /* 부드러운 전환 효과 */
   width: 100%;
-  heigth: 100vh;
+  //heigth: 100vh;
 
   // 이렇게 해야 모바일 화면 넓이에도 전체로 덮여짐(그전에는 화면 넓이 60%만 차지)
   // 플로팅버튼이랑 같은 맥락인듯?
@@ -56,14 +56,13 @@ const ModalOverlay = styled.div`
 const ModalContent = styled.div`
   background: white;
   padding: 4% 6%;
-  height: 260px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 60px;
+  border-top-right-radius: 60px;
   width: 100%;
   box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.1);
   transform: translateY(100%); /* 초기 위치 설정 (보이지 않게) */
   animation: ${slideUp} 0.4s forwards; /* 슬라이드 애니메이션 적용 */
-  margin-bottom: 8vh; /* 네브바 높이만큼 아래 여백 추가 */
+  margin-bottom: 70px; /* 네브바 높이만큼 아래 여백 추가 */
 
   overflow-y: auto; /* 스크롤 가능하게 설정 */
 
