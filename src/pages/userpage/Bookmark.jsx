@@ -35,12 +35,12 @@ const Container = styled.div`
 
 const InnerContainer = styled.div`
   margin-top: 9vh;
-margin-bottom: 9vh;
-display: flex;
-flex-direction:column;
-align-items:center;
-gap: 2vh;
-`
+  margin-bottom: 9vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2vh;
+`;
 const Text = styled.div`
   font-size: 24px;
   font-weight: 700;
@@ -52,6 +52,6 @@ const ListBox = styled.div`
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  margin-top:10px;
+  margin-top: 10px;
   gap: 10px;
 `;

@@ -5,20 +5,21 @@ import styled from "styled-components";
 import TopNavBack from "../TopNavBack";
 import { styled as muiStyled } from "@mui/material/styles"; // muiStyled로 이름 변경
 import Switch from "@mui/material/Switch";
+import { useFindListQuery } from "../../apis/FindQuery";
 
 const Registeitem = () => {
+  const { data: findReports, isLoading } = useFindListQuery();
+
   return (
     <Container>
       <TopNavBack />
       <InnerContainer>
         <TitleSwitch>
-        <Text>등록물건보기</Text>
-        <AntSwitch />
+          <Text>등록물건보기</Text>
+          <AntSwitch />
         </TitleSwitch>
         <ListBox>
-          <Item />
-          <Item />
-          <Item />
+          <Item findReports={findReports} />
         </ListBox>
       </InnerContainer>
       <Nav />
@@ -46,17 +47,17 @@ const InnerContainer = styled.div`
 const TitleSwitch = styled.div`
   display: flex;
   flex-direction: column;
-  align-items:flex-end;
+  align-items: flex-end;
   width: 100%;
-`
+`;
 
 const Text = styled.div`
   font-size: 24px;
   font-weight: 700;
   width: 100%;
   display: flex;
-  align-items:center;
-  justify-content:center;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ListBox = styled.div`
@@ -67,8 +68,8 @@ const ListBox = styled.div`
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  margin-top:10px;
-  gap:10px;
+  margin-top: 10px;
+  gap: 10px;
 `;
 
 const AntSwitch = muiStyled(Switch)(({ theme }) => ({
@@ -107,7 +108,8 @@ const AntSwitch = muiStyled(Switch)(({ theme }) => ({
   "& .MuiSwitch-track": {
     borderRadius: 10,
     opacity: 1,
-    backgroundColor: theme.palette.mode === "dark" ? "rgba(255,255,255,.35)" : "#ffb978",
+    backgroundColor:
+      theme.palette.mode === "dark" ? "rgba(255,255,255,.35)" : "#ffb978",
     boxSizing: "border-box",
   },
 }));

@@ -227,7 +227,7 @@ const CommentInput = styled.textarea`
   border: none;
   resize: none; // 크기 고정
   font-family: Arial, sans-serif; /* Adjust font family */
-
+  max-height: 3.9rem;
   overflow: auto; /* 기본적으로 스크롤 가능하게 설정 */
 
   /* 스크롤바 스타일링 */
@@ -262,7 +262,7 @@ const ReplyInput = styled.textarea`
   border: none;
   resize: none; // 크기 고정
   font-family: Arial, sans-serif; /* Adjust font family */
-
+  max-height: 3.9rem;
   overflow: auto; /* 기본적으로 스크롤 가능하게 설정 */
 
   /* 스크롤바 스타일링 */
