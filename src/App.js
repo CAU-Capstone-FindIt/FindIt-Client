@@ -36,8 +36,14 @@ function App() {
               <Route path="/detail/*" element={<Detail></Detail>}></Route>
               <Route path="/userpage" element={<Userpage></Userpage>}></Route>
               <Route path="/bookmark" element={<Bookmark></Bookmark>}></Route>
-              <Route path="/registeitem" element={<RegisteItem></RegisteItem>}></Route>
-              <Route path="/chargepoint" element={<ChargePoint></ChargePoint>}></Route>
+              <Route
+                path="/registeitem"
+                element={<RegisteItem></RegisteItem>}
+              ></Route>
+              <Route
+                path="/chargepoint"
+                element={<ChargePoint></ChargePoint>}
+              ></Route>
               <Route path="/message" element={<Message></Message>}></Route>
               <Route path="/search" element={<Search></Search>}></Route>
             </Routes>
@@ -52,7 +58,7 @@ function App() {
 export default App;
 
 const AppDom = styled.div`
-  width: min(100vw, 600px); // 화면 너비에 맞추면서 최대 600px로 제한
+  width: 600px;
   height: 100vh; // 웹 뷰
   margin: 0 auto;
 

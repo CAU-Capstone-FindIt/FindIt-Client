@@ -30,7 +30,7 @@ export default Lost;
 
 const Container = styled.div`
   background-color: white;
-  width: 600px;
+  width: 100%;
   height: 100%;
 `;
 

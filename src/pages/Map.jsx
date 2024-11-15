@@ -141,18 +141,24 @@ const Map = () => {
   };
 
   return (
-    <>
+    <Container>
       <MapDiv ref={mapRef}></MapDiv>
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
         reports={selectedReport}
       />
-    </>
+    </Container>
   );
 };
 
 export default Map;
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+`;
 
 const MapDiv = styled.div`
   width: 100%;
