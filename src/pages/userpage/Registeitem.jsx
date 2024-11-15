@@ -10,7 +10,7 @@ import { useFindListQuery } from "../../apis/FindQuery";
 const Registeitem = () => {
   const { data: findReports, isLoading } = useFindListQuery();
 
-  const [isLostMode, setIsLostMode] = useState  (true);
+  const [isLostMode, setIsLostMode] = useState(true);
 
   const toggleMode = () => setIsLostMode((prev) => !prev);
 
@@ -23,7 +23,7 @@ const Registeitem = () => {
       <TopNavBack />
       <InnerContainer>
         <TitleSwitch>
-        <Text>등록물건보기</Text>
+          <Text>등록물건보기</Text>
           <StyledButton onClick={toggleMode} isLostMode={isLostMode}>
             {isLostMode ? "분실물" : "습득물"}
           </StyledButton>
@@ -65,7 +65,6 @@ const TitleSwitch = styled.div`
   width: 100%;
 `;
 
-
 const StyledButton = styled.button`
   background-color: #cfcfcf;
   color: #ffffff;
@@ -91,7 +90,6 @@ const StyledButton = styled.button`
   }
 `;
 
-
 const Text = styled.div`
   font-size: 24px;
   font-weight: 700;
@@ -102,7 +100,7 @@ const Text = styled.div`
 `;
 
 const ListBox = styled.div`
-background-color: #f8f8f8;
+  background-color: #f8f8f8;
   width: 600px;
   min-height: 100vh;
   display: flex;
@@ -155,5 +153,3 @@ const AntSwitch = muiStyled(Switch)(({ theme }) => ({
     boxSizing: "border-box",
   },
 }));
-
-`;
