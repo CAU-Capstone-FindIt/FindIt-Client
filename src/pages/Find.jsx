@@ -40,7 +40,11 @@ export default Find;
 
 const Container = styled.div`
   background-color: white;
+<<<<<<< HEAD
   width: 100%;
+=======
+  width: 600px;
+>>>>>>> develop
   height: 100%;
 `;
 

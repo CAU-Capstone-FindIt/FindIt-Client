@@ -51,5 +51,5 @@ const MainTitle = styled.div`
 const SubTitle = styled.div`
   font-size: 13px;
   font-weight: 900;
-  margin-top: -15px;
+  margin-top: -10px;
 `;

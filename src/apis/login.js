@@ -3,8 +3,13 @@ import { createBrowserHistory } from "history";
 
 const REST_API_KEY = process.env.REACT_APP_KAKAO_LOGIN_KEY;
 const REDIRECT_URI1 = "http://localhost:3000/oauth";
+<<<<<<< HEAD
 
 const REDIRECT_URI2 = "http://finditforcau.s3-website.ap-northeast-2.amazonaws.com/oauth";
+=======
+const REDIRECT_URI2 =
+  "http://finditforcau.s3-website.ap-northeast-2.amazonaws.com/oauth";
+>>>>>>> develop
 const kakao_login_uri = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI2}&response_type=code`;
 
 export const loginHandler = () => {
