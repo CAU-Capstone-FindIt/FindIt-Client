@@ -32,8 +32,9 @@ const Item = ({ findReports }) => {
 export default Item;
 
 const ReportItem = styled.div`
-  width: 590px;
-  height: 200px;
+  width: 100%;
+  height: 25vh;
+  max-height: 180px;
   background: white;
   margin: 1rem 0;
   padding: 18px 36px;
