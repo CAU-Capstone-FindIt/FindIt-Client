@@ -85,10 +85,8 @@ const Content = styled.div`
 const TitleBox = styled.div`
   display: flex;
   align-items: center;
-  img {
-    width: 10%;
-    height: 10%;
-  }
+  font-size: 35px;
+  margin-bottom: 15px;
 `;
 
 const CategoryBox = styled.h6`
@@ -99,6 +97,5 @@ const CategoryBox = styled.h6`
   border-radius: 1.5rem;
   text-align: center;
   margin: 1rem 0 0.5rem 0;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
   font-size: 1rem;
 `;

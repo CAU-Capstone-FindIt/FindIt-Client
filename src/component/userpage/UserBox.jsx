@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import EditIcon from "@mui/icons-material/Edit";
 
-const UserBox = ({point}) => {
-  // 나중에 이름 받아와야 함
-  // 나중에 포인트 받아와야 함
-
+const UserBox = ({ point }) => {
   const [nickname, setNickname] = useState("닉네임"); // 닉네임 상태 관리
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 관리
 
-  const dummey = {
+  const dummy = {
     name: "김태진",
     nicname: "kimtree24",
   };
@@ -30,29 +27,35 @@ const UserBox = ({point}) => {
 
   return (
     <Container>
-      <ImageBox></ImageBox>
-      <TextBox>
-        <Text>이름 :</Text>
-        <Text>닉네임 :</Text>
-        <Text>포인트 :</Text>
-      </TextBox>
-      <TextBox2>
-        <Text>{dummey.name}</Text>
-        {isEditing ? (
-          <NicknameInput
-            type="text"
-            value={nickname}
-            onChange={handleNicknameChange}
-            onKeyPress={handleNicknameSubmit}
-            maxLength={15}
-            autoFocus
-          />
-        ) : (
-          <Text>{nickname}</Text>
-        )}
-        <Text>{point}P</Text>
-      </TextBox2>
-      <EditIcon onClick={editNickname} style={{ cursor: "pointer" }} />
+      <ImageBox />
+      <InfoContainer>
+        <Row>
+          <Label>이름:</Label>
+          <Value>{dummy.name}</Value>
+          <EmptyBox/>
+        </Row>
+        <Row>
+          <Label>닉네임:</Label>
+          {isEditing ? (
+            <NicknameInput
+              type="text"
+              value={nickname}
+              onChange={handleNicknameChange}
+              onKeyPress={handleNicknameSubmit}
+              maxLength={15}
+              autoFocus
+            />
+          ) : (
+            <Value>{nickname}</Value>
+          )}
+          <StyledEditIcon onClick={editNickname} />
+        </Row>
+        <Row>
+          <Label>포인트:</Label>
+          <Value>{point}P</Value>
+          <EmptyBox/>
+        </Row>
+      </InfoContainer>
     </Container>
   );
 };
@@ -62,45 +65,79 @@ export default UserBox;
 const Container = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-  width: 600px;
-  height: 250px;
-  background-color: #f1f1f1;
+  padding: 20px;
+  width: 550px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  gap: 20px;
 `;
 
-const ImageBox = styled.img`
-  width: 200px;
-  height: 200px;
+const ImageBox = styled.div`
+  width: 150px;
+  height: 150px;
   background-color: #d9d9d9;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
-const TextBox = styled.div`
-  height: 200px;
+const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-`;
-const Text = styled.div`
-  font-size: 30px;
-  font-weight: bold;
+  gap: 15px;
+  width: 400px;
 `;
 
-const TextBox2 = styled.div`
-  height: 200px;
-  width: 200px;
+const Row = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Label = styled.div`
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+  width: 30%;
+`;
+
+const Value = styled.div`
+  font-size: 22px;
+  color: #666;
+  flex: 1;
+  text-align: right;
 `;
 
 const NicknameInput = styled.input`
-  font-size: 30px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 500;
+  color: #666;
   text-align: right;
   border: none;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 2px solid #ddd;
   outline: none;
   width: 100%;
+  padding: 5px;
+  transition: border-color 0.3s;
+
+  &:focus {
+    border-bottom: 2px solid #4a90e2;
+  }
 `;
+
+const StyledEditIcon = styled(EditIcon)`
+  cursor: pointer;
+  color: #4a90e2;
+  margin-left: 8px;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #357ab8;
+  }
+`;
+
+const EmptyBox = styled.div`
+  width: 32px;
+`

@@ -7,7 +7,9 @@ const REDIRECT_URI2 = "http://finditforcau.s3-website.ap-northeast-2.amazonaws.c
 const kakao_login_uri = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI1}&response_type=code`;
 
 export const loginHandler = () => {
-  window.location.href = kakao_login_uri;
+  localStorage.setItem("access", "key")
+  window.location.href = "/"
+  //window.location.href = kakao_login_uri;
 };
 
 // OAuth 처리를 위한 함수
@@ -17,13 +19,18 @@ export const handleOAuth = async () => {
   
   if (code) {
     try {
-      const result = await axios.get(`http://findit.p-e.kr:8080/api/users/login/callback/?code=${code}`);
 
-      localStorage.setItem("access", result.data.access_token); // 받아온 액세스 토큰을 로컬스토리지에 저장하여 관리
-      localStorage.setItem("refresh", result.data.refresh_token); // 받아온 리프레시 토큰을 로컬스토리지에 저장하여 관리
-      localStorage.setItem("nickname", result.data.user.nickname); 
-      localStorage.setItem("email", result.data.user.email); 
-      localStorage.setItem("profile", result.data.user.profile);
+      const result = await axios.post("http://findit.p-e.kr:8080/api/users/login/callback", {
+        code: code,
+      });
+
+      console.log(result.data)
+
+      localStorage.setItem("access", result.data.token); // 받아온 액세스 토큰을 로컬스토리지에 저장하여 관리
+      //localStorage.setItem("refresh", result.data.refresh_token); // 받아온 리프레시 토큰을 로컬스토리지에 저장하여 관리
+      localStorage.setItem("nickname", result.data.nickname); 
+      //localStorage.setItem("email", result.data.user.email); 
+      localStorage.setItem("profile", result.data.profileImage);
       
       window.location.href = "/";
       
