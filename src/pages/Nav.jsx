@@ -9,8 +9,9 @@ const Nav = () => {
   const storedActiveNav = localStorage.getItem("activeNav");
 
   const handleNavClick = (index, path) => {
-    setActiveNav(index);
+    // setActiveNav(index);
     navigate(path);
+    console.log(activeNav);
   };
 
   return (
@@ -68,7 +69,9 @@ const Container = styled.div`
   bottom: 0;
   width: 100%;
   max-width: 600px;
-  height: 8vh; // 네비게이션 바의 높이를 화면 비율에 맞춰 설정 (전체 화면의 10%)
+  max-height: 600px;
+  // height: 8vh; // 네비게이션 바의 높이를 화면 비율에 맞춰 설정 (전체 화면의 10%)
+  height: 70px; // 네비게이션 바의 높이를 화면 비율에 맞춰 설정 (전체 화면의 10%)
   border-top: solid 1px #d6d6d6;
   background-color: white;
   display: flex;

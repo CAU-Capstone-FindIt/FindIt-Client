@@ -7,12 +7,19 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useFindListQuery } from "../apis/FindQuery";
+import { useNavContext } from "../apis/NavContext";
 
 const Find = () => {
   const { data: findReports, isLoading } = useFindListQuery();
 
+  const { setActiveNav } = useNavContext();
+
   console.log(findReports);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setActiveNav(1);
+  }, []);
 
   return (
     <Container>

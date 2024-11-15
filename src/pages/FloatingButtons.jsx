@@ -90,8 +90,8 @@ const slideDown = keyframes`
 
 const FixedButton = styled.button`
   position: absolute;
-  bottom: 15%; // 화면 높이의 5% 위치에 버튼이 오도록 설정
-  right: 6%; // 화면 너비의 5% 위치에 버튼이 오도록 설정
+  bottom: 120px; // 화면 높이의 5% 위치에 버튼이 오도록 설정
+  right: 50px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -105,12 +105,6 @@ const FixedButton = styled.button`
     pressed ? "#0051a8" : "#007cff"}; // 눌렸을 때 색상 변경
 
   transition: background-color 0.5s; // 색상 변경 시 1초의 변화를 줌
-
-  @media (max-width: 600px) {
-    position: fixed;
-    bottom: 15vh; // 화면 높이의 5% 위치에 버튼이 오도록 설정
-    right: 10vw; // 화면 너비의 5% 위치에 버튼이 오도록 설정
-  }
 `;
 
 const ButtonContainer = styled.div`

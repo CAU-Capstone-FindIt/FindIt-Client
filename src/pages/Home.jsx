@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import IconButton from "@mui/material/IconButton";
 import RoofingIcon from "@mui/icons-material/Roofing";
 import Nav from "./Nav";
 import Map from "./Map";
 import FloatingButtons from "./FloatingButtons";
+import FilterButton from "../pages/mappage/FilterButton";
+import { useNavContext } from "../apis/NavContext";
 
 const Home = () => {
   const [reportMode, setReportMode] = useState(null);
   const [markerVisible, setMarkerVisible] = useState(null);
+
+  const { setActiveNav } = useNavContext();
+
+  useEffect(() => {
+    setActiveNav(0);
+  }, []);
+
   const handleStartReport = (mode) => {
     setReportMode(mode);
     if (markerVisible) {
@@ -22,10 +31,8 @@ const Home = () => {
 
   return (
     <Container>
-      {/* <IconButton color="primary" variant="text">
-        <RoofingIcon onClick={handleClick} />
-      </IconButton> */}
       <Map></Map>
+      <FilterButton></FilterButton>
       <FloatingButtons onStartReport={handleStartReport} />
       <Nav></Nav>
     </Container>
@@ -38,4 +45,5 @@ const Container = styled.div`
   background-color: gray;
   width: 600px;
   height: 100%;
+  position: relative;
 `;

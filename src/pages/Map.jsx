@@ -36,10 +36,17 @@ const Map = () => {
     // 지도를 생성하는 카카오 맵 api 함수
     const map = new kakao.maps.Map(container, options);
 
-    // api로 데이터 가져오기
+    var clusterer = new kakao.maps.MarkerClusterer({
+      map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
+      averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
+      minLevel: 1, // 클러스터 할 최소 지도 레벨
+    });
 
     // 습득물 api get
     try {
+      let findMarkers = [];
+      let lostMarkers = [];
+
       // 각 신고에 대해 마커 생성하기
       findReports.forEach((report) => {
         const { lat, lng } = report.position; // 좌표 가져오기
@@ -63,12 +70,34 @@ const Map = () => {
           map: map,
         });
 
+        newMarker.data = report;
+
         kakao.maps.event.addListener(newMarker, "click", () => {
           console.log(report);
-          setSelectedReport(report); // 선택된 신고 정보 설정
+          setSelectedReport([report]); // 선택된 신고 정보 설정
           setIsModalOpen(true); // 모달 열기
         });
+
+        findMarkers.push(newMarker);
       });
+
+      console.log(findMarkers);
+
+      clusterer.addMarkers(findMarkers);
+
+      kakao.maps.event.addListener(
+        clusterer,
+        "clusterclick",
+        function (cluster) {
+          console.info(cluster);
+          let data = cluster._markers.map((item) => item.data);
+          console.log(data);
+          if (data.length) {
+            setSelectedReport(data);
+            setIsModalOpen(true); // 모달 열기
+          }
+        }
+      );
 
       // 각 신고에 대해 마커 생성하기
       lostReports.forEach((report) => {
@@ -95,44 +124,15 @@ const Map = () => {
 
         kakao.maps.event.addListener(newMarker, "click", () => {
           console.log(report);
-          setSelectedReport(report); // 선택된 신고 정보 설정
+          setSelectedReport([report]); // 선택된 신고 정보 설정
           setIsModalOpen(true); // 모달 열기
         });
+
+        lostMarkers.push(newMarker);
       });
-    } catch {}
-
-    // // 로컬 스토리지에서 데이터 가져오기
-    // const reports = JSON.parse(localStorage.getItem("lostAndFoundData")) || [];
-
-    // // 각 신고에 대해 마커 생성하기
-    // reports.forEach((report) => {
-    //   const { lat, lng } = report.position; // 좌표 가져오기
-    //   const markerPosition = new kakao.maps.LatLng(lat, lng);
-
-    //   const markerImageUrl =
-    //     report.mode === "lost"
-    //       ? `img/LostIconTemp.png`
-    //       : `img/FindIconTemp.png`;
-
-    //   // 마커 이미지 생성
-    //   const markerImage = new kakao.maps.MarkerImage(
-    //     markerImageUrl,
-    //     new kakao.maps.Size(20, 32)
-    //   );
-
-    //   // 마커 생성
-    //   const newMarker = new kakao.maps.Marker({
-    //     position: markerPosition,
-    //     image: markerImage,
-    //     map: map,
-    //   });
-
-    //   kakao.maps.event.addListener(newMarker, "click", () => {
-    //     console.log(report);
-    //     setSelectedReport(report); // 선택된 신고 정보 설정
-    //     setIsModalOpen(true); // 모달 열기
-    //   });
-    // });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const closeModal = () => {
@@ -146,7 +146,7 @@ const Map = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
-        report={selectedReport}
+        reports={selectedReport}
       />
     </>
   );

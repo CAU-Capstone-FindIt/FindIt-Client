@@ -1,8 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import ModalItem from "./mappage/ModalItem";
 
-const Modal = ({ isOpen, onClose, report }) => {
+const Modal = ({ isOpen, onClose, reports }) => {
   const navigate = useNavigate();
 
   if (!isOpen) return null;
@@ -11,50 +12,15 @@ const Modal = ({ isOpen, onClose, report }) => {
     // 모달 오버레이를 눌러도 닫히게하고 content를 누르면 닫히지 않게 한다. e.stopPropagation는 클릭이벤트 전파를 중단시킴
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
-        <TitleBox>
-          <Title mode={report.mode}>
-            {report.mode === "lost" ? "분실물" : "습득물"}
-          </Title>
-        </TitleBox>
-        <ContentBox>
-          <ModalImg src={report.image} alt="" />
-          <ModalRigth>
-            {report ? (
-              <>
-                <h2>{report.name}</h2>
-                <div>
-                  <CategoryBox>{report.category}</CategoryBox>
-                </div>
-                <h4>{report.location}</h4>
-                <h4>{report.brand}</h4>
-                <h4>{report.date}</h4>
-                <DetailBtn
-                  onClick={() =>
-                    navigate(`/detail/${report.name}`, { state: report })
-                  }
-                >
-                  상세보기
-                </DetailBtn>
-              </>
-            ) : (
-              <p>신고 정보가 없습니다.</p>
-            )}
-          </ModalRigth>
-        </ContentBox>
+        {reports.map((item) => (
+          <ModalItem report={item}></ModalItem>
+        ))}
       </ModalContent>
     </ModalOverlay>
   );
 };
 
 export default Modal;
-
-// const Container = styled.div`
-//     width: 600px;
-//     height: 100%;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-// `;
 
 const slideUp = keyframes`
     from {
@@ -87,25 +53,10 @@ const ModalOverlay = styled.div`
   }
 `;
 
-const TitleBox = styled.div`
-  display: flex;
-  justify-content: end;
-`;
-
-const Title = styled.h5`
-  background-color: ${(props) =>
-    props.mode === "lost" ? "#ffb978" : "#FF0000"};
-  color: #ffffff;
-  width: 15%;
-  padding: 5px;
-  border-radius: 1.5rem;
-  text-align: center;
-  margin-bottom: 1rem;
-`;
-
 const ModalContent = styled.div`
   background: white;
   padding: 4% 6%;
+  height: 260px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   width: 100%;
@@ -114,60 +65,30 @@ const ModalContent = styled.div`
   animation: ${slideUp} 0.4s forwards; /* 슬라이드 애니메이션 적용 */
   margin-bottom: 8vh; /* 네브바 높이만큼 아래 여백 추가 */
 
+  overflow-y: auto; /* 스크롤 가능하게 설정 */
+
   @media (max-width: 600px) {
     //하단 nav바가 모바일환경에서는 10vh 높이이므로
     margin-bottom: 10vh; /* 네브바 높이만큼 아래 여백 추가 */
     // height: 20%;
   }
-`;
 
-const ContentBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const ModalImg = styled.img`
-  width: 40%;
-  height: 40%;
-  aspect-ratio: 1/1; // 가로세로비율. 1대1비율로 넣어야 정사각형이 된다
-  border-radius: 10px;
-`;
-
-const ModalRigth = styled.div`
-  width: 50%;
-  text-align: end;
-
-  h2,
-  h4,
-  h5 {
-    margin-bottom: 10px;
+  // 스크롤바 숨기기
+  &::-webkit-scrollbar {
+    display: none;
   }
 
-  div {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  &::-webkit-scrollbar-thumb {
+    background: rgba(150, 150, 150); /* 스크롤바 색상 */
+    border-radius: 10px; /* 스크롤바 둥근 테두리 */
   }
-`;
 
-const CategoryBox = styled.h5`
-  background-color: #007cff;
-  color: #ffffff;
-  width: 40%;
-  padding: 5px;
-  border-radius: 1.5rem;
-  text-align: center;
-  margin-bottom: 1rem;
-`;
+  &::-webkit-scrollbar-track {
+    background: rgba(150, 150, 150, 0.1); /*스크롤바 뒷 배경 색상*/
+  }
 
-const DetailBtn = styled.button`
-  width: 40%;
-  padding: 0.5rem 1rem;
-  text-align: center;
-  border-radius: 10px;
-  border: none;
-  color: white;
-  font-weight: bold;
-  background-color: #007cff;
+  @media (max-width: 600px) {
+    top: calc(var(--vh, 1vh) * 8);
+    max-height: calc(100% - (calc(var(--vh, 1vh) * 16)));
+  }
 `;
