@@ -10,10 +10,9 @@ const MenuBeforLogin = () => {
 export default MenuBeforLogin;
 
 const Container = styled.div`
-  width: 100%;
-  max-width: 600px;
-  margin-top: 40px;
-  min-height: 300px;
+  width: 98%;
+  margin-top: 10%;
+  height: 40%;
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
@@ -21,10 +20,14 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
   color: #555;
-  padding: 20px;
   box-sizing: border-box;
-  border: 1px solid #e0e0e0;
+
+  @media (min-width: 440px) {
+    // 화면너비가 440px 이상일 때 고정
+    font-size: 30px;
+  }
+
 `;

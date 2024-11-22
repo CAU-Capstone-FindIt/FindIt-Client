@@ -34,11 +34,13 @@ const Userpage = () => {
       <InnerContainer>
         <UserBox />
         {isLogin ? (
-          <MenuAfterLogin />
-        ) : (
           <>
             <MenuBeforLogin />
             <LoginButton />
+          </>
+        ) : (
+          <>
+            <MenuAfterLogin />
           </>
         )}
       </InnerContainer>
@@ -53,6 +55,7 @@ const Container = styled.div`
   background-color: white;
   width: 100%;
   max-width: 600px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,7 +64,10 @@ const Container = styled.div`
 
 const InnerContainer = styled.div`
   margin-top: 75px;
-  margin-bottom: 75px;
+  margin-bottom: 70px;
+  width: 100%;
+  max-width: 600px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
