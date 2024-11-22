@@ -20,7 +20,7 @@ export const handleOAuth = async () => {
   if (code) {
     try {
 
-      const result = await axios.post("http://findit.p-e.kr:8080/api/users/login/callback", {
+      const result = await axios.post("http://findit.p-e.kr:8080/api/users/login", {
         code: code,
       });
 
