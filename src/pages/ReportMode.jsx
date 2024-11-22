@@ -15,6 +15,7 @@ const ReportMode = () => {
   const location = useLocation();
   const [mode, setMode] = useState("");
 
+  // context로 전역으로 해당 report에 대한 위치를 저장
   const { setReportInfo } = useReportContext(); // Context에서 함수 가져오기
 
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const ReportMode = () => {
     const position = markerRef.current.getPosition(); // 마커 위치 가져오기
     const lat = position.getLat();
     const lng = position.getLng();
-    console.log("보고서 제출: ", position);
+    console.log("Form.jsx에 보내는 좌표(ContextApi): ", position);
     console.log(mode);
     // 위치와 함께 양식으로 이동하는 로직을 추가할 수 있습니다.
 

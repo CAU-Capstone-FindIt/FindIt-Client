@@ -43,7 +43,6 @@ const Detail = () => {
         <DetailBox>
           <DetailImg src={report.image} alt={report.name} />
           <ContenTitle>
-            <img src="/img/StarBlack.png" alt="즐겨찾기 미등록" />
             <h1>{report.name}</h1>
           </ContenTitle>
           <ContentMain>
@@ -59,23 +58,23 @@ const Detail = () => {
                 <div>
                   <LabelBox>
                     <Label>브랜드 :</Label>
-                    <div> {report.brand}</div>
+                    <LabelData> {report.brand}</LabelData>
                   </LabelBox>
                   <LabelBox>
                     <Label>색상 :</Label>
-                    <div> {report.color}</div>
+                    <LabelData> {report.color}</LabelData>
                   </LabelBox>
                   <LabelBox>
                     <Label>위치 :</Label>
-                    <div> {report.location}</div>
+                    <LabelData> {report.location}</LabelData>
                   </LabelBox>
                   <LabelBox>
                     <Label>날짜 :</Label>
-                    <div> {report.date}</div>
+                    <LabelData> {report.date}</LabelData>
                   </LabelBox>
                   <LabelBox>
                     <Label>분류번호 :</Label>
-                    <div>몰라</div>
+                    <LabelData>몰라</LabelData>
                   </LabelBox>
                 </div>
               </ContentDetailBox>
@@ -135,7 +134,7 @@ const DetailImg = styled.img`
 const ContenTitle = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
 
   img {
@@ -194,16 +193,18 @@ const Title = styled.div`
   border-radius: 1.5rem;
   text-align: center;
   font-weight: bold;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 `;
 
 const Title2 = styled.div`
-  background-color: #007cff;
+  background-color: #1876d2;
   color: #ffffff;
   width: 40%;
   padding: 5px;
   border-radius: 1.5rem;
   text-align: center;
   font-weight: bold;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 `;
 
 const LabelBox = styled.div`
@@ -217,6 +218,9 @@ const Label = styled.div`
   font-weight: bold;
 `;
 
+const LabelData = styled.div`
+  font-weight: 550;
+`;
 const ShareIconBox = styled.div`
   width: 100%;
   text-align: end;

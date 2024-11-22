@@ -67,7 +67,7 @@ const ListImg = styled.img`
 `;
 
 const Content = styled.div`
-  width: 55%;
+  width: 65%;
   text-align: end;
 
   h2 {
