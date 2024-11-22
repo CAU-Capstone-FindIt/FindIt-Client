@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useNavContext } from "../apis/NavContext";
 
 const Nav = () => {
+  // 사실상 setActiveNav 호출이 불필요 NavContext에서 url이 이동하면 자동으로 실행되기에
   const { activeNav, setActiveNav } = useNavContext(); // 상태 및 setter 가져오기
   const navigate = useNavigate();
   const storedActiveNav = localStorage.getItem("activeNav");

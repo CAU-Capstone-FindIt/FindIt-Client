@@ -3,6 +3,7 @@ import axios from "axios";
 
 export const useFindListQuery = () => {
   return useQuery({
+    // "findlist"라는 키를 기반으로 데이터를 캐싱하고 관리하며, 첫 번째 호출 시 지정한 엔드포인트 URL에서 데이터를 가져온다
     queryKey: ["findlist"],
     queryFn: () => initializeFindList(),
     initialData: undefined,
@@ -11,6 +12,7 @@ export const useFindListQuery = () => {
   });
 };
 
+// json-server연결
 // const initializeFindList = async () => {
 //   try {
 //     const responseFind = await axios.get("http://localhost:3001/findlist");
@@ -28,6 +30,7 @@ export const useFindListQuery = () => {
 //   }
 // };
 
+// 예찬이 api연결
 const initializeFindList = async () => {
   try {
     const responseFind = await axios.get(
@@ -42,12 +45,13 @@ const initializeFindList = async () => {
     //   comments: item.comments || [], // comments를 빈 배열로 초기화
     // }));
 
-    return responseFind;
+    return responseFind.data;
   } catch (error) {
     console.error(error);
     return []; // 빈 배열을 반환하거나 오류를 처리
   }
 };
+
 // 댓글 업데이트 함수
 export const useUpdateComments = () => {
   const queryClient = useQueryClient();

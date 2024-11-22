@@ -4,14 +4,18 @@ import { useReportContext } from "../apis/ReportContext";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { usePostFindItem } from "../apis/Postapi";
 
 const Form = () => {
+  // 전역으로 관리되어 ReportMode.jsx에 저장되었던 mode와 posistion 데이터를 가져옴
   const { reportInfo } = useReportContext(); // Context에서 reportInfo 가져오기
   const [selectedImage, setSelectedImage] = useState(null); // 선택된 이미지 상태
   const [selectedCategory, setSelectedCategory] = useState(""); // 선택된 카테고리 상태
   const [description, setDescription] = useState(""); // 설명 상태
 
-  const [error, setError] = useState(null);
+  const [error1, setError1] = useState(null);
+
+  const { mutate, isLoading, isError, error } = usePostFindItem(); // 훅 사용
 
   const navigate = useNavigate();
 
@@ -38,48 +42,95 @@ const Form = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // 기본 폼 제출 동작 방지
 
-    const formData = {
-      mode: reportInfo.mode,
-      position: reportInfo.position,
-      name: e.target.name.value,
-      brand: e.target.brand.value,
-      location: e.target.location.value,
-      category: selectedCategory,
-      color: e.target.color.value,
-      date: e.target.date.value,
-      description: description,
-      image: selectedImage,
-      comments: [],
-    };
-
-    // api에 넣기
-    try {
-      let apiUrl = "";
-
-      // reportInfo.mode에 따라 API 엔드포인트 설정
-      if (reportInfo.mode === "found") {
-        apiUrl = "http://localhost:3001/findlist";
-      } else if (reportInfo.mode === "lost") {
-        apiUrl = "http://localhost:3001/lostlist";
-      }
-
-      // POST 요청으로 데이터 추가
-      const response = await axios.post(apiUrl, formData);
-      console.log("Response:", response.data);
-
-      // 성공 후 원하는 로직 추가 (예: 알림, 화면 전환)
-    } catch (err) {
-      setError(err.message);
-      console.error("Error:", err);
+    console.log(e.target);
+    let data;
+    if (reportInfo.mode === "found") {
+      data = {
+        userId: 1,
+        name: e.target.name.value,
+        description: description,
+        category: selectedCategory,
+        color: e.target.color.value,
+        brand: e.target.brand.value,
+        date: e.target.date.value,
+        position: reportInfo.position,
+        address: e.target.location.value,
+        rewardAmount: e.target.point.value,
+        image: selectedImage,
+        status: "REGISTERED",
+      };
+    } else if (reportInfo.mode === "lost") {
+      data = {
+        userId: 0,
+        name: e.target.name.value,
+        description: description,
+        category: selectedCategory,
+        color: e.target.color.value,
+        brand: e.target.brand.value,
+        date: e.target.date.value,
+        position: reportInfo.position,
+        address: e.target.location.value,
+        image: selectedImage,
+      };
     }
 
-    // // 로컬스토리지에 저장
-    // const existingData =
-    //   JSON.parse(localStorage.getItem("lostAndFoundData")) || [];
-    // localStorage.setItem(
-    //   "lostAndFoundData",
-    //   JSON.stringify([...existingData, formData])
-    // );
+    console.log(data);
+
+    // const formData = {
+    //   mode: reportInfo.mode,
+    //   position: reportInfo.position,
+    //   name: e.target.name.value,
+    //   brand: e.target.brand.value,
+    //   location: e.target.location.value,
+    //   category: selectedCategory,
+    //   color: e.target.color.value,
+    //   date: e.target.date.value,
+    //   description: description,
+    //   image: selectedImage,
+    //   comments: [],
+    // };
+
+    // api에 넣기
+    // try {
+    //   let apiUrl = "";
+
+    //   // reportInfo.mode에 따라 API 엔드포인트 설정
+    //   if (reportInfo.mode === "found") {
+    //     apiUrl = "http://localhost:3001/findlist";
+
+    //   } else if (reportInfo.mode === "lost") {
+    //     apiUrl = "http://localhost:3001/lostlist";
+    //   }
+
+    //   // POST 요청으로 데이터 추가
+    //   const response = await axios.post(apiUrl, formData);
+    //   console.log("Response:", response.data);
+
+    //   // 성공 후 원하는 로직 추가 (예: 알림, 화면 전환)
+    // } catch (err) {
+    //   setError1(err.message);
+    //   console.error("Error:", err);
+    // }
+
+    mutate(
+      {
+        apiUrl:
+          reportInfo.mode === "found"
+            ? "http://findit.p-e.kr:8080/api/items/found/report"
+            : "http://findit.p-e.kr:8080/api/items/lost/register",
+        data, // FormData 객체
+      },
+      {
+        onSuccess: () => {
+          alert("등록 성공!");
+          navigate("/"); // 메인 화면으로 이동
+        },
+        onError: (error) => {
+          console.error("등록 실패:", error);
+          alert("등록에 실패했습니다.");
+        },
+      }
+    );
 
     // 메인 화면으로 네비게이트
     navigate("/");
@@ -155,6 +206,15 @@ const Form = () => {
             <InputLabel for="date">날짜</InputLabel>
             <InputDate type="date" id="date" required />
           </InputBox>
+          {reportInfo.mode === "lost" ? (
+            ""
+          ) : (
+            <InputBox>
+              <InputLabel for="point">포인트</InputLabel>
+              <InputDate type="number" id="point" required />
+            </InputBox>
+          )}
+
           <TextArea
             placeholder="내용을 입력하세요"
             value={description}
