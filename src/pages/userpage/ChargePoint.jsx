@@ -1,37 +1,38 @@
-import React, { useState } from 'react'
-import styled from 'styled-components';
-import Nav from '../Nav';
-import UserBox from '../../component/userpage/UserBox';
-import ChargeBar from '../../component/userpage/ChargeBar';
-import TopNavBack from '../TopNavBack';
+import React, { useState } from "react";
+import styled from "styled-components";
+import Nav from "../Nav";
+import UserBox from "../../component/userpage/UserBox";
+import ChargeBar from "../../component/userpage/ChargeBar";
+import TopNavBack from "../TopNavBack";
 
 const ChargePoint = () => {
   const [point, setPoint] = useState(10);
 
   const handleCharge = (amount) => {
     // API 요청 부분 (추후 구현)
-    setPoint(prevPoint => prevPoint + amount); // 포인트 업데이트
+    setPoint((prevPoint) => prevPoint + amount); // 포인트 업데이트
   };
 
   return (
     <Container>
-      <TopNavBack/>
+      <TopNavBack />
       <InnerContainer>
         <Text>포인트 충전</Text>
-        <UserBox point = {point}/>
-        <ChargeBar onCharge = {handleCharge}/>
+        <UserBox point={point} />
+        <ChargeBar onCharge={handleCharge} />
       </InnerContainer>
-      <Nav/>
+      <Nav />
     </Container>
-  )
-}
+  );
+};
 
-export default ChargePoint
+export default ChargePoint;
 
 const Container = styled.div`
   background-color: white;
   width: 100%;
   max-width: 600px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,15 +40,21 @@ const Container = styled.div`
 `;
 
 const InnerContainer = styled.div`
-margin-top: 75px;
-margin-bottom: 75px;
-display: flex;
-flex-direction:column;
-align-items:center;
-gap: 2vh;
-`
+  margin-top: 75px;
+  margin-bottom: 75px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2vh;
+`;
 
 const Text = styled.div`
   font-size: 24px;
   font-weight: 700;
+  @media (max-width: 440px) {
+    // 화면너비가 440px 이하일 때 고정
+    font-size: 18px;
+  }
 `;

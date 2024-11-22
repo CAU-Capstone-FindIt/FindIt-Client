@@ -25,7 +25,7 @@ const MenuAfterLogin = () => {
 export default MenuAfterLogin;
 
 const Container = styled.div`
-  width: 100%;
+  width: 98%;
   max-width: 600px;
   background-color: #ffffff;
   border-radius: 12px;
@@ -33,12 +33,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  gap: 10px;
-  margin-top: 60px;
+  margin-top: 15%;
 `;
 
 const MenuItem = styled.div`
-  padding: 20px;
+  padding: 4%;
   font-size: 22px;
   font-weight: 700;
   color: #333;
@@ -54,5 +53,10 @@ const MenuItem = styled.div`
 
   &:last-child {
     border-bottom: none; /* 마지막 항목에는 구분선 제거 */
+  }
+
+  @media (min-width: 440px) {
+    // 화면너비가 440px 이상일 때 고정 // iphone 16 pro max
+    font-size: 30px;
   }
 `;

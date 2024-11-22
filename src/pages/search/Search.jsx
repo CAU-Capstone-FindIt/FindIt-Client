@@ -14,20 +14,12 @@ import SearchForm from "../../component/search/SearchForm";
 const Search = () => {
   // 추후 로그인 여부에 따른 컴포넌트 랜더링 변경 필요
 
-  const { data: findReports, isLoading } = useFindListQuery();
-
-
   return (
     <Container>
       <TopNav />
       <InnerContainer>
-      <SearchForm/>
-      <ListBox>
-        {!isLoading ? (
-          <Item findReports={findReports}></Item>
-        ) : (<div></div>
-        )}
-        </ListBox>
+        <SearchForm />
+        <ListBox></ListBox>
       </InnerContainer>
       <Nav />
     </Container>
@@ -39,7 +31,6 @@ export default Search;
 const Container = styled.div`
   background-color: white;
   width: 100%;
-  max-width: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,23 +38,23 @@ const Container = styled.div`
 `;
 
 const InnerContainer = styled.div`
-background-color: #f8f8f8;
-margin-top: 75px;
-margin-bottom: 75px;
-display: flex;
-flex-direction:column;
-align-items:center;
-padding-top:10px;
-
-`
+  background-color: #f8f8f8;
+  margin-top: 75px;
+  margin-bottom: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2%;
+  width: 100%;
+`;
 
 const ListBox = styled.div`
   //background-color: #f0f0f0;
-  width: 600px;
-  min-height: 100vh;
+  width: 95%;
+  min-height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  margin-top:10px;
+  margin-top: 3%;
 `;

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import EditIcon from "@mui/icons-material/Edit";
 
 const UserBox = ({ point }) => {
-  const [nickname, setNickname] = useState("닉네임"); // 닉네임 상태 관리
+  const [nickname, setNickname] = useState(""); // 닉네임 상태 관리
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 관리
 
   const dummy = {
@@ -65,17 +65,20 @@ export default UserBox;
 const Container = styled.div`
   display: flex;
   align-items: center;
-  padding: 20px;
-  width: 550px;
+  justify-content:space-evenly;
+  padding: 4%;
+  width: 90%;
+  aspect-ratio: 3 / 1;
   background-color: #f9f9f9;
   border-radius: 12px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  gap: 20px;
+  gap:5%;
+  margin-top: 1%;
 `;
 
 const ImageBox = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 33%;
+  aspect-ratio: 1 / 1;
   background-color: #d9d9d9;
   border-radius: 50%;
   display: flex;
@@ -86,8 +89,9 @@ const ImageBox = styled.div`
 const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 400px;
+  width: 60%;
+  height: 100%;
+  justify-content:space-evenly;
 `;
 
 const Row = styled.div`
@@ -100,7 +104,10 @@ const Label = styled.div`
   font-size: 22px;
   font-weight: 700;
   color: #333;
-  width: 30%;
+  @media (min-width: 440px) {
+    // 화면너비가 440px 이상일 때 고정 // iphone 16 pro max
+    font-size: 30px;
+  }
 `;
 
 const Value = styled.div`
@@ -108,18 +115,23 @@ const Value = styled.div`
   color: #666;
   flex: 1;
   text-align: right;
+  @media (min-width: 440px) {
+    // 화면너비가 440px 이상일 때 고정 // iphone 16 pro max
+    font-size: 30px;
+  }
 `;
 
 const NicknameInput = styled.input`
   font-size: 22px;
   font-weight: 500;
+  width:55%;
+  display:flex;
+  justify-content:flex-end;
   color: #666;
   text-align: right;
   border: none;
   border-bottom: 2px solid #ddd;
   outline: none;
-  width: 100%;
-  padding: 5px;
   transition: border-color 0.3s;
 
   &:focus {
@@ -130,7 +142,6 @@ const NicknameInput = styled.input`
 const StyledEditIcon = styled(EditIcon)`
   cursor: pointer;
   color: #4a90e2;
-  margin-left: 8px;
   transition: color 0.3s;
 
   &:hover {
@@ -139,5 +150,5 @@ const StyledEditIcon = styled(EditIcon)`
 `;
 
 const EmptyBox = styled.div`
-  width: 32px;
+  width: 8%;
 `
