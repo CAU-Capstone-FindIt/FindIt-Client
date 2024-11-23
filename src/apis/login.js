@@ -4,7 +4,7 @@ import { createBrowserHistory } from "history";
 const REST_API_KEY = process.env.REACT_APP_KAKAO_LOGIN_KEY;
 const REDIRECT_URI1 = "http://localhost:3000/oauth";
 const REDIRECT_URI2 =
-  "http://finditforcau.s3-website.ap-northeast-2.amazonaws.com/oauth";
+  "https://finditcau.netlify.app/oauth";
 const kakao_login_uri = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI1}&response_type=code`;
 
 export const loginHandler = () => {
@@ -29,11 +29,11 @@ export const handleOAuth = async () => {
 
       console.log(result.data);
 
-      localStorage.setItem("access", result.data.token); // 받아온 액세스 토큰을 로컬스토리지에 저장하여 관리
+      localStorage.setItem("access", result.data.accessToken); // 받아온 액세스 토큰을 로컬스토리지에 저장하여 관리
       //localStorage.setItem("refresh", result.data.refresh_token); // 받아온 리프레시 토큰을 로컬스토리지에 저장하여 관리
-      localStorage.setItem("nickname", result.data.nickname);
+      //localStorage.setItem("nickname", result.data.nickname);
       //localStorage.setItem("email", result.data.user.email);
-      localStorage.setItem("profile", result.data.profileImage);
+      //localStorage.setItem("profile", result.data.profileImage);
 
       window.location.href = "/";
     } catch (error) {
