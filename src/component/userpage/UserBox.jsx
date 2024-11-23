@@ -1,10 +1,28 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import EditIcon from "@mui/icons-material/Edit";
+import { getUserInfo } from "../../apis/user";
 
 const UserBox = ({ point }) => {
   const [nickname, setNickname] = useState(""); // 닉네임 상태 관리
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 관리
+
+  const [userData, setUserData] = useState("");
+
+
+  useEffect(() => {
+    const userInfo = async () => {
+      try {
+        const response = await getUserInfo();
+        setUserData(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    userInfo();
+  }, []);
+
 
   const dummy = {
     name: "김태진",
@@ -27,11 +45,11 @@ const UserBox = ({ point }) => {
 
   return (
     <Container>
-      <ImageBox />
+      <ImageBox image={userData?.profileImage || ""} />
       <InfoContainer>
         <Row>
           <Label>이름:</Label>
-          <Value>{dummy.name}</Value>
+          <Value>{userData.name}</Value>
           <EmptyBox/>
         </Row>
         <Row>
@@ -84,6 +102,10 @@ const ImageBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-image: url(${(props) => props.image});
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 `;
 
 const InfoContainer = styled.div`
