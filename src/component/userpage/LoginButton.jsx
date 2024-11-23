@@ -40,6 +40,6 @@ const Button = styled.div`
   @media (min-width: 440px) {
     // 화면너비가 440px 이상일 때 고정 // iphone 16 pro max
     font-size: 34px;
-    height: 10%;
+    height: 8%;
   }
 `;

@@ -15,7 +15,9 @@ const Registeitem = () => {
       <InnerContainer>
         <TitleSwitch>
           <Text>등록물건보기</Text>
-          <AntSwitch />
+          <Line>
+            <AntSwitch />
+          </Line>
         </TitleSwitch>
         <ListBox>
           {!isLoading ? <Item findReports={findReports}></Item> : <div></div>}
@@ -33,14 +35,16 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 `;
 
 const InnerContainer = styled.div`
-  margin-top: 10vh;
-  margin-bottom: 9vh;
+  margin-top: 75px;
+  margin-bottom: 75px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `;
 
 const TitleSwitch = styled.div`
@@ -57,17 +61,21 @@ const Text = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top:2%;
+  @media (max-width: 440px) {
+    // 화면너비가 440px 이하일 때 고정
+    font-size: 18px;
+  }
 `;
 
 const ListBox = styled.div`
   //background-color: #f0f0f0;
-  width: 600px;
-  min-height: 100vh;
+  width: 100%;
+  min-height: 73.9vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  margin-top: 10px;
 `;
 
 const AntSwitch = muiStyled(Switch)(({ theme }) => ({
@@ -111,3 +119,12 @@ const AntSwitch = muiStyled(Switch)(({ theme }) => ({
     boxSizing: "border-box",
   },
 }));
+
+const Line = styled.div`
+  width:95%;
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-end;
+  padding-right: 5%;
+  padding-bottom:2%;
+`
