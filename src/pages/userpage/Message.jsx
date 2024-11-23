@@ -40,22 +40,32 @@ margin-bottom: 75px;
 display: flex;
 flex-direction:column;
 align-items:center;
-gap: 2vh;
+width:100%;
 `
 
 const Text = styled.div`
   font-size: 24px;
   font-weight: 700;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top:2%;
+  @media (max-width: 440px) {
+    // 화면너비가 440px 이하일 때 고정
+    font-size: 18px;
+  }
+
+  margin-bottom:2%;
 `;
 
 const ListBox = styled.div`
   //background-color: #f0f0f0;
-  width: 600px;
-  min-height: 100vh;
+  width: 100%;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  margin-top:10px;
-  gap: 10px;
+
 `;

@@ -38,22 +38,23 @@ const Container = styled.div`
   display: flex;
   align-items: flex-start;
   background-color: #ffffff;
-  padding: 20px;
-  width: 500px;
+  padding: 3%;
+  width: 90%;
   border-radius: 12px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px;
 
   transition: transform 0.2s, box-shadow 0.2s;
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   }
+
+  margin-bottom:6%;
 `;
 
 const IconWrapper = styled.div`
   flex-shrink: 0;
-  margin-right: 15px;
+  margin-right: 3%;
 `;
 
 const ImageBox = styled.div`
@@ -64,7 +65,6 @@ const ImageBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
   color: #ffffff;
 `;
 
@@ -78,7 +78,7 @@ const Title = styled.div`
   font-size: 18px;
   font-weight: 600;
   color: #333;
-  margin-bottom: 8px;
+  margin-bottom: 2%;
 `;
 
 const MessageText = styled.div`
@@ -95,6 +95,6 @@ const DateText = styled.div`
   font-size: 12px;
   color: #999;
   margin-left: auto;
-  padding-top: 5px;
+  padding-top: 1%;
   white-space: nowrap;
 `;

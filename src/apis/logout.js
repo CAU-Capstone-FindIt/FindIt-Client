@@ -1,9 +1,7 @@
 export const handleLogout = async () => {
     const token = localStorage.getItem("access")
     //console.log(token)
-    localStorage.removeItem('access');
-    localStorage.removeItem('nickname');
-    localStorage.removeItem('profile');
+    localStorage.clear()
       alert('로그아웃 되었습니다.');
       window.location.href = "/";
     // try {

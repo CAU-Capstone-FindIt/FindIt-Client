@@ -35,12 +35,12 @@ const Userpage = () => {
         <UserBox />
         {isLogin ? (
           <>
-            <MenuBeforLogin />
-            <LoginButton />
+            <MenuAfterLogin />
           </>
         ) : (
           <>
-            <MenuAfterLogin />
+            <MenuBeforLogin />
+            <LoginButton />
           </>
         )}
       </InnerContainer>
