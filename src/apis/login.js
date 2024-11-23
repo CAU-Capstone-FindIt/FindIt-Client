@@ -27,7 +27,7 @@ export const handleOAuth = async () => {
         }
       );
 
-      console.log(result.data);
+      //console.log(result.data);
 
       localStorage.setItem("access", result.data.accessToken); // 받아온 액세스 토큰을 로컬스토리지에 저장하여 관리
       //localStorage.setItem("refresh", result.data.refresh_token); // 받아온 리프레시 토큰을 로컬스토리지에 저장하여 관리
