@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import { Category } from "@mui/icons-material";
+import { search_gpt } from "../../apis/Search_gpt";
 
 const SearchForm = () => {
   const [currentName, setCurrentName] = useState(""); // 지금 입력된 명칭
@@ -45,7 +46,7 @@ const SearchForm = () => {
     setSelectedEndDate(e.target.value);
   };
 
-  const handleSummit = () => {
+  const handleSummit = async () => {
     const data = {
       name: currentName,
       brand: currentBrand,
@@ -66,11 +67,15 @@ const SearchForm = () => {
     ) {
       alert("명칭, 카테고리, 분류, 날짜는 필수 입력 항목입니다.");
     } else {
-      console.log(data);
-    }
+      const response = await search_gpt(JSON.stringify(data));
 
-    // api 연결 필요
-    //const response = await
+      // 여기는 나중에 백 api 완성되면 이렇게 수정해야 함
+      // if(response.data.findLost == 'find'){
+      //   //find쪽 검색 api 호출
+      // }else if(response.data.findLost == 'lost'){
+      //   //lost쪽 검색 api 호출
+      // }
+    }
   };
 
   return (
@@ -157,6 +162,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  min-height: 450px;
 `;
 
 const StyledInput = styled.input`
