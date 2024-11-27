@@ -2,15 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-const Item = ({ findReports }) => {
+const Item = ({ findReports, pageType }) => {
   const navigate = useNavigate();
+
+  console.log(pageType);
 
   return (
     <>
       {findReports.map((report, index) => (
         <ReportItem
           key={index}
-          onClick={() => navigate(`/detail/${report.name}`, { state: report })}
+          onClick={() =>
+            navigate(`/detail/${report.name}?pageType=${pageType}`, {
+              state: report,
+            })
+          }
         >
           <ListImg src={report.image} alt="" />
           <Content>
@@ -20,7 +26,7 @@ const Item = ({ findReports }) => {
             <div>
               <CategoryBox>{report.category}</CategoryBox>
             </div>
-            <div>{report.location}</div>
+            <div>{report.address}</div>
             <div>{report.date}</div>
           </Content>
         </ReportItem>

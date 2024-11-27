@@ -2,19 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-const ModalItem = ({ report }) => {
+const ModalItem = ({ report, mode }) => {
   const navigate = useNavigate();
 
   console.log(report);
   return (
     <Container>
       <TitleBox>
-        <Title mode={report.mode}>
-          {report.mode === "lost" ? "분실물" : "습득물"}
-        </Title>
+        <Title mode={mode}>{mode === "lost" ? "분실물" : "습득물"}</Title>
       </TitleBox>
       <ContentBox>
-        <ModalImg src={report.image} alt="" />
+        <ModalImg src={report.image} alt="아이템 이미지" />
         <ModalRigth>
           {report ? (
             <>
@@ -27,7 +25,9 @@ const ModalItem = ({ report }) => {
               <h4>{report.date}</h4>
               <DetailBtn
                 onClick={() =>
-                  navigate(`/detail/${report.name}`, { state: report })
+                  navigate(`/detail/${report.name}?pageType=${mode}`, {
+                    state: report,
+                  })
                 }
               >
                 상세보기
@@ -47,7 +47,7 @@ export default ModalItem;
 const Container = styled.div`
   margin: 10px 0;
   padding-bottom: 20px;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #e5e5e5;
 `;
 
 const TitleBox = styled.div`
@@ -57,13 +57,14 @@ const TitleBox = styled.div`
 
 const Title = styled.h5`
   background-color: ${(props) =>
-    props.mode === "lost" ? "#ffb978" : "#FF0000"};
+    props.mode === "lost" ? "#ffb978" : "#ef0000"};
   color: #ffffff;
   width: 15%;
   padding: 5px;
   border-radius: 1.5rem;
   text-align: center;
   margin-bottom: 1rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 `;
 
 const ContentBox = styled.div`
@@ -97,13 +98,14 @@ const ModalRigth = styled.div`
 `;
 
 const CategoryBox = styled.h5`
-  background-color: #007cff;
+  background-color: #1876d2;
   color: #ffffff;
   width: 40%;
   padding: 5px;
   border-radius: 1.5rem;
   text-align: center;
   margin-bottom: 1rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 `;
 
 const DetailBtn = styled.button`
@@ -114,5 +116,6 @@ const DetailBtn = styled.button`
   border: none;
   color: white;
   font-weight: bold;
-  background-color: #007cff;
+  background-color: #1876d2;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 `;

@@ -44,33 +44,33 @@ const Form = () => {
 
     console.log(e.target);
     let data;
-    if (reportInfo.mode === "found") {
+    if (reportInfo.mode === "lost") {
       data = {
-        userId: 1,
-        name: e.target.name.value,
-        description: description,
-        category: selectedCategory,
-        color: e.target.color.value,
-        brand: e.target.brand.value,
-        date: e.target.date.value,
-        position: reportInfo.position,
-        address: e.target.location.value,
-        rewardAmount: e.target.point.value,
-        image: selectedImage,
+        name: e.target.name.value ?? "",
+        description: description ?? "",
+        category: e.target.category.value ?? "",
+        color: e.target.color.value ?? "",
+        brand: e.target.brand.value ?? "",
+        lostDate: e.target.date.value ?? "",
+        latitude: reportInfo.position.lat ?? 0,
+        longitude: reportInfo.position.lng ?? 0,
+        address: e.target.location.value ?? "",
+        rewardAmount: Number(e.target.point.value) || 0, // 숫자는 0을 기본값으로
         status: "REGISTERED",
+        image: selectedImage ?? "",
       };
-    } else if (reportInfo.mode === "lost") {
+    } else if (reportInfo.mode === "found") {
       data = {
-        userId: 0,
-        name: e.target.name.value,
-        description: description,
-        category: selectedCategory,
-        color: e.target.color.value,
-        brand: e.target.brand.value,
-        date: e.target.date.value,
-        position: reportInfo.position,
-        address: e.target.location.value,
-        image: selectedImage,
+        name: e.target.name.value ?? "",
+        description: description ?? "",
+        category: selectedCategory ?? "",
+        color: e.target.color.value ?? "",
+        brand: e.target.brand.value ?? "",
+        date: e.target.date.value ?? "",
+        latitude: reportInfo.position.lat ?? 0,
+        longitude: reportInfo.position.lng ?? 0,
+        address: e.target.location.value ?? "",
+        image: selectedImage ?? "",
       };
     }
 
@@ -118,7 +118,7 @@ const Form = () => {
           reportInfo.mode === "found"
             ? "http://findit.p-e.kr:8080/api/items/found/report"
             : "http://findit.p-e.kr:8080/api/items/lost/register",
-        data, // FormData 객체
+        data: data, // FormData 객체
       },
       {
         onSuccess: () => {
@@ -149,9 +149,6 @@ const Form = () => {
           <Title mode={reportInfo.mode}>
             {reportInfo.mode === "lost" ? "분실물 신고" : "습득물 신고"}
           </Title>
-          <p>
-            위도 경도: {reportInfo.position.lat}, {reportInfo.position.lng}
-          </p>
           <ImagePreview onClick={handleImagePreviewClick}>
             {selectedImage ? (
               <img src={selectedImage} alt="미리보기" />
@@ -206,9 +203,7 @@ const Form = () => {
             <InputLabel for="date">날짜</InputLabel>
             <InputDate type="date" id="date" required />
           </InputBox>
-          {reportInfo.mode === "lost" ? (
-            ""
-          ) : (
+          {reportInfo.mode === "lost" && (
             <InputBox>
               <InputLabel for="point">포인트</InputLabel>
               <InputDate type="number" id="point" required />
@@ -272,6 +267,8 @@ const Title = styled.h4`
   padding: 5px;
   border-radius: 1.5rem;
   text-align: center;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+  margin: 1rem 0;
 `;
 
 const ImagePreview = styled.div`
@@ -394,6 +391,7 @@ const SubmitButton = styled.button`
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 
   &:hover {
     background-color: #0051a8; /* hover 시 색상 변경 */

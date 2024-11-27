@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import ModalItem from "./mappage/ModalItem";
 
-const Modal = ({ isOpen, onClose, reports }) => {
+const Modal = ({ isOpen, onClose, reports, mode }) => {
   const navigate = useNavigate();
 
+  console.log(mode);
   if (!isOpen) return null;
 
   return (
@@ -13,7 +14,7 @@ const Modal = ({ isOpen, onClose, reports }) => {
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         {reports.map((item) => (
-          <ModalItem report={item}></ModalItem>
+          <ModalItem report={item} mode={mode}></ModalItem>
         ))}
       </ModalContent>
     </ModalOverlay>
@@ -58,6 +59,7 @@ const ModalContent = styled.div`
   padding: 4% 6%;
   // 높이 중요!!
   height: 260px;
+  max-height: 260px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   width: 100%;
@@ -66,15 +68,17 @@ const ModalContent = styled.div`
   animation: ${slideUp} 0.4s forwards; /* 슬라이드 애니메이션 적용 */
   margin-bottom: 70px; /* 네브바 높이만큼 아래 여백 추가 */
 
+  overflow-y: auto; // 넘치는거 스크롤되게
+
   @media (max-width: 600px) {
     //하단 nav바가 모바일환경에서는 10vh 높이이므로
-    margin-bottom: 10vh; /* 네브바 높이만큼 아래 여백 추가 */
+    // margin-bottom: 10vh; /* 네브바 높이만큼 아래 여백 추가 */
     // height: 20%;
   }
 
   // 스크롤바 숨기기
   &::-webkit-scrollbar {
-    display: none;
+    width: 5px;
   }
 
   &::-webkit-scrollbar-thumb {

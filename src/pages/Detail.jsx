@@ -9,23 +9,32 @@ import axios from "axios";
 const { kakao } = window;
 
 const Detail = () => {
-  const { state } = useLocation(); // 전달된 상태에 접근
+  const { state, search } = useLocation(); // 전달된 상태에 접근
   const report = state; // 이 상태에는 보고서 객체가 포함되어 있습니다
 
   const mapRef = useRef(null); // 지도 DOM 요소를 참조하는 ref
+
+  // 쿼리 매개변수에서 pageType 추출
+  const params = new URLSearchParams(search);
+  const pageType = params.get("pageType");
+
+  console.log(report);
+  console.log(pageType);
 
   useEffect(() => {
     // 카카오 지도 API를 사용하여 지도 초기화
     const container = mapRef.current;
     const options = {
-      center: new kakao.maps.LatLng(report.position.lat, report.position.lng), // 위도, 경도
+      center: new kakao.maps.LatLng(report.latitude, report.longitude), // 위도, 경도
       level: 3, // 줌 레벨
     };
 
     console.log(report);
+
     const map = new kakao.maps.Map(container, options); // 지도 생성
 
-    const { lat, lng } = report.position; // 좌표 가져오기
+    const lat = report.latitude;
+    const lng = report.longitude; // 좌표 가져오기
     const markerPosition = new kakao.maps.LatLng(lat, lng);
 
     // 마커 생성
@@ -35,6 +44,25 @@ const Detail = () => {
     });
     marker.setMap(map); // 지도에 마커 추가
   }, []);
+
+  // Web Share API를 이용한 공유 기능
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: report.name,
+          text: report.description,
+          image: report.image,
+          url: window.location.href, // 현재 페이지 URL을 공유
+        });
+        console.log("공유 작동");
+      } else {
+        alert("공유 기능이 지원 안함");
+      }
+    } catch (err) {
+      console.error("Error sharing:", err);
+    }
+  };
 
   return (
     <Container>
@@ -50,8 +78,8 @@ const Detail = () => {
             <ContentDetail>
               <ContentDetailBox>
                 <TitleBox>
-                  <Title mode={report.mode}>
-                    {report.mode === "lost" ? "분실물" : "습득물"}
+                  <Title mode={pageType}>
+                    {pageType === "lost" ? "분실물" : "습득물"}
                   </Title>
                   <Title2>{report.category}</Title2>
                 </TitleBox>
@@ -66,11 +94,11 @@ const Detail = () => {
                   </LabelBox>
                   <LabelBox>
                     <Label>위치 :</Label>
-                    <LabelData> {report.location}</LabelData>
+                    <LabelData> {report.address}</LabelData>
                   </LabelBox>
                   <LabelBox>
                     <Label>날짜 :</Label>
-                    <LabelData> {report.date}</LabelData>
+                    <LabelData> {report.lostDate}</LabelData>
                   </LabelBox>
                   <LabelBox>
                     <Label>분류번호 :</Label>
@@ -81,11 +109,15 @@ const Detail = () => {
             </ContentDetail>
           </ContentMain>
           <ShareIconBox>
-            <ShareIcon src="/img/Share.png" alt="공유아이콘" />
+            <ShareIcon
+              src="/img/Share.png"
+              alt="공유아이콘"
+              onClick={handleShare}
+            />
           </ShareIconBox>
           <DescriptionBox>{report.description}</DescriptionBox>
         </DetailBox>
-        <Comments report={report} />
+        <Comments report={report} pageType={pageType} />
       </Box>
     </Container>
   );
@@ -186,7 +218,7 @@ const TitleBox = styled.div`
 
 const Title = styled.div`
   background-color: ${(props) =>
-    props.mode === "lost" ? "#ffb978" : "#FF0000"};
+    props.mode === "lost" ? "#ffb978" : "#ef0000"};
   color: #ffffff;
   width: 40%;
   padding: 5px;
@@ -205,20 +237,22 @@ const Title2 = styled.div`
   text-align: center;
   font-weight: bold;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+  margin-left: 0.5rem;
 `;
 
 const LabelBox = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-top: 1rem;
 `;
 
 const Label = styled.div`
   font-weight: bold;
+  width: 40%;
 `;
 
 const LabelData = styled.div`
+  width: 60%;
   font-weight: 550;
 `;
 const ShareIconBox = styled.div`
@@ -228,7 +262,8 @@ const ShareIconBox = styled.div`
 `;
 
 const ShareIcon = styled.img`
-  width: 6%;
+  width: 2rem;
+  cursor: pointer;
 `;
 
 const DescriptionBox = styled.div`

@@ -26,7 +26,7 @@ const Find = () => {
       <TopNav></TopNav>
       <ListContainer>
         {!isLoading ? (
-          <Item findReports={findReports}></Item>
+          <Item findReports={findReports} pageType="find"></Item>
         ) : (
           <NoReportsMessage>No reports found.</NoReportsMessage>
         )}
