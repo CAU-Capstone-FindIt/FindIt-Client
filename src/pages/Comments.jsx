@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const Comments = ({ report }) => {
+const Comments = ({ report, pageType }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [replyIndex, setReplyIndex] = useState(null); // 대댓글 입력 상태를 관리할 인덱스
@@ -12,16 +12,22 @@ const Comments = ({ report }) => {
 
   // 댓글을 가져오는 함수
   const fetchComments = async () => {
+    let url;
+    if (pageType === "find") {
+      url = `http://findit.p-e.kr:8080/api/items/found/${report.id}`;
+    } else {
+      url = `http://findit.p-e.kr:8080/api/items/lost/${report.id}`;
+    }
+
     try {
-      const response = await axios.get(
-        `http://localhost:3001/findlist/${report.id}`
-      );
-      const commentsData = response.data.comments || [];
-      const updatedComments = commentsData.map((comment) => ({
-        ...comment,
-        replies: comment.replies || [], // replies가 없을 경우 빈 배열 설정
-      }));
-      setComments(updatedComments);
+      const accessToken = localStorage.getItem("access");
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log(response.data);
+      setComments(response.data.comments || []);
     } catch (error) {
       console.error("댓글 가져오기 오류:", error);
     }
@@ -31,56 +37,90 @@ const Comments = ({ report }) => {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
 
-    const timestamp = new Date().toISOString();
+    let commentData;
 
-    const updatedComments = [
-      ...comments,
-      { text: newComment, timestamp: timestamp, replies: [] },
-    ];
-
-    const updatedReportData = {
-      ...report,
-      comments: updatedComments,
-    };
-
-    console.log("Submitting comment:", comments);
-    console.log("Submitting comment:", newComment);
-    console.log("Updated report data:", updatedReportData);
+    console.log(commentData);
+    let url;
+    if (pageType === "find") {
+      commentData = {
+        foundItemId: report.id,
+        content: newComment,
+        parentCommentId: null,
+      };
+      url = `http://findit.p-e.kr:8080/api/items/found/comment`;
+    } else {
+      commentData = {
+        lostItemId: report.id,
+        content: newComment,
+        parentCommentId: null,
+      };
+      url = `http://findit.p-e.kr:8080/api/items/lost/comment`;
+    }
 
     try {
-      await axios.put(
-        `http://localhost:3001/findlist/${report.id}`,
-        updatedReportData
-      );
-
-      setComments(updatedComments);
+      // 댓글 등록 API 요청
+      const accessToken = localStorage.getItem("access");
+      const response = await axios.post(url, commentData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log(response);
+      setComments((prevComments) => [
+        ...prevComments,
+        {
+          ...response.data,
+          childComments: response.data.childComments || [],
+        },
+      ]);
       setNewComment("");
     } catch (error) {
-      console.error("댓글 제출 오류:", error);
+      console.error("댓글 등록 오류:", error);
     }
   };
 
   // 대댓글 제출 함수
-  const handleReplySubmit = async (e, index) => {
+  const handleReplySubmit = async (e, parentCommentId) => {
     e.preventDefault();
-    const timestamp = new Date().toISOString();
 
-    // 기존 댓글의 replies 배열에 추가
-    const updatedComments = [...comments];
-    updatedComments[index].replies.push({ text: newReply, timestamp });
+    let replyData;
 
-    const updatedReportData = {
-      ...report,
-      comments: updatedComments,
-    };
+    let url;
+    if (pageType === "find") {
+      replyData = {
+        foundItemId: report.id, // 현재 신고된 물품 ID
+        content: newReply, // 대댓글 내용
+        parentCommentId: parentCommentId, // 부모 댓글 ID
+      };
+      url = `http://findit.p-e.kr:8080/api/items/found/comment`;
+    } else {
+      replyData = {
+        lostItemId: report.id, // 현재 신고된 물품 ID
+        content: newReply, // 대댓글 내용
+        parentCommentId: parentCommentId, // 부모 댓글 ID
+      };
+      url = `http://findit.p-e.kr:8080/api/items/lost/comment`;
+    }
 
     try {
-      await axios.put(
-        `http://localhost:3001/findlist/${report.id}`,
-        updatedReportData
+      const accessToken = localStorage.getItem("access");
+      const response = await axios.post(url, replyData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.id === parentCommentId
+            ? {
+                ...comment,
+                childComments: [...comment.childComments, response.data],
+              }
+            : comment
+        )
       );
 
-      setComments(updatedComments);
       setNewReply(""); // 대댓글 입력 필드 초기화
       setReplyIndex(null); // 대댓글 입력 상태 초기화
     } catch (error) {
@@ -102,8 +142,8 @@ const Comments = ({ report }) => {
     <>
       <CommentsContainer>
         <CommentList>
-          {comments.map((comment, index) => (
-            <CommentItem key={index}>
+          {comments.map((comment) => (
+            <CommentItem key={comment.id}>
               <UserContainer>
                 <UserNameIconBox>
                   <UserIcon src="/img/User.png" alt="User Icon" />
@@ -111,25 +151,40 @@ const Comments = ({ report }) => {
                     <strong>이름</strong>
                   </span>
                 </UserNameIconBox>
-                <ReplyButton onClick={() => setReplyIndex(index)}>
+                <ReplyButton onClick={() => setReplyIndex(comment.id)}>
                   <img src="/img/ChatIconBlue.png" alt="ChatIconBlue" />
                 </ReplyButton>
               </UserContainer>
               <div>
-                <div>{comment.text}</div>
-                <Timestamp>
-                  {new Date(comment.timestamp).toLocaleString()}
-                </Timestamp>
-                {comment.replies && comment.replies.length > 0 && (
+                <div>{comment.content}</div>
+                <TimestampComment>
+                  {new Date(comment.createdDate).toLocaleString()}
+                </TimestampComment>
+                {comment.childComments && comment.childComments.length > 0 && (
                   <ReplyList>
-                    {comment.replies.map((reply, replyIndex) => (
-                      <ReplyItem key={replyIndex}>
-                        {reply.text}
-                        <Timestamp>
-                          {new Date(reply.timestamp).toLocaleString()}
-                        </Timestamp>
-                      </ReplyItem>
-                    ))}
+                    {comment.childComments.map(
+                      (childComment, childCommentIndex) => (
+                        <ReplyContainer>
+                          <ReplyIcon src="/img/ReplyIcon.png" alt="ReplyIcon" />
+                          <ReplyItem key={childCommentIndex}>
+                            <UserContainer>
+                              <UserNameIconBox>
+                                <UserIcon src="/img/User.png" alt="User Icon" />
+                                <span>
+                                  <strong>이름</strong>
+                                </span>
+                              </UserNameIconBox>
+                            </UserContainer>
+                            <div> {childComment.content}</div>
+                            <TimestampReply>
+                              {new Date(
+                                childComment.createdDate
+                              ).toLocaleString()}
+                            </TimestampReply>
+                          </ReplyItem>
+                        </ReplyContainer>
+                      )
+                    )}
                   </ReplyList>
                 )}
               </div>
@@ -167,7 +222,7 @@ const Comments = ({ report }) => {
               type="button"
               onClick={() => setReplyIndex(null)} // 댓글 입력창으로 돌아가기
             >
-              댓글 입력으로 돌아가기
+              <img src="/img/ReturnIcon.png" alt="ReturnIcon" />
             </CancelReplyButton>
             <SubmitButton
               type="submit"
@@ -290,13 +345,12 @@ const ReplyInput = styled.textarea`
 `;
 
 const SubmitButton = styled.button`
-  width: 10%;
   border: none;
   background: none;
   cursor: pointer;
   text-align: center;
   img {
-    width: 50%;
+    width: 2rem;
   }
 `;
 
@@ -309,6 +363,7 @@ const CommentItem = styled.div`
 const UserContainer = styled.div`
   display: flex;
   align-items: center; /* 아이콘과 이름을 수직 중앙 정렬 */
+  justify-content: space-between;
 `;
 
 const UserNameIconBox = styled.div`
@@ -317,7 +372,7 @@ const UserNameIconBox = styled.div`
 `;
 
 const UserIcon = styled.img`
-  width: 5%;
+  width: 1.8rem;
   margin-right: 5px; /* 아이콘과 이름 사이 여백 추가 */
 `;
 
@@ -336,30 +391,46 @@ const ReplyButton = styled.div`
 
 const ReplyList = styled.div`
   margin-top: 5px;
-  padding-left: 20px; /* 대댓글 들여쓰기 */
 `;
 
+const ReplyContainer = styled.div`
+  width: 100%;
+  display: flex;
+  margin: 0.5rem 0;
+`;
+
+const ReplyIcon = styled.img`
+  width: 1.2rem;
+  height: 1.2rem;
+`;
 const ReplyItem = styled.div`
-  padding: 5px;
-  border: 1px solid #e0e0e0;
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #f7f7f7;
   margin-top: 2px;
-  border-radius: 5px;
+  border-radius: 0.5rem;
 `;
 
-const Timestamp = styled.span`
+const TimestampComment = styled.span`
   font-size: 0.8rem;
   color: gray;
-  margin-left: 10px;
+`;
+
+const TimestampReply = styled.span`
+  font-size: 0.8rem;
+  color: gray;
 `;
 
 const CancelReplyButton = styled.button`
-  margin-left: 10px; /* 버튼 사이 여백 추가 */
-  background-color: #dc3545; /* 취소 버튼 배경색 */
   color: white; /* 취소 버튼 글자색 */
   border: none; /* 테두리 없애기 */
-  border-radius: 4px; /* 모서리 둥글게 */
   cursor: pointer; /* 커서 포인터로 변경 */
-  padding: 5px; /* 버튼 패딩 */
+  background: none;
+
+  img {
+    margin-right: 1rem;
+    width: 2rem;
+  }
 `;
 
 export default Comments;

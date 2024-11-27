@@ -12,6 +12,8 @@ const Home = () => {
   const [reportMode, setReportMode] = useState(null);
   const [markerVisible, setMarkerVisible] = useState(null);
 
+  const [selectedCategory, setSelectedCategory] = useState(""); // 필터링된 카테고리
+
   const { setActiveNav } = useNavContext();
 
   useEffect(() => {
@@ -29,10 +31,15 @@ const Home = () => {
     console.log("정보 입력 버튼 클릭됨");
   };
 
+  // 카테고리 필터 변경 함수
+  const handleFilterChange = (category) => {
+    setSelectedCategory(category);
+  };
+
   return (
     <Container>
-      <Map></Map>
-      <FilterButton></FilterButton>
+      <Map selectedCategory={selectedCategory}></Map>
+      <FilterButton onFilterChange={handleFilterChange} />
       <FloatingButtons onStartReport={handleStartReport} />
       <Nav></Nav>
     </Container>

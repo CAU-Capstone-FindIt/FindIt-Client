@@ -29,7 +29,7 @@ const FloatingButtons = ({ onStartReport }) => {
         onClick={handleMainButtonClick}
         pressed={isButtonPressed} // 눌림 상태 전달
       >
-        +
+        <img src="/img/EditIcon.png" alt="" />
       </FixedButton>
       {showReportButtons && (
         <ButtonContainer show={showReportButtons}>
@@ -59,6 +59,7 @@ const Overlay = styled.div`
   z-index: 999;
 
   pointer-events: none; // 오버레이말고 다른걸 클릭할수는 없게되는데 그냥 무시하고 되어버리긴 함. 의도는 됨
+
   @media (max-width: 600px) {
     position: fixed;
   }
@@ -100,14 +101,24 @@ const FixedButton = styled.button`
   border: none;
   z-index: 1000;
   font-size: 1.5rem;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: ${({ pressed }) =>
     pressed ? "#0051a8" : "#007cff"}; // 눌렸을 때 색상 변경
 
   transition: background-color 0.5s; // 색상 변경 시 1초의 변화를 줌
 
+  &:hover {
+    background-color: #0051a8;
+  }
+
   @media (max-width: 600px) {
     right: 30px;
+  }
+
+  img {
+    width: 45%;
   }
 `;
 

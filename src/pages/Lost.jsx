@@ -7,16 +7,16 @@ import { useNavigate } from "react-router-dom";
 import { useLostListQuery } from "../apis/LostQuery";
 
 const Lost = () => {
-  const { data: findReports, isLoading } = useLostListQuery();
+  const { data: lostReports, isLoading } = useLostListQuery();
 
-  console.log(findReports);
+  console.log(lostReports);
 
   return (
     <Container>
       <TopNav></TopNav>
       <ListContainer>
         {!isLoading ? (
-          <Item findReports={findReports}></Item>
+          <Item findReports={lostReports} pageType="lost"></Item>
         ) : (
           <NoReportsMessage>No reports found.</NoReportsMessage>
         )}
