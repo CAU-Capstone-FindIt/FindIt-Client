@@ -66,6 +66,8 @@ const ReportItem = styled.div`
 `;
 
 const ListImg = styled.img`
+  background-image: ${(props) =>
+    props.mode === "lost" ? "#ffb978" : "#FF0000"};
   width: 35%;
   height: 100%;
   object-fit: cover;
