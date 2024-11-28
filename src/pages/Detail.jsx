@@ -109,6 +109,7 @@ const Detail = () => {
             </ContentDetail>
           </ContentMain>
           <ShareIconBox>
+            <ImageSearch src="/img/ImageSearch.png" alt="이미지분석아이콘" />
             <ShareIcon
               src="/img/Share.png"
               alt="공유아이콘"
@@ -256,9 +257,18 @@ const LabelData = styled.div`
   font-weight: 550;
 `;
 const ShareIconBox = styled.div`
+  display: flex;
   width: 100%;
   text-align: end;
-  margin-top: 2rem;
+  margin: 1rem 0;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+const ImageSearch = styled.img`
+  width: 2rem;
+  margin-right: 1rem;
+  cursor: pointer;
 `;
 
 const ShareIcon = styled.img`

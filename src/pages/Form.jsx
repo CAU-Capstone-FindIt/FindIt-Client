@@ -138,7 +138,7 @@ const Form = () => {
 
   // 이미지 미리보기 클릭 시 파일 입력창 열기
   const handleImagePreviewClick = () => {
-    document.getElementById("file-upload").click();
+    document.getElementById("fileUpload").click();
   };
 
   return (
@@ -163,7 +163,7 @@ const Form = () => {
             type="file"
             accept="image/*"
             onChange={handleImageChange}
-            id="file-upload"
+            id="fileUpload"
           />
           <InputBox>
             <InputLabel for="name">명칭</InputLabel>

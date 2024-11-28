@@ -43,16 +43,46 @@ const Map = (selectedCategory) => {
     const map = new kakao.maps.Map(container, options);
 
     // 클러스터 설정
+    // 클러스터러 옵션 설정 (Find)
     const findClusterer = new kakao.maps.MarkerClusterer({
       map: map,
       averageCenter: true,
       minLevel: 1,
+      styles: [
+        {
+          width: "50px",
+          height: "50px",
+          background: "rgb(0, 63, 127,0.85)", // 오렌지색
+          borderRadius: "50%",
+          color: "#ffffff",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontWeight: "bold",
+          fontSize: "14px",
+        },
+      ],
     });
 
+    // 클러스터러 옵션 설정 (Lost)
     const lostClusterer = new kakao.maps.MarkerClusterer({
       map: map,
       averageCenter: true,
       minLevel: 1,
+      styles: [
+        {
+          width: "50px",
+          height: "50px",
+          background: "rgba(213, 53, 45,0.85)", // 빨간색
+          borderRadius: "50%",
+          color: "#ffffff",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontWeight: "bold",
+          fontSize: "14px",
+        },
+      ],
     });
 
     // 습득물 api get
