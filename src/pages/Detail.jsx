@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import TopNavBack from "./TopNavBack";
@@ -6,10 +6,14 @@ import { Category } from "@mui/icons-material";
 import Comments from "./Comments";
 import axios from "axios";
 import { vision_gpt } from "../apis/Vision_gpt";
+import { findSearch } from "../apis/FindSearch";
+import SearchModal from "../component/search/SearchModal";
 
 const { kakao } = window;
 
 const Detail = () => {
+  const [isModal, setIsModal] = useState(false);
+  const [modalData, setModalData] = useState([]); // 수정수정: 모달 데이터
   const { state, search } = useLocation(); // 전달된 상태에 접근
   const report = state; // 이 상태에는 보고서 객체가 포함되어 있습니다
 
@@ -66,39 +70,54 @@ const Detail = () => {
     }
   };
 
-  const handleVisionSearch = async() =>{
+  const handleVisionSearch = async () => {
     try {
       // S3에서 이미지 가져오기
-      const response = await fetch(`${report.image}?not-from-cache-please`,{
-        method : 'GET',
-        mode: 'cors',
+      const response = await fetch(`${report.image}?not-from-cache-please`, {
+        method: "GET",
+        mode: "cors",
       }); // report.image는 S3 URL이어야 함
-      
+
       const blob = await response.blob();
 
       // Blob을 Base64로 변환
       const reader = new FileReader();
       reader.onloadend = async () => {
-          const base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
-          console.log(base64String);
+        const base64String = reader.result
+          .replace("data:", "")
+          .replace(/^.+,/, "");
+        console.log(base64String);
 
-          // Vision GPT API에 Base64 문자열 전송
-          const visionResponse = await vision_gpt(base64String);
-          
-          if(pageType == "find"){
-            //습득물 상세 검색
+        // Vision GPT API에 Base64 문자열 전송
+        const visionResponse = await vision_gpt(base64String);
+        console.log(visionResponse)
 
-          }
+        if (pageType == "lost") {
+          //습득물 상세 검색
+          const findSearchResult = await findSearch(visionResponse);
+          console.log(findSearchResult);
+          setModalData(findSearchResult); // 수정수정: 모달 데이터 설정
+          setIsModal(true);
+        } else if (pageType == "find") {
+          //습득물 상세 검색
+          const findSearchResult = await findSearch(visionResponse);
+          console.log(findSearchResult);
+          setModalData(findSearchResult); // 수정수정: 모달 데이터 설정
+          setIsModal(true);
+        }
       };
       reader.readAsDataURL(blob);
-  } catch (error) {
+    } catch (error) {
       console.error("Vision 검색 중 오류 발생:", error);
-  }
-  }
+    }
+  };
+
+  const closeModal = () => setIsModal(false);
 
   return (
     <Container>
       <TopNavBack></TopNavBack>
+      {isModal && <SearchModal findReports={modalData} onClose={closeModal} />}
       <Box>
         <DetailBox>
           <DetailImg src={report.image} alt={report.name} />
@@ -141,7 +160,11 @@ const Detail = () => {
             </ContentDetail>
           </ContentMain>
           <ShareIconBox>
-            <ImageSearch src="/img/ImageSearch.png" alt="이미지분석아이콘" onClick={handleVisionSearch}/>
+            <ImageSearch
+              src="/img/ImageSearch.png"
+              alt="이미지분석아이콘"
+              onClick={handleVisionSearch}
+            />
             <ShareIcon
               src="/img/Share.png"
               alt="공유아이콘"
