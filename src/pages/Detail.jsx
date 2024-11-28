@@ -8,6 +8,7 @@ import axios from "axios";
 import { vision_gpt } from "../apis/Vision_gpt";
 import { findSearch } from "../apis/FindSearch";
 import SearchModal from "../component/search/SearchModal";
+import { lostSearch } from "../apis/LostSearch";
 
 const { kakao } = window;
 
@@ -100,7 +101,7 @@ const Detail = () => {
           setIsModal(true);
         } else if (pageType == "find") {
           //습득물 상세 검색
-          const findSearchResult = await findSearch(visionResponse);
+          const findSearchResult = await lostSearch(visionResponse);
           console.log(findSearchResult);
           setModalData(findSearchResult); // 수정수정: 모달 데이터 설정
           setIsModal(true);
@@ -178,7 +179,7 @@ const Detail = () => {
   return (
     <Container>
       <TopNavBack></TopNavBack>
-      {isModal && <SearchModal findReports={modalData} onClose={closeModal} />}
+      {isModal && <SearchModal findReports={modalData} onClose={closeModal} pageType={pageType} />}
       <Box>
         <DetailBox>
           <DetailImg src={report.image} alt={report.name} />
