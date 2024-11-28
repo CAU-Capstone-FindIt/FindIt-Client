@@ -64,6 +64,67 @@ const Detail = () => {
     }
   };
 
+  const patchFoundItem = async () => {
+    const accessToken = localStorage.getItem("access");
+
+    console.log(report.id);
+    console.log(accessToken);
+    try {
+      const response = await axios.patch(
+        `http://findit.p-e.kr:8080/api/items/found/${report.id}/status`,
+        {
+          status: "REGISTERED",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log(response.data);
+      return response;
+    } catch (error) {
+      console.error("거래 실패:", error);
+
+      if (error.response.status === 401) {
+        console.log(error.response.status);
+        alert("게시글을 등록하려면 로그인해주세요");
+      }
+      throw error;
+    }
+  };
+
+  const patchLostItem = async () => {
+    const accessToken = localStorage.getItem("access");
+
+    console.log(report.id);
+    console.log(accessToken);
+    try {
+      const response = await axios.patch(
+        `http://findit.p-e.kr:8080/api/items/lost/${report.id}/status`,
+        {
+          status: "REGISTERED",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      console.log(response.data);
+      return response;
+    } catch (error) {
+      console.error("거래 실패:", error);
+
+      if (error.response.status === 401) {
+        console.log(error.response.status);
+        alert("게시글을 등록하려면 로그인해주세요");
+      }
+      throw error;
+    }
+  };
+
   return (
     <Container>
       <TopNavBack></TopNavBack>
@@ -109,6 +170,19 @@ const Detail = () => {
             </ContentDetail>
           </ContentMain>
           <ShareIconBox>
+            {pageType === "lost" ? (
+              <ImageSearch
+                src="/img/Shopping.png"
+                alt="거래완료"
+                onClick={patchLostItem}
+              />
+            ) : (
+              <ImageSearch
+                src="/img/Share.png"
+                alt="거래완료"
+                onClick={patchFoundItem}
+              />
+            )}
             <ImageSearch src="/img/ImageSearch.png" alt="이미지분석아이콘" />
             <ShareIcon
               src="/img/Share.png"
