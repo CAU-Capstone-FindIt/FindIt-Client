@@ -17,6 +17,7 @@ const Item = ({ findReports, pageType }) => {
               state: report,
             })
           }
+          isReturned={report.status === "RETURNED"} // 'RETURNED' 상태 체크
         >
           <ListImg src={report.image} alt="" />
           <Content>
@@ -48,15 +49,18 @@ const ReportItem = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 
-  cursor: pointer;
+  cursor: ${(props) => (props.isReturned ? "not-allowed" : "pointer")};
   display: flex;
   justify-content: space-between;
   align-items: center;
+  opacity: ${(props) => (props.isReturned ? 0.5 : 1)}; /* 흐리게 만들기 */
 
   transition: transform 0.2s, box-shadow 0.2s;
+
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    opacity: ${(props) => (props.isReturned ? 0.5 : 1)}; /* 흐리게 만들기 */
   }
 
   div {
