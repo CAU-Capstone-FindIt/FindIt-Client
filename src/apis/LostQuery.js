@@ -29,12 +29,7 @@ const initializeLostList = async () => {
 
   try {
     const responseFind = await axios.get(
-      "http://findit.p-e.kr:8080/api/items/lost/all",
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
+      "http://findit.p-e.kr:8080/api/items/lost/all"
     );
 
     console.log(responseFind);
