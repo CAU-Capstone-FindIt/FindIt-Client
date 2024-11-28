@@ -52,7 +52,8 @@ const Map = (selectedCategory) => {
         {
           width: "50px",
           height: "50px",
-          background: "rgb(0, 63, 127,0.85)", // 오렌지색
+          border: "7px solid rgb(255 255 255 / 50%)",
+          background: "rgb(62 166 235 / 89%)",
           borderRadius: "50%",
           color: "#ffffff",
           display: "flex",
@@ -60,6 +61,7 @@ const Map = (selectedCategory) => {
           alignItems: "center",
           fontWeight: "bold",
           fontSize: "14px",
+          boxSizing: "border-box",
         },
       ],
     });
@@ -73,7 +75,8 @@ const Map = (selectedCategory) => {
         {
           width: "50px",
           height: "50px",
-          background: "rgba(213, 53, 45,0.85)", // 빨간색
+          border: "7px solid rgb(255 255 255 / 35%)",
+          background: "#e55932",
           borderRadius: "50%",
           color: "#ffffff",
           display: "flex",
@@ -81,6 +84,7 @@ const Map = (selectedCategory) => {
           alignItems: "center",
           fontWeight: "bold",
           fontSize: "14px",
+          boxSizing: "border-box",
         },
       ],
     });

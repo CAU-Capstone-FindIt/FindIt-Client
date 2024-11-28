@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Nav from "./Nav";
 import styled from "styled-components";
 import TopNav from "./TopNav";
@@ -6,17 +6,86 @@ import Item from "../component/item/Item";
 import { useNavigate } from "react-router-dom";
 import { useLostListQuery } from "../apis/LostQuery";
 
-const Lost = () => {
-  const { data: lostReports, isLoading } = useLostListQuery();
+const ITEMS_PER_PAGE = 6; // 한 페이지에 보여줄 아이템 수
+const MAX_PAGE_BUTTONS = 5; // 한 번에 표시할 페이지 버튼 수
 
+const Lost = () => {
+  const { data: lostReports = [], isLoading } = useLostListQuery();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentRange, setCurrentRange] = useState(1); // 현재 페이지 범위 (1부터 시작)
   console.log(lostReports);
+
+  const sortedReports = [...lostReports].reverse();
+
+  const totalPages = Math.ceil(lostReports.length / ITEMS_PER_PAGE); // 전체 페이지 수
+  const totalRanges = Math.ceil(totalPages / MAX_PAGE_BUTTONS); // 전체 범위 수
+
+  // 현재 페이지 범위에 해당하는 버튼 생성
+  const startPage = (currentRange - 1) * MAX_PAGE_BUTTONS + 1;
+  const endPage = Math.min(startPage + MAX_PAGE_BUTTONS - 1, totalPages);
+  const pageButtons = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, idx) => startPage + idx
+  );
+
+  // 현재 페이지의 데이터 계산
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedReports = sortedReports.slice(startIndex, endIndex);
+
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handlePrevRange = () => {
+    if (currentRange > 1) {
+      setCurrentRange((prev) => prev - 1);
+      setCurrentPage((currentRange - 2) * MAX_PAGE_BUTTONS + 1); // 범위의 첫 번째 페이지로 이동
+    }
+  };
+
+  const handleNextRange = () => {
+    if (currentRange < totalRanges) {
+      setCurrentRange((prev) => prev + 1);
+      setCurrentPage(currentRange * MAX_PAGE_BUTTONS + 1); // 범위의 첫 번째 페이지로 이동
+    }
+  };
 
   return (
     <Container>
       <TopNav></TopNav>
       <ListContainer>
         {!isLoading ? (
-          <Item findReports={lostReports} pageType="lost"></Item>
+          <>
+            <Item findReports={paginatedReports} pageType="lost"></Item>
+            {lostReports.length > 0 && (
+              <PaginationContainer>
+                <ArrowButton
+                  src="img/arrowleft.png"
+                  onClick={handlePrevRange}
+                  disabled={currentRange === 1}
+                />
+
+                <div>
+                  {pageButtons.map((page) => (
+                    <PageButton
+                      key={page}
+                      onClick={() => handlePageClick(page)}
+                      isActive={page === currentPage}
+                    >
+                      {page}
+                    </PageButton>
+                  ))}
+                </div>
+                <ArrowButton
+                  src="img/arrowright.png"
+                  onClick={handleNextRange}
+                  disabled={currentRange === totalRanges}
+                />
+              </PaginationContainer>
+            )}
+          </>
         ) : (
           <NoReportsMessage>No reports found.</NoReportsMessage>
         )}
@@ -66,66 +135,42 @@ const ListContainer = styled.div`
   // }
 `;
 
-const ReportItem = styled.div`
-  width: 100%;
-  height: 22vh;
-  background: white;
-  margin: 8px 0;
-  padding: 18px 36px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 const NoReportsMessage = styled.p`
   color: white;
   text-align: center;
   padding: 16px;
 `;
 
-const ListImg = styled.img`
-  width: 35%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 5%;
-`;
-
-const Content = styled.div`
-  width: 55%;
-  text-align: end;
-
-  /* h2 {
-    margin: ;
-  } */
-  h4 {
-    margin-bottom: 10px;
-  }
-  div {
-    display: flex;
-    justify-content: flex-end;
-  }
-`;
-
-const TitleBox = styled.div`
+const PaginationContainer = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
-  img {
-    width: 10%;
-    height: 10%;
+  margin-top: 1rem;
+  gap: 0.5rem;
+`;
+
+const ArrowButton = styled.img`
+  width: 30px; // 이미지 크기 조정 (필요에 따라 변경)
+  height: 30px; // 이미지 크기 조정 (필요에 따라 변경)
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5; // 비활성화된 상태에서 불투명도 조정
+    cursor: not-allowed;
   }
 `;
 
-const CategoryBox = styled.h6`
-  background-color: #007cff;
-  color: white;
-  width: 25%;
-  padding: 5px;
-  border-radius: 1.5rem;
-  text-align: center;
-  margin-bottom: 15px;
+const PageButton = styled.button`
+  // background-color: ${(props) => (props.isActive ? "#1876d2" : "white")};
+  background-color: transparent;
+  color: ${(props) => (props.isActive ? "#1876d2" : "black")};
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;

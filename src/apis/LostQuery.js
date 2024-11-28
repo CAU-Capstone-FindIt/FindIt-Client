@@ -24,9 +24,6 @@ export const useLostListQuery = () => {
 // };
 
 const initializeLostList = async () => {
-  // api로 데이터 가져오기
-  const accessToken = localStorage.getItem("access");
-
   try {
     const responseFind = await axios.get(
       "http://findit.p-e.kr:8080/api/items/lost/all"
@@ -35,5 +32,8 @@ const initializeLostList = async () => {
     console.log(responseFind);
 
     return responseFind.data;
-  } catch {}
+  } catch (error) {
+    console.error(error);
+    return []; // 빈 배열을 반환하거나 오류를 처리
+  }
 };
