@@ -27,7 +27,7 @@ const Item = ({ findReports, pageType }) => {
               <CategoryBox>{report.category}</CategoryBox>
             </div>
             <div>{report.address}</div>
-            <div>{report.date}</div>
+            <div>{report.createdDate.slice(0, 10)}</div>
           </Content>
         </ReportItem>
       ))}
@@ -70,7 +70,7 @@ const ListImg = styled.img`
     props.mode === "lost" ? "#ffb978" : "#FF0000"};
   width: 35%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 10%;
 `;
 

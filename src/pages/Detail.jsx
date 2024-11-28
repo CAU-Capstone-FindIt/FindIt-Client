@@ -98,7 +98,7 @@ const Detail = () => {
                   </LabelBox>
                   <LabelBox>
                     <Label>날짜 :</Label>
-                    <LabelData> {report.lostDate}</LabelData>
+                    <LabelData> {report.reportDate}</LabelData>
                   </LabelBox>
                   <LabelBox>
                     <Label>분류번호 :</Label>
@@ -128,7 +128,7 @@ export default Detail;
 
 const Container = styled.div`
   background-color: white;
-  width: 600px;
+  width: 100%;
   height: 100%;
 `;
 
@@ -159,7 +159,7 @@ const DetailImg = styled.img`
   width: 75%;
   aspect-ratio: 1/1; // 가로세로비율. 1대1비율로 넣어야 정사각형이 된다
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 5%;
   margin-bottom: 3rem;
 `;

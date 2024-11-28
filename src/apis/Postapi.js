@@ -42,6 +42,10 @@ const postFindItem = async ({ apiUrl, data }) => {
     return { apiUrl, ...response.data };
   } catch (error) {
     console.error("데이터 등록 실패:", error);
+    if (error.response.status === 401) {
+      console.log(error.response.status);
+      alert("게시글을 등록하려면 로그인해주세요");
+    }
     throw error;
   }
 };

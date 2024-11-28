@@ -32,20 +32,12 @@ export const useFindListQuery = () => {
 
 // 예찬이 api연결
 const initializeFindList = async () => {
-  const accessToken = localStorage.getItem("access");
-
   try {
     const responseFind = await axios.get(
       "http://findit.p-e.kr:8080/api/items/found/all"
     );
 
     console.log(responseFind);
-
-    // comments가 배열로 초기화되도록 보장
-    // const findlistData = responseFind.data.map((item) => ({
-    //   ...item,
-    //   comments: item.comments || [], // comments를 빈 배열로 초기화
-    // }));
 
     return responseFind.data;
   } catch (error) {
