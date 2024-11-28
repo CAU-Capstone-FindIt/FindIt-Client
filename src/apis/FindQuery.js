@@ -36,12 +36,7 @@ const initializeFindList = async () => {
 
   try {
     const responseFind = await axios.get(
-      "http://findit.p-e.kr:8080/api/items/found/all",
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
+      "http://findit.p-e.kr:8080/api/items/found/all"
     );
 
     console.log(responseFind);
