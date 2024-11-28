@@ -5,6 +5,7 @@ import TopNavBack from "./TopNavBack";
 import { Category } from "@mui/icons-material";
 import Comments from "./Comments";
 import axios from "axios";
+import { vision_gpt } from "../apis/Vision_gpt";
 
 const { kakao } = window;
 
@@ -13,6 +14,7 @@ const Detail = () => {
   const report = state; // 이 상태에는 보고서 객체가 포함되어 있습니다
 
   const mapRef = useRef(null); // 지도 DOM 요소를 참조하는 ref
+  const imgRef = useRef(null); //이미지 엘리먼트를 참조하기 위한 ref 추가
 
   // 쿼리 매개변수에서 pageType 추출
   const params = new URLSearchParams(search);
@@ -64,6 +66,36 @@ const Detail = () => {
     }
   };
 
+  const handleVisionSearch = async() =>{
+    try {
+      // S3에서 이미지 가져오기
+      const response = await fetch(`${report.image}?not-from-cache-please`,{
+        method : 'GET',
+        mode: 'cors',
+      }); // report.image는 S3 URL이어야 함
+      
+      const blob = await response.blob();
+
+      // Blob을 Base64로 변환
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+          const base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
+          console.log(base64String);
+
+          // Vision GPT API에 Base64 문자열 전송
+          const visionResponse = await vision_gpt(base64String);
+          
+          if(pageType == "find"){
+            //습득물 상세 검색
+
+          }
+      };
+      reader.readAsDataURL(blob);
+  } catch (error) {
+      console.error("Vision 검색 중 오류 발생:", error);
+  }
+  }
+
   return (
     <Container>
       <TopNavBack></TopNavBack>
@@ -109,7 +141,7 @@ const Detail = () => {
             </ContentDetail>
           </ContentMain>
           <ShareIconBox>
-            <ImageSearch src="/img/ImageSearch.png" alt="이미지분석아이콘" />
+            <ImageSearch src="/img/ImageSearch.png" alt="이미지분석아이콘" onClick={handleVisionSearch}/>
             <ShareIcon
               src="/img/Share.png"
               alt="공유아이콘"

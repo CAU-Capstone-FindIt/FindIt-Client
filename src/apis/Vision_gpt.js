@@ -29,7 +29,7 @@ Guidelines:
 4. If the brand of the item cannot be specified, it must be printed as 'Non'.
 
 Output Format:
-{name : "", category : "", color : "", brand : ""}
+{"name" : "", "category" : "", "color" : "", "brand" : ""}
 
 Special Cases:
 - If the image is not an item or does not fall into the category of lost/found items, output all field values as 'Non'.
@@ -59,8 +59,8 @@ Special Cases:
     );
 
     const chatResponse = response.data.choices[0].message.content;
-    console.log(chatResponse);
-    return chatResponse;
+    const parsedResponse = JSON.parse(chatResponse);
+    return parsedResponse;
   } catch (error) {
     console.error("에러", error);
     throw error;
