@@ -23,16 +23,16 @@ To make this comparison easier, we will provide guidelines. The items to analyze
 
 Guidelines:
 1. For the name of the item, use a common proper noun. 
-2. There are a total of 8 categories of items: electronic devices, precious metals, wallets, bags, clothing, musical instruments, cash, etc. 
+2. There are a total of 8 categories of items: 전자기기, 귀금속, 지갑, 가방, 의류, 악기, 현금, 기타. 
    You must choose one of these 8.
 3. The color of the item must be specified as one of: white, black, gray, red, orange, yellow, green, blue, navy, purple, pink, turquoise, and brown. 
-4. If the brand of the item cannot be specified, it must be printed as 'Non'.
+4. If the brand of the item cannot be specified, it must be printed as '기타'.
 
 Output Format:
-{name : "", category : "", color : "", brand : ""}
+{"name" : "", "category" : "", "color" : "", "brand" : "", "address":"", "startDate" : "", "endDate" : ""}
 
 Special Cases:
-- If the image is not an item or does not fall into the category of lost/found items, output all field values as 'Non'.
+- If the image is not an item or does not fall into the category of lost/found items, output all field values as '기타' but startDate and endDate must be "".
             `.trim(), // 프롬프트
           },
           {
@@ -59,8 +59,8 @@ Special Cases:
     );
 
     const chatResponse = response.data.choices[0].message.content;
-    console.log(chatResponse);
-    return chatResponse;
+    const parsedResponse = JSON.parse(chatResponse);
+    return parsedResponse;
   } catch (error) {
     console.error("에러", error);
     throw error;
