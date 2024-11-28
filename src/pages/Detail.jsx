@@ -114,6 +114,67 @@ const Detail = () => {
 
   const closeModal = () => setIsModal(false);
 
+  const patchFoundItem = async () => {
+    const accessToken = localStorage.getItem("access");
+
+    console.log(report.id);
+    console.log(accessToken);
+    try {
+      const response = await axios.patch(
+        `http://findit.p-e.kr:8080/api/items/found/${report.id}/status`,
+        {
+          status: "REGISTERED",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log(response.data);
+      return response;
+    } catch (error) {
+      console.error("거래 실패:", error);
+
+      if (error.response.status === 401) {
+        console.log(error.response.status);
+        alert("게시글을 등록하려면 로그인해주세요");
+      }
+      throw error;
+    }
+  };
+
+  const patchLostItem = async () => {
+    const accessToken = localStorage.getItem("access");
+
+    console.log(report.id);
+    console.log(accessToken);
+    try {
+      const response = await axios.patch(
+        `http://findit.p-e.kr:8080/api/items/lost/${report.id}/status`,
+        {
+          status: "REGISTERED",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      console.log(response.data);
+      return response;
+    } catch (error) {
+      console.error("거래 실패:", error);
+
+      if (error.response.status === 401) {
+        console.log(error.response.status);
+        alert("게시글을 등록하려면 로그인해주세요");
+      }
+      throw error;
+    }
+  };
+
   return (
     <Container>
       <TopNavBack></TopNavBack>
@@ -149,7 +210,7 @@ const Detail = () => {
                   </LabelBox>
                   <LabelBox>
                     <Label>날짜 :</Label>
-                    <LabelData> {report.lostDate}</LabelData>
+                    <LabelData> {report.reportDate}</LabelData>
                   </LabelBox>
                   <LabelBox>
                     <Label>분류번호 :</Label>
@@ -165,6 +226,19 @@ const Detail = () => {
               alt="이미지분석아이콘"
               onClick={handleVisionSearch}
             />
+            {pageType === "lost" ? (
+              <ImageSearch
+                src="/img/Shopping.png"
+                alt="거래완료"
+                onClick={patchLostItem}
+              />
+            ) : (
+              <ImageSearch
+                src="/img/Share.png"
+                alt="거래완료"
+                onClick={patchFoundItem}
+              />
+            )}
             <ShareIcon
               src="/img/Share.png"
               alt="공유아이콘"
@@ -183,7 +257,7 @@ export default Detail;
 
 const Container = styled.div`
   background-color: white;
-  width: 600px;
+  width: 100%;
   height: 100%;
 `;
 
@@ -214,7 +288,7 @@ const DetailImg = styled.img`
   width: 75%;
   aspect-ratio: 1/1; // 가로세로비율. 1대1비율로 넣어야 정사각형이 된다
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 5%;
   margin-bottom: 3rem;
 `;
