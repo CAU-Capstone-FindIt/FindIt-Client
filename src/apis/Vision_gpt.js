@@ -26,7 +26,7 @@ Guidelines:
 2. There are a total of 8 categories of items: 전자기기, 귀금속, 지갑, 가방, 의류, 악기, 현금, 기타. 
    You must choose one of these 8.
 3. The color of the item must be specified as one of: white, black, gray, red, orange, yellow, green, blue, navy, purple, pink, turquoise, and brown. 
-4. If the brand of the item cannot be specified, it must be printed as '기타'.
+4. If the brand of the item cannot be specified, it must be printed as 'Non'.
 
 Output Format:
 {"name" : "", "category" : "", "color" : "", "brand" : "", "address":"", "startDate" : "", "endDate" : ""}
