@@ -3,7 +3,7 @@ import axios from "axios";
 const API_KEY = process.env.REACT_APP_VISION_KEY;
 const API_URL = "https://api.openai.com/v1/chat/completions";
 
-export const search_gpt = async (message) => {
+export const revise_gpt = async (message) => {
   try {
     const response = await axios.post(
       API_URL,
@@ -20,10 +20,6 @@ The user input values ​​are as follows
 2.brand
 3.location
 4.color
-5.category
-6.findLost
-7.startDate
-8.endDate
 
 Here, you will play the primary role of refining because different users may have slightly different expressions for the same item. If you send the refined data to the server, the service will be provided by searching the server's DB for items similar to the item in question.
 
@@ -38,19 +34,10 @@ Assign building names or major place names in Korean. If you think it correspond
 (아트센터,301,후문빨간벽돌),(체육관,305),(교수연구동, ROTC건물, 306),(법학관, 303),(경영경제관,경경관, 310, 100주년기념관),(창의ICT공학관, 제2공, 제2공학관,  208),(블루미르홀, 기숙사, 긱사, 309, 308),(봅스트홀, 봅홀, 창업보육관, 207, 209, 공대건물),(중앙도서관, 중도, 204),(서라벌홀, 인문대학,  203),(전산정보관, 전산관,  202),(본관, 201), (제1의학관, 제2의학관, 105, 106, 의대), (수림과학관, 자연대, 104), (영신관, 101, 입학처), (파이퍼홀, 간호대학,  103), (약학대학, 약대,  102),(빼빼로 광장, 빼광), (중앙광장, 정문잔디밭, 정문), (운동장, 축구장, 잔디구장), (자이언츠구장, 농구장, 테니스장), (해방광장), (청룡연못, 청룡탕)
 4.color
 The color of the item must be specified as one of: white, black, gray, red, orange, yellow, green, blue, navy, purple, pink, turquoise, and brown.
-5.category”
-There are a total of 8 categories of items: 전자기기, 귀중품, 지갑, 가방, 의류, 악기, 현금, 기타. 
-   You must choose one of these 8.
-6.classification
-Assign the matching one among the two find and lost.
-7.startDate
-No modification required
-8.endDate
-No modification required
 
 Now the final data format you need to return is as follows:
 The value you converted should be on the right.
-{"revisedName": “name”, "revisedBrand": “brand”, "revisedLocation": “location”, "revisedColor": “color”, "category": “category”, "startDate": startDate, "endDate": endDate}
+{"name": “name”, "brand": “brand”, "location": “location”, "color": “color”}
             `.trim(), // 프롬프트
           },
           {

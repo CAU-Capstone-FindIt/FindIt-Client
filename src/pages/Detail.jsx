@@ -345,6 +345,9 @@ const TitleBox = styled.div`
   width: 100%;
   display: flex;
   justify-content: end;
+  @media (max-width: 400px) {
+    font-size: 13px;
+  }
 `;
 
 const Title = styled.div`
@@ -375,6 +378,9 @@ const LabelBox = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
+  @media (max-width: 400px) {
+    font-size: 12px;
+  }
 `;
 
 const Label = styled.div`

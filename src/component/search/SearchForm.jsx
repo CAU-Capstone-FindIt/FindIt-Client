@@ -3,8 +3,10 @@ import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import { Category } from "@mui/icons-material";
 import { search_gpt } from "../../apis/Search_gpt";
+import { findSearch } from "../../apis/FindSearch";
+import { lostSearch } from "../../apis/LostSearch";
 
-const SearchForm = () => {
+const SearchForm = ({setFindReports, setPageType}) => {
   const [currentName, setCurrentName] = useState(""); // 지금 입력된 명칭
   const [currentBrand, setCurrentBrand] = useState(""); // 지금 입력된 명칭
   const [currentLocation, setCurrentLocation] = useState(""); // 지금 입력된 위치
@@ -68,13 +70,18 @@ const SearchForm = () => {
       alert("명칭, 카테고리, 분류, 날짜는 필수 입력 항목입니다.");
     } else {
       const response = await search_gpt(JSON.stringify(data));
+      console.log(response)
+      let gptSearchResponse
+      if(data.findLost == '습득물'){
+        gptSearchResponse = await findSearch(response);
+        setPageType("find")
+      }else if(data.findLost == '분실물'){
+        gptSearchResponse = await lostSearch(response);
+        setPageType('lost')
+      }
 
-      // 여기는 나중에 백 api 완성되면 이렇게 수정해야 함
-      // if(response.data.findLost == 'find'){
-      //   //find쪽 검색 api 호출
-      // }else if(response.data.findLost == 'lost'){
-      //   //lost쪽 검색 api 호출
-      // }
+      console.log(gptSearchResponse)
+      setFindReports(gptSearchResponse)
     }
   };
 

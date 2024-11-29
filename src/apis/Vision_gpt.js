@@ -29,7 +29,7 @@ Guidelines:
 4. If the brand of the item cannot be specified, it must be printed as 'Non'.
 
 Output Format:
-{"name" : "", "category" : "", "color" : "", "brand" : "", "address":"", "startDate" : "", "endDate" : ""}
+{"revisedName" : "", "category" : "", "revisedColor" : "", "revisedBrand" : "", "revisedAddress":"", "startDate" : "", "endDate" : ""}
 
 Special Cases:
 - If the image is not an item or does not fall into the category of lost/found items, output all field values as '기타' but startDate and endDate must be "".
