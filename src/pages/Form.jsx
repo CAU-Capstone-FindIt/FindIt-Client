@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { usePostFindItem } from "../apis/Postapi";
+import { revise_gpt } from "../apis/Revise_gpt";
 
 const Form = () => {
   // 전역으로 관리되어 ReportMode.jsx에 저장되었던 mode와 posistion 데이터를 가져옴
@@ -41,8 +42,24 @@ const Form = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // 기본 폼 제출 동작 방지
-
+    console.log("여기 아래가 target");
     console.log(e.target);
+
+    let message;
+    message = {
+      name: e.target.name.value ?? "",
+      brand: e.target.brand.value ?? "",
+      location: e.target.location.value ?? "",
+      color: e.target.color.value ?? "",
+    };
+
+    //console.log(message)
+
+    const gptResponse = await revise_gpt(JSON.stringify(message))
+
+    console.log(gptResponse)
+    //console.log(gptResponse.name)
+
     let data;
     if (reportInfo.mode === "lost") {
       data = {
@@ -58,6 +75,10 @@ const Form = () => {
         rewardAmount: Number(e.target.point.value) || 0, // 숫자는 0을 기본값으로
         status: "REGISTERED",
         image: selectedImage ?? "",
+        revisedName: gptResponse.name,
+        revisedBrand: gptResponse.brand,
+        revisedColor: gptResponse.color,
+        revisedAddress: gptResponse.location,
       };
     } else if (reportInfo.mode === "found") {
       data = {
@@ -72,6 +93,10 @@ const Form = () => {
         longitude: reportInfo.position.lng ?? 0,
         address: e.target.location.value ?? "",
         image: selectedImage ?? "",
+        revisedName: gptResponse.name,
+        revisedBrand: gptResponse.brand,
+        revisedColor: gptResponse.color,
+        revisedAddress: gptResponse.location,
       };
     }
 

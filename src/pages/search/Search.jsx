@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useState } from "react";
 import TopNav from "../TopNav";
 import Nav from "../Nav";
 import axios from "axios";
@@ -12,14 +12,21 @@ import SearchForm from "../../component/search/SearchForm";
 //주석
 
 const Search = () => {
-  // 추후 로그인 여부에 따른 컴포넌트 랜더링 변경 필요
+  const [findReports, setFindReports] = useState([]);
+  const [pageType, setPageType] = useState("");
 
   return (
     <Container>
       <TopNav />
       <InnerContainer>
-        <SearchForm />
-        <ListBox></ListBox>
+        <SearchForm setFindReports={setFindReports} setPageType={setPageType} />
+        <ListBox>
+          {findReports.length > 0 ? ( // 수정수정: 데이터 조건 추가
+            <Item findReports={findReports} pageType={pageType} />
+          ) : (
+            <NoReportsMessage>No reports found.</NoReportsMessage>
+          )}
+        </ListBox>
       </InnerContainer>
       <Nav />
     </Container>
@@ -57,4 +64,9 @@ const ListBox = styled.div`
   align-items: center;
   overflow-y: auto;
   margin-top: 3%;
+`;
+
+const NoReportsMessage = styled.p`
+  text-align: center;
+  color: gray;
 `;
