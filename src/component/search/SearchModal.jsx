@@ -46,6 +46,7 @@ const ModalContainer = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  max-width:480px;
 `;
 
 const CloseButton = styled.button`

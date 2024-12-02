@@ -1,33 +1,41 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { yourIdAtom } from "../../recoil/userID";
 
-const MessageAlert = () => {
-  // 나중에 백에서 받아올 데이터
-  const dummy = {
-    title: "아이폰 미니13",
-    content:
-      "쪽지내용쪽지내용……쪽지내용쪽지내용……쪽지내용쪽지내용……쪽지내용쪽지내용……쪽지내용쪽지내용……쪽지내용쪽지내용……",
-    date: 20241001,
+const MessageAlert = ({ message, receiverId, timestamp, itemId, itemType, itemName, itemImageUrl }) => {
+  const navigate = useNavigate();
+  //const [yourId, setYourIdAtom] = useRecoilState(yourIdAtom)
+
+  const handleClick = () => {
+    //setYourIdAtom(senderId)
+    navigate("/messageDetail", { state: { itemId, itemType, receiverId } });
   };
 
   const formatDate = (date) => {
     const dateString = date.toString();
     const year = dateString.slice(0, 4);
-    const month = dateString.slice(4, 6);
-    const day = dateString.slice(6, 8);
+    const month = dateString.slice(5, 7);
+    const day = dateString.slice(8, 10);
     return `${year}.${month}.${day}.`;
   };
 
+  const formatMessage = (message)=>{
+    const newMessage = message.slice(12,-2)
+    return newMessage
+  }
+
   return (
-    <Container>
+    <Container onClick={handleClick}>
       <IconWrapper>
-        <ImageBox />
+        <ImageBox image={itemImageUrl} />
       </IconWrapper>
       <ContentWrapper>
-        <Title>{dummy.title}</Title>
-        <MessageText>{dummy.content}</MessageText>
+        <Title>{`${itemName}`}</Title>
+        <MessageText>{formatMessage(message)}</MessageText>
       </ContentWrapper>
-      <DateText>{formatDate(dummy.date)}</DateText>
+      <DateText>{formatDate(timestamp)}</DateText>
     </Container>
   );
 };
@@ -50,6 +58,7 @@ const Container = styled.div`
   }
 
   margin-bottom:6%;
+  cursor: pointer;
 `;
 
 const IconWrapper = styled.div`
@@ -60,7 +69,11 @@ const IconWrapper = styled.div`
 const ImageBox = styled.div`
   width: 60px;
   height: 60px;
-  background-color: #d9d9d9;
+  //background-color: #d9d9d9;
+  background-image: url(${(props) => props.image});
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   border-radius: 50%;
   display: flex;
   align-items: center;

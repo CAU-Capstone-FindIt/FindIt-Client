@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import TopNavBack from "./TopNavBack";
 import { Category } from "@mui/icons-material";
@@ -24,6 +24,8 @@ const Detail = () => {
   // 쿼리 매개변수에서 pageType 추출
   const params = new URLSearchParams(search);
   const pageType = params.get("pageType");
+
+  const navigate = useNavigate();
 
   console.log(report);
   console.log(pageType);
@@ -91,7 +93,7 @@ const Detail = () => {
 
         // Vision GPT API에 Base64 문자열 전송
         const visionResponse = await vision_gpt(base64String);
-        console.log(visionResponse)
+        console.log(visionResponse);
 
         if (pageType == "lost") {
           //습득물 상세 검색
@@ -176,10 +178,32 @@ const Detail = () => {
     }
   };
 
+  const goSendMessage = async () => {
+    if (localStorage.getItem("userID") == report.userId) {
+      alert("나의 등록 물건입니다!!");
+    } else {
+      let itemType;
+      if (pageType == "find") {
+        itemType = "Found";
+      } else if (pageType == "lost") {
+        itemType = "Lost";
+      }
+      let itemId = report.id;
+      let receiverId = report.userId;
+      navigate("/messageDetail", { state: { itemId, itemType, receiverId } });
+    }
+  };
+
   return (
     <Container>
       <TopNavBack></TopNavBack>
-      {isModal && <SearchModal findReports={modalData} onClose={closeModal} pageType={pageType} />}
+      {isModal && (
+        <SearchModal
+          findReports={modalData}
+          onClose={closeModal}
+          pageType={pageType}
+        />
+      )}
       <Box>
         <DetailBox>
           <DetailImg src={report.image} alt={report.name} />
@@ -226,6 +250,11 @@ const Detail = () => {
               src="/img/ImageSearch.png"
               alt="이미지분석아이콘"
               onClick={handleVisionSearch}
+            />
+            <ImageSearch
+              src="/img/SendBlue.png"
+              alt="메세지 보내기"
+              onClick={goSendMessage}
             />
             {pageType === "lost" ? (
               <ImageSearch
