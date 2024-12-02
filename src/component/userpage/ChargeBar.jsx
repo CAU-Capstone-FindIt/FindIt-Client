@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import styled from "styled-components";
+import { setPoint } from "../../apis/user";
 
 const ChargeBar = ({ onCharge }) => {
   const [amount, setAmount] = useState("");
 
-  const handleCharge = () => {
+  const handleCharge = async() => {
     if (amount) {
       alert(`충전되었습니다: ${amount}원`); // 알림창 표시
-      onCharge(parseInt(amount, 10)); // 부모 컴포넌트에 충전 금액 전달
+      onCharge(parseInt(amount)); // 부모 컴포넌트에 충전 금액 전달
       setAmount(""); // 입력창 초기화
+      const response = await setPoint(parseInt(amount));
+      window.location.reload();
     } else {
       alert("충전할 금액을 입력하세요.");
     }

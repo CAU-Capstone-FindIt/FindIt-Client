@@ -22,7 +22,7 @@ To make this comparison easier, we will provide guidelines. The items to analyze
 4. The brand of the item.
 
 Guidelines:
-1. For the name of the item, use a common proper noun. 
+1. In the case of the name, change it to a proper noun as much as possible and the title by which the majority of people call the item. For example, in the case of an Apple laptop, convert it to a MacBook, etc. but if it has a version. it is ignored. so if the iphone mini will be iphone. macbookair will be macbook
 2. There are a total of 8 categories of items: 전자기기, 귀금속, 지갑, 가방, 의류, 악기, 현금, 기타. 
    You must choose one of these 8.
 3. The color of the item must be specified as one of: white, black, gray, red, orange, yellow, green, blue, navy, purple, pink, turquoise, and brown. 

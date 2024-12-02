@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "../Nav";
 import Item from "../../component/item/Item";
 import styled from "styled-components";
@@ -6,21 +6,50 @@ import TopNavBack from "../TopNavBack";
 import { styled as muiStyled } from "@mui/material/styles"; // muiStyled로 이름 변경
 import Switch from "@mui/material/Switch";
 import { useFindListQuery } from "../../apis/FindQuery";
+import { myFind, myLost } from "../../apis/MyRegister";
 
 const Registeitem = () => {
-  const { data: findReports, isLoading } = useFindListQuery();
+  const [itemType, setItemType] = useState("lost");
+  const [findReports, setFindReports] = useState([])
+
+  useEffect(() => {
+    const getReports = async () => {
+      try {
+        if(itemType == "lost"){
+          const response = await myLost();
+          setFindReports(response)
+        }else{
+          setItemType("find")
+          const response = await myFind();
+          setFindReports(response)
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getReports();
+  }, [itemType]);
+
+  const handleTypeChange = (event) => {
+    setItemType(event.target.value);
+  };
+
   return (
     <Container>
       <TopNavBack />
       <InnerContainer>
         <TitleSwitch>
           <Text>등록물건보기</Text>
-          <Line>
-            <AntSwitch />
-          </Line>
+          <SelectContainer>
+            <Select onChange={handleTypeChange} value={itemType}>
+              <option value="lost">분실물</option>
+              <option value="found">습득물</option>
+            </Select>
+          </SelectContainer>
         </TitleSwitch>
         <ListBox>
-          {!isLoading ? <Item findReports={findReports}></Item> : <div></div>}
+          <Item findReports={findReports} pageType={itemType}></Item>
         </ListBox>
       </InnerContainer>
       <Nav />
@@ -128,3 +157,42 @@ const Line = styled.div`
   padding-right: 5%;
   padding-bottom:2%;
 `
+
+const ToggleButton = styled.button`
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #4a90e2;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #357ab8;
+  }
+`;
+
+const SelectContainer = styled.div`
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: 5%;
+  padding-bottom: 2%;
+`;
+
+const Select = styled.select`
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: #4a90e2;
+  }
+`;
