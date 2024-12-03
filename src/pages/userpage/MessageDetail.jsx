@@ -16,6 +16,7 @@ const MessageDetail = () => {
   const yourId = useRecoilValue(yourIdAtom);
   //console.log(yourId)
   const itemId = location.state?.itemId;
+  //console.log(itemId)
   const itemType = location.state?.itemType;
   const receiverId = location.state?.receiverId;
   let userA;
@@ -28,7 +29,7 @@ const MessageDetail = () => {
   useEffect(() => {
     const messageList = async () => {
       try {
-        const response = await getMessage(receiverId, userID);
+        const response = await getMessage(receiverId, userID, itemId, itemType);
         //console.log(userA, userID)
         const formattedMessages = response.map((msg) => ({
           sender: msg.senderId === userID ? "me" : "you",
