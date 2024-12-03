@@ -43,7 +43,7 @@ export const sendMessage = async (itemId, itemType, receiverId, message) => {
   }
 }
 
-export const getMessage = async (senderId, receiverId) => {
+export const getMessage = async (senderId, receiverId, itemId, itemType) => {
   try{
     const response = await axios.get(`${baseUrl}/api/messages/conversation/between`,{
       headers: {
@@ -52,6 +52,8 @@ export const getMessage = async (senderId, receiverId) => {
       params: {
         userA : senderId,
         userB : receiverId,
+        itemId : itemId,
+        itemType : itemType
       },
     })
     //console.log(response)
