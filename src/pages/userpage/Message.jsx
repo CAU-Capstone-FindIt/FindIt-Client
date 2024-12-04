@@ -40,6 +40,7 @@ const Message = () => {
                 key={index}
                 message={msg.message}
                 receiverId={msg.receiverId}
+                senderId={msg.senderId}
                 timestamp={msg.timestamp}
                 itemId={msg.itemId}
                 itemType={msg.itemType}
