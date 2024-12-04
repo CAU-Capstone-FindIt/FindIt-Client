@@ -8,6 +8,13 @@ const Comments = ({ report, pageType }) => {
   const [replyIndex, setReplyIndex] = useState(null); // 대댓글 입력 상태를 관리할 인덱스
   const [newReply, setNewReply] = useState(""); // 대댓글 텍스트 상태
 
+  const [editIndex, setEditIndex] = useState(null); // 수정할 댓글 상태를 관리할 인덱스
+  const [editParentIndex, setEditParentIndex] = useState(null); // 수정할 댓글 상태를 관리할 인덱스
+  const [editContent, setEditContent] = useState(""); // 수정 중인 댓글의 텍스트
+
+  const [deleteIndex, setDeleteIndex] = useState(null); // 삭제할 댓글 번호 상태를 관리할 인덱스
+  const [deleteParentIndex, setDeleteParentIndex] = useState(null); // 삭제할 댓글 부모 번호 상태를 관리할 인덱스
+
   const [value, setValue] = useState("");
 
   // 댓글을 가져오는 함수
@@ -65,7 +72,9 @@ const Comments = ({ report, pageType }) => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+
       console.log(response);
+
       setComments((prevComments) => [
         ...prevComments,
         {
@@ -74,6 +83,8 @@ const Comments = ({ report, pageType }) => {
         },
       ]);
       setNewComment("");
+
+      window.location.reload();
     } catch (error) {
       console.error("댓글 등록 오류:", error);
     }
@@ -123,8 +134,82 @@ const Comments = ({ report, pageType }) => {
 
       setNewReply(""); // 대댓글 입력 필드 초기화
       setReplyIndex(null); // 대댓글 입력 상태 초기화
+
+      window.location.reload();
     } catch (error) {
       console.error("대댓글 제출 오류:", error);
+    }
+  };
+
+  // 댓글 수정
+  const handleEditComment = async (e, parentCommentId) => {
+    e.preventDefault();
+
+    console.log(parentCommentId);
+    console.log(editParentIndex);
+    console.log(editIndex);
+    let editData;
+
+    let url;
+    if (pageType === "find") {
+      editData = {
+        foundItemId: report.id, // 현재 신고된 물품 ID
+        content: editContent, // 대댓글 내용
+        parentCommentId: editParentIndex, // 부모 댓글 ID
+      };
+      url = `http://findit.p-e.kr:8080/api/items/found/comment/${editIndex}`;
+    } else {
+      editData = {
+        lostItemId: report.id, // 현재 신고된 물품 ID
+        content: editContent, // 대댓글 내용
+        parentCommentId: editParentIndex, // 부모 댓글 ID
+      };
+      url = `http://findit.p-e.kr:8080/api/items/lost/comment/${editIndex}`;
+    }
+
+    try {
+      const accessToken = localStorage.getItem("access");
+      const response = await axios.put(url, editData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      window.location.reload();
+
+      console.log(response);
+      setEditIndex(null); // 수정 모드 종료
+      setEditParentIndex(null); // 입력 필드 초기화
+    } catch (error) {
+      console.error("댓글 수정 오류:", error);
+    }
+  };
+
+  // 댓글 삭제
+  const handleDeleteComment = async (commentId, parentCommentId) => {
+    const isConfirmed = window.confirm("정말로 이 댓글을 삭제하시겠습니까?");
+    if (!isConfirmed) {
+      return; // 사용자가 취소를 누르면 함수 종료
+    }
+    let url;
+    if (pageType === "find") {
+      url = `http://findit.p-e.kr:8080/api/items/found/comment/${commentId}`;
+    } else {
+      url = `http://findit.p-e.kr:8080/api/items/lost/comment/${commentId}`;
+    }
+
+    console.log(commentId);
+    try {
+      const accessToken = localStorage.getItem("access");
+      const response = await axios.delete(url, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log(response);
+      window.location.reload();
+    } catch (error) {
+      console.error("댓글 삭제 오류:", error);
     }
   };
 
@@ -144,22 +229,51 @@ const Comments = ({ report, pageType }) => {
         <CommentList>
           {comments.map((comment) => (
             <CommentItem key={comment.id}>
-              <UserContainer>
-                <UserNameIconBox>
-                  <UserIcon src="/img/User.png" alt="User Icon" />
-                  <span>
-                    <strong>이름</strong>
-                  </span>
-                </UserNameIconBox>
-                <ReplyButton onClick={() => setReplyIndex(comment.id)}>
-                  <img src="/img/ChatIconBlue.png" alt="ChatIconBlue" />
-                </ReplyButton>
-              </UserContainer>
-              <div>
+              <MainCommentBox>
+                <UserContainer>
+                  <UserNameIconBox>
+                    <UserIcon src="/img/User.png" alt="User Icon" />
+                    <span>
+                      <strong>이름</strong>
+                    </span>
+                  </UserNameIconBox>
+                  <ReplyButton>
+                    <img
+                      src="/img/ChatIcon6.png"
+                      alt="ChatIconBlue"
+                      onClick={() => {
+                        setReplyIndex(comment.id);
+                        setEditIndex(null);
+                        setEditContent(null);
+                      }}
+                    />
+                    <img
+                      src="/img/EditIcon6.png"
+                      alt="EditIcon"
+                      onClick={() => {
+                        setReplyIndex(null);
+                        setEditIndex(comment.id);
+                        setEditContent(comment.content);
+                        setEditParentIndex(0);
+                      }} // 기존 댓글 내용을 입력 필드에 설정}
+                    />
+                    <img
+                      src="/img/DeleteIcon6.png"
+                      alt="DeleteIcon"
+                      onClick={() => {
+                        setDeleteParentIndex(0);
+                        setDeleteIndex(comment.id);
+                        handleDeleteComment(comment.id, 0);
+                      }} // 기존 댓글 내용을 입력 필드에 설정}
+                    />
+                  </ReplyButton>{" "}
+                </UserContainer>
                 <div>{comment.content}</div>
                 <TimestampComment>
                   {new Date(comment.createdDate).toLocaleString()}
                 </TimestampComment>
+              </MainCommentBox>
+              <div>
                 {comment.childComments && comment.childComments.length > 0 && (
                   <ReplyList>
                     {comment.childComments.map(
@@ -174,6 +288,34 @@ const Comments = ({ report, pageType }) => {
                                   <strong>이름</strong>
                                 </span>
                               </UserNameIconBox>
+                              <ReplyButton>
+                                <img
+                                  src="/img/EditIcon6.png"
+                                  alt="EditIcon"
+                                  onClick={() => {
+                                    setReplyIndex(null);
+                                    setEditIndex(childComment.id);
+                                    setEditContent(comment.content);
+                                    setEditParentIndex(comment.id);
+                                  }} // 기존 댓글 내용을 입력 필드에 설정}
+                                />
+                                <img
+                                  src="/img/DeleteIcon6.png"
+                                  alt="DeleteIcon"
+                                  onClick={() => {
+                                    setReplyIndex(null);
+                                    setEditIndex(comment.id);
+                                    setEditContent(comment.content);
+                                    setEditParentIndex(0);
+                                    setDeleteIndex(childComment.id);
+                                    setDeleteParentIndex(comment.id);
+                                    handleDeleteComment(
+                                      childComment.id,
+                                      comment.id
+                                    );
+                                  }} // 기존 댓글 내용을 입력 필드에 설정}
+                                />
+                              </ReplyButton>
                             </UserContainer>
                             <div> {childComment.content}</div>
                             <TimestampReply>
@@ -193,7 +335,7 @@ const Comments = ({ report, pageType }) => {
         </CommentList>
       </CommentsContainer>
       {/* 여기서 댓글 입력창과 대댓글 입력창을 조건에 따라 표시 */}
-      {replyIndex === null ? (
+      {replyIndex === null && editIndex === null ? (
         <InputContainer onSubmit={handleCommentSubmit}>
           <InputBox>
             <CommentInput
@@ -208,7 +350,7 @@ const Comments = ({ report, pageType }) => {
             </SubmitButton>
           </InputBox>
         </InputContainer>
-      ) : (
+      ) : replyIndex !== null ? (
         <InputContainer>
           <InputBox>
             <ReplyInput
@@ -222,11 +364,34 @@ const Comments = ({ report, pageType }) => {
               type="button"
               onClick={() => setReplyIndex(null)} // 댓글 입력창으로 돌아가기
             >
-              <img src="/img/ReturnIcon.png" alt="ReturnIcon" />
+              <img src="/img/BackIcon6.png" alt="BackIcon" />
             </CancelReplyButton>
             <SubmitButton
               type="submit"
               onClick={(e) => handleReplySubmit(e, replyIndex)}
+            >
+              <img src="/img/SendBlue.png" alt="SendIcon" />
+            </SubmitButton>
+          </InputBox>
+        </InputContainer>
+      ) : (
+        <InputContainer>
+          <InputBox>
+            <CommentInput
+              type="text"
+              onChange={(e) => setEditContent(e.target.value)}
+              onInput={handleInput} // 입력 시마다 높이를 조정
+              placeholder="댓글을 수정하세요"
+            />
+            <CancelReplyButton
+              type="button"
+              onClick={() => setEditIndex(null)} // 수정 상태 초기화
+            >
+              <img src="/img/BackIcon6.png" alt="BackIcon" />
+            </CancelReplyButton>
+            <SubmitButton
+              type="submit"
+              onClick={(e) => handleEditComment(e, editIndex)} // 수정 API 호출
             >
               <img src="/img/SendBlue.png" alt="SendIcon" />
             </SubmitButton>
@@ -350,14 +515,23 @@ const SubmitButton = styled.button`
   cursor: pointer;
   text-align: center;
   img {
-    width: 2rem;
+    width: 24px;
+  }
+
+  @media (max-width: 600px) {
+    img {
+      width: 18px;
+    }
   }
 `;
 
 const CommentItem = styled.div`
-  padding: 10px;
-  border-top: 1px solid #ccc;
   margin-top: 5px;
+`;
+
+const MainCommentBox = styled.div`
+  border-top: 1px solid #ccc;
+  padding: 10px;
 `;
 
 const UserContainer = styled.div`
@@ -377,15 +551,24 @@ const UserIcon = styled.img`
 `;
 
 const ReplyButton = styled.div`
-  width: 4%;
-  background-color: white;
+  background-color: #f7f7f7;
   color: white; /* 버튼 글자색 */
   border: none; /* 테두리 없애기 */
   cursor: pointer; /* 커서 포인터로 변경 */
   padding: 5px; /* 버튼 패딩 */
+  display: flex;
+  border-radius: 0.5rem;
 
   img {
-    width: 100%;
+    width: 24px;
+    margin: 0 5px;
+  }
+
+  @media (max-width: 600px) {
+    img {
+      width: 18px;
+      margin: 0 4px;
+    }
   }
 `;
 
@@ -429,7 +612,13 @@ const CancelReplyButton = styled.button`
 
   img {
     margin-right: 1rem;
-    width: 2rem;
+    width: 24px;
+  }
+
+  @media (max-width: 600px) {
+    img {
+      width: 18px;
+    }
   }
 `;
 

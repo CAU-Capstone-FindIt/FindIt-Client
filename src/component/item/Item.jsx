@@ -30,7 +30,10 @@ const Item = ({ findReports, pageType }) => {
           }}
           isReturned={report.status === "RETURNED"} // 'RETURNED' 상태 체크
         >
-          <ListImg src={report.image} alt="" />
+          {report.status === "RETURNED" && (
+            <CompletedBadge src="/img/ClosedIcon.png" /> /* 거래 완료 배지 */
+          )}
+          <ListImg src={report.image} alt={report.name} loading="lazy" />
           <Content>
             <TitleBox>
               <h2>{report.name}</h2>
@@ -50,6 +53,7 @@ const Item = ({ findReports, pageType }) => {
 export default Item;
 
 const ReportItem = styled.div`
+  position: relative;
   width: 100%;
   height: 25vh;
   max-height: 180px;
@@ -60,23 +64,38 @@ const ReportItem = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 
+  // pointer-events: ${(props) => (props.isReturned ? "none" : "auto")};
   cursor: ${(props) => (props.isReturned ? "not-allowed" : "pointer")};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  opacity: ${(props) => (props.isReturned ? 0.5 : 1)}; /* 흐리게 만들기 */
+  opacity: ${(props) => (props.isReturned ? 0.4 : 1)}; /* 흐리게 만들기 */
 
   transition: transform 0.2s, box-shadow 0.2s;
 
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    opacity: ${(props) => (props.isReturned ? 0.5 : 1)}; /* 흐리게 만들기 */
+    opacity: ${(props) => (props.isReturned ? 0.4 : 1)}; /* 흐리게 만들기 */
   }
 
   div {
     font-weight: bold;
     color: #555;
+  }
+`;
+
+const CompletedBadge = styled.img`
+  position: absolute;
+  top: 10px;
+  left: 5px;
+  width: 70px;
+  transform: rotate(-30deg);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+
+  @media (max-width: 600px) {
+    width: 60px;
   }
 `;
 
