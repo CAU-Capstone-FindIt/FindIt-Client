@@ -192,7 +192,8 @@ const Detail = () => {
       }
       let itemId = report.id;
       let receiverId = report.userId;
-      navigate("/messageDetail", { state: { itemId, itemType, receiverId } });
+      let senderId = localStorage.getItem("userID")
+      navigate("/messageDetail", { state: { itemId, itemType, receiverId, senderId } });
     }
   };
 
