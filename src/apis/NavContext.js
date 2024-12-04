@@ -17,11 +17,19 @@ export const NavProvider = ({ children }) => {
     const pathname = location;
     // findIndex는 현재 URL의 경로(location.pathname)와 일치하는 경로를 ["/", "/find", "/lost", "/search", "/userpage"] 배열에서 찾아
     // 그 인덱스를 activeNav에 설정합니다.
-    setActiveNav(
-      ["/", "/find", "/lost", "/search", "/userpage"].findIndex(
-        (str) => str === location.pathname
-      )
-    );
+    const pathMap = {
+      "/": 0,
+      "/find": 1,
+      "/lost": 2,
+      "/search": 3,
+      "/userpage": 4,
+      "/registeitem": 4,
+      "/chargepoint": 4,
+      "/message": 4,
+      "/messageDetail": 4,
+    };
+
+    setActiveNav(pathMap[location.pathname] ?? 0);
   }, [location]);
 
   return (
