@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import TopNavBack from "./TopNavBack";
 import { Category } from "@mui/icons-material";
@@ -23,6 +23,8 @@ const Detail = () => {
   // 쿼리 매개변수에서 pageType 추출
   const params = new URLSearchParams(search);
   const pageType = params.get("pageType");
+
+  const navigate = useNavigate();
 
   console.log(report);
   console.log(pageType);
@@ -90,7 +92,7 @@ const Detail = () => {
 
         // Vision GPT API에 Base64 문자열 전송
         const visionResponse = await vision_gpt(base64String);
-        console.log(visionResponse)
+        console.log(visionResponse);
 
         if (pageType == "lost") {
           //습득물 상세 검색
@@ -120,7 +122,7 @@ const Detail = () => {
     console.log(report.id);
     console.log(accessToken);
     try {
-      const response = await axios.patch(
+      const response = await axios.put(
         `http://findit.p-e.kr:8080/api/items/found/${report.id}/status`,
         {
           status: "REGISTERED",
@@ -132,6 +134,7 @@ const Detail = () => {
         }
       );
       console.log(response.data);
+      window.location.reload(true);
       return response;
     } catch (error) {
       console.error("거래 실패:", error);
@@ -150,7 +153,7 @@ const Detail = () => {
     console.log(report.id);
     console.log(accessToken);
     try {
-      const response = await axios.patch(
+      const response = await axios.put(
         `http://findit.p-e.kr:8080/api/items/lost/${report.id}/status`,
         {
           status: "REGISTERED",
@@ -163,6 +166,7 @@ const Detail = () => {
       );
 
       console.log(response.data);
+      window.location.reload(true);
       return response;
     } catch (error) {
       console.error("거래 실패:", error);
@@ -176,10 +180,13 @@ const Detail = () => {
   };
 
   return (
-    <Container>
+    <Container isReturned={report.status === "RETURNED"}>
       <TopNavBack></TopNavBack>
       {isModal && <SearchModal findReports={modalData} onClose={closeModal} />}
-      <Box>
+      <Box isReturned={report.status === "RETURNED"}>
+        {report.status === "RETURNED" && (
+          <CompletedBadge src="/img/ClosedIcon.png" alt="거래완료" />
+        )}
         <DetailBox>
           <DetailImg src={report.image} alt={report.name} />
           <ContenTitle>
@@ -234,7 +241,7 @@ const Detail = () => {
               />
             ) : (
               <ImageSearch
-                src="/img/Share.png"
+                src="/img/Shopping.png"
                 alt="거래완료"
                 onClick={patchFoundItem}
               />
@@ -270,10 +277,27 @@ const Box = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: white;
+  cursor: ${(props) => (props.isReturned ? "not-allowed" : "pointer")};
+  opacity: ${(props) => (props.isReturned ? 0.2 : 1)}; /* 흐리게 만들기 */
 
   @media (max-width: 600px) {
     top: calc(var(--vh, 1vh) * 8);
     max-height: calc(100% - (calc(var(--vh, 1vh) * 16)));
+  }
+`;
+
+const CompletedBadge = styled.img`
+  position: absolute;
+  top: 30px;
+  left: 5px;
+  width: 100px;
+  transform: rotate(-30deg);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+
+  @media (max-width: 600px) {
+    width: 80px;
   }
 `;
 
