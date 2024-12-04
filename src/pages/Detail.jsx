@@ -192,7 +192,8 @@ const Detail = () => {
       }
       let itemId = report.id;
       let receiverId = report.userId;
-      navigate("/messageDetail", { state: { itemId, itemType, receiverId } });
+      let senderId = localStorage.getItem("userID")
+      navigate("/messageDetail", { state: { itemId, itemType, receiverId, senderId } });
     }
   };
 
@@ -251,7 +252,7 @@ const Detail = () => {
               onClick={handleVisionSearch}
             />
             <ImageSearch
-              src="/img/SendBlue.png"
+              src="/img/Sendmsg.png"
               alt="메세지 보내기"
               onClick={goSendMessage}
             />
