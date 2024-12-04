@@ -251,7 +251,7 @@ const Detail = () => {
               onClick={handleVisionSearch}
             />
             <ImageSearch
-              src="/img/SendBlue.png"
+              src="/img/Sendmsg.png"
               alt="메세지 보내기"
               onClick={goSendMessage}
             />
