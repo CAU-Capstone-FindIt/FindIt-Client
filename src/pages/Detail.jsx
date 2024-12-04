@@ -8,6 +8,7 @@ import axios from "axios";
 import { vision_gpt } from "../apis/Vision_gpt";
 import { findSearch } from "../apis/FindSearch";
 import SearchModal from "../component/search/SearchModal";
+import { lostSearch } from "../apis/LostSearch";
 
 const { kakao } = window;
 
@@ -102,7 +103,7 @@ const Detail = () => {
           setIsModal(true);
         } else if (pageType == "find") {
           //습득물 상세 검색
-          const findSearchResult = await findSearch(visionResponse);
+          const findSearchResult = await lostSearch(visionResponse);
           console.log(findSearchResult);
           setModalData(findSearchResult); // 수정수정: 모달 데이터 설정
           setIsModal(true);
@@ -179,6 +180,22 @@ const Detail = () => {
     }
   };
 
+  const goSendMessage = async () => {
+    if (localStorage.getItem("userID") == report.userId) {
+      alert("나의 등록 물건입니다!!");
+    } else {
+      let itemType;
+      if (pageType == "find") {
+        itemType = "Found";
+      } else if (pageType == "lost") {
+        itemType = "Lost";
+      }
+      let itemId = report.id;
+      let receiverId = report.userId;
+      navigate("/messageDetail", { state: { itemId, itemType, receiverId } });
+    }
+  };
+
   return (
     <Container isReturned={report.status === "RETURNED"}>
       <TopNavBack></TopNavBack>
@@ -232,6 +249,11 @@ const Detail = () => {
               src="/img/ImageSearch.png"
               alt="이미지분석아이콘"
               onClick={handleVisionSearch}
+            />
+            <ImageSearch
+              src="/img/SendBlue.png"
+              alt="메세지 보내기"
+              onClick={goSendMessage}
             />
             {pageType === "lost" ? (
               <ImageSearch
@@ -368,6 +390,9 @@ const TitleBox = styled.div`
   width: 100%;
   display: flex;
   justify-content: end;
+  @media (max-width: 400px) {
+    font-size: 13px;
+  }
 `;
 
 const Title = styled.div`
@@ -398,6 +423,9 @@ const LabelBox = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
+  @media (max-width: 400px) {
+    font-size: 12px;
+  }
 `;
 
 const Label = styled.div`

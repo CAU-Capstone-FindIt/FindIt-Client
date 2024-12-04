@@ -17,10 +17,13 @@ import RegisteItem from "./pages/userpage/Registeitem";
 import ChargePoint from "./pages/userpage/ChargePoint";
 import Message from "./pages/userpage/Message";
 import Search from "./pages/search/Search";
+import { RecoilRoot } from "recoil";
+import MessageDetail from "./pages/userpage/MessageDetail";
 
 function App() {
   return (
     // Test가 QueryClientProvider이다
+    <RecoilRoot>
     <Test>
       <NavProvider>
         <ReportProvider>
@@ -45,6 +48,7 @@ function App() {
                 element={<ChargePoint></ChargePoint>}
               ></Route>
               <Route path="/message" element={<Message></Message>}></Route>
+              <Route path="/messageDetail" element={<MessageDetail></MessageDetail>}></Route>
               <Route path="/search" element={<Search></Search>}></Route>
             </Routes>
           </AppDom>
@@ -52,6 +56,7 @@ function App() {
       </NavProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </Test>
+    </RecoilRoot>
   );
 }
 

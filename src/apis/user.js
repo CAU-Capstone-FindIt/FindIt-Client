@@ -17,3 +17,40 @@ export const getUserInfo = async ()=>{
     }
   
 }
+
+export const setNickName = async(nickname) => {
+  try{
+    const response = await axios.patch(`${baseUrl}/api/users/me`,null, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      params: {
+        nickname: nickname, // Query parameter로 전달
+      },
+    })
+    console.log(response)
+    return response.data
+  }catch(error){
+    console.log(error)
+    throw error
+
+  }
+}
+
+export const setPoint = async(point) => {
+  try{
+    const response = await axios.patch(`${baseUrl}/api/users/points`, null,{
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      params: {
+        points: point,
+      },
+    })
+    console.log(response)
+    return response.data
+  }catch(error){
+    console.log(error)
+    throw error
+  }
+}

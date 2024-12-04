@@ -1,9 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Item = ({ findReports, pageType }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  if (location.pathname.includes("detail") && pageType){
+    if (pageType == "find"){
+      pageType = "lost"
+
+    } else {
+      pageType = "find"
+    }
+  }
 
   console.log(pageType);
 
@@ -12,11 +22,12 @@ const Item = ({ findReports, pageType }) => {
       {findReports.map((report, index) => (
         <ReportItem
           key={index}
-          onClick={() =>
+          onClick={() =>{
             navigate(`/detail/${report.name}?pageType=${pageType}`, {
               state: report,
             })
-          }
+            window.location.reload();
+          }}
           isReturned={report.status === "RETURNED"} // 'RETURNED' 상태 체크
         >
           {report.status === "RETURNED" && (

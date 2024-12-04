@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import EditIcon from "@mui/icons-material/Edit";
-import { getUserInfo } from "../../apis/user";
+import { getUserInfo, setNickName } from "../../apis/user";
+import { useRecoilState } from "recoil";
+import { userIDAtom } from "../../recoil/userID";
+import { useRecoilValue } from "recoil";
 
-const UserBox = ({ point }) => {
+const UserBox = () => {
   const [nickname, setNickname] = useState(""); // 닉네임 상태 관리
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 관리
 
   const [userData, setUserData] = useState("");
+  const [point, setPointer] = useState("");
+
+  const [userID, setUserIDAtom] = useRecoilState(userIDAtom)
 
 
   useEffect(() => {
@@ -15,19 +21,18 @@ const UserBox = ({ point }) => {
       try {
         const response = await getUserInfo();
         setUserData(response);
+        setNickname(response.nickname)
+        setPointer(response.points)
+        setUserIDAtom(response.memberId)
+        localStorage.setItem("userID", response.memberId)
+        console.log(response)
       } catch (error) {
-        console.error(error);
+        //console.error(error);
       }
     };
 
     userInfo();
   }, []);
-
-
-  const dummy = {
-    name: "김태진",
-    nicname: "kimtree24",
-  };
 
   const editNickname = () => {
     setIsEditing(true);
@@ -37,9 +42,11 @@ const UserBox = ({ point }) => {
     setNickname(event.target.value);
   };
 
-  const handleNicknameSubmit = (event) => {
+  const handleNicknameSubmit = async(event) => {
     if (event.key === "Enter") {
       setIsEditing(false);
+      const response = await setNickName(nickname)
+      console.log(response)
     }
   };
 
@@ -59,7 +66,7 @@ const UserBox = ({ point }) => {
               type="text"
               value={nickname}
               onChange={handleNicknameChange}
-              onKeyPress={handleNicknameSubmit}
+              onKeyDown={handleNicknameSubmit}
               maxLength={15}
               autoFocus
             />
