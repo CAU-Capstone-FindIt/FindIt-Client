@@ -55,11 +55,12 @@ const Container = styled.div`
   background-color: white;
   width: 100%;
   max-width: 600px;
-  height: 100vh;
+  // 스크롤 웹전체로 함 100%로 높이 변경
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto;
+  // overflow-y: auto;
 `;
 
 const InnerContainer = styled.div`
