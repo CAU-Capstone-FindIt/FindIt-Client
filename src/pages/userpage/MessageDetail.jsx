@@ -32,7 +32,7 @@ const MessageDetail = () => {
   const [messages, setMessages] = useState([]);
 
   const [newMessage, setNewMessage] = useState("");
-  
+
   useEffect(() => {
     const messageList = async () => {
       try {
@@ -61,7 +61,7 @@ const MessageDetail = () => {
     return () => clearInterval(interval);
 
     //console.log(itemId, itemType, userA)
-  }, [messages]);
+  }, [setMessages]);
 
 
   const handleSendMessage = async() => {
