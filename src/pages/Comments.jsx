@@ -17,9 +17,7 @@ const Comments = ({ report, pageType }) => {
 
   const [value, setValue] = useState("");
 
-  const [nickName, setNickName] = useState("");
-
-  // 댓글을 가져오는 함수
+  // 댓글을 가져오는 함수 useEffect에 사용
   const fetchComments = async () => {
     let url;
     if (pageType === "find") {
@@ -219,8 +217,6 @@ const Comments = ({ report, pageType }) => {
 
   useEffect(() => {
     fetchComments();
-    const nickname = localStorage.getItem("nickname1");
-    setNickName(nickname);
   }, [report]);
 
   return (
