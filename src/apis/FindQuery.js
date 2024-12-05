@@ -34,7 +34,7 @@ export const useFindListQuery = () => {
 const initializeFindList = async () => {
   try {
     const responseFind = await axios.get(
-      "http://findit.p-e.kr:8080/api/items/found/all"
+      "https://findit.p-e.kr:8443/api/items/found/all"
     );
 
     console.log(responseFind);

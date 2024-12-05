@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://findit.p-e.kr:8080";
+const baseUrl = "https://findit.p-e.kr:8443";
 
 export const findSearch = async (visionResponse)=>{
     try{
