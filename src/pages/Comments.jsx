@@ -17,6 +17,8 @@ const Comments = ({ report, pageType }) => {
 
   const [value, setValue] = useState("");
 
+  const [nickName, setNickName] = useState("");
+
   // 댓글을 가져오는 함수
   const fetchComments = async () => {
     let url;
@@ -28,11 +30,7 @@ const Comments = ({ report, pageType }) => {
 
     try {
       const accessToken = localStorage.getItem("access");
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await axios.get(url);
       console.log(response.data);
       setComments(response.data.comments || []);
     } catch (error) {
@@ -221,6 +219,8 @@ const Comments = ({ report, pageType }) => {
 
   useEffect(() => {
     fetchComments();
+    const nickname = localStorage.getItem("nickname1");
+    setNickName(nickname);
   }, [report]);
 
   return (
@@ -234,7 +234,7 @@ const Comments = ({ report, pageType }) => {
                   <UserNameIconBox>
                     <UserIcon src="/img/User.png" alt="User Icon" />
                     <span>
-                      <strong>이름</strong>
+                      <strong>{comment.nickname}</strong>
                     </span>
                   </UserNameIconBox>
                   <ReplyButton>
@@ -285,7 +285,7 @@ const Comments = ({ report, pageType }) => {
                               <UserNameIconBox>
                                 <UserIcon src="/img/User.png" alt="User Icon" />
                                 <span>
-                                  <strong>이름</strong>
+                                  <strong>{childComment.nickname}</strong>
                                 </span>
                               </UserNameIconBox>
                               <ReplyButton>
