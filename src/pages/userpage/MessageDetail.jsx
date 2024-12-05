@@ -29,104 +29,61 @@ const MessageDetail = () => {
     userA = localStorage.getItem("localReceiverId")
   }
 
-  // useEffect(() => {
-  //   const messageList = async () => {
-  //     try {
-  //       //console.log(receiverId)
-  //       const response = await getMessage(localStorage.getItem("localSenderId"), localStorage.getItem("localReceiverId"), itemId, itemType);
-  //       //console.log(userA, userID)
-  //       const formattedMessages = response.map((msg) => ({
-  //         sender: localStorage.getItem("userID") == msg.senderId ? "me" : "you",
-  //         timestamp: `${msg.timestamp.slice(0, 10)} ${msg.timestamp.slice(11, 16)}`,
-  //         message: msg.message
-  //       }));
-  //       setMessages(formattedMessages);
-  //       console.log(response)
-  //     } catch (error) {
-  //       console.error(error);
-  //       //console.log(userA, userID)
-  //     }
-  //   };
+  useEffect(() => {
+    const messageList = async () => {
+      try {
+        //console.log(receiverId)
+        const response = await getMessage(localStorage.getItem("localSenderId"), localStorage.getItem("localReceiverId"), itemId, itemType);
+        //console.log(userA, userID)
+        const formattedMessages = response.map((msg) => ({
+          sender: localStorage.getItem("userID") == msg.senderId ? "me" : "you",
+          timestamp: `${msg.timestamp.slice(0, 10)} ${msg.timestamp.slice(11, 16)}`,
+          message: msg.message
+        }));
+        setMessages(formattedMessages);
+        console.log(response)
+      } catch (error) {
+        console.error(error);
+        //console.log(userA, userID)
+      }
+    };
 
-  //   messageList();
+    messageList();
 
-  //   const interval = setInterval(() => {
-  //     window.location.reload();
-  //   }, 2000); // 1000ms = 1초
+    const interval = setInterval(() => {
+      //window.location.reload();
+      messageList();
+    }, 2000); // 1000ms = 1초
 
-  //   // 컴포넌트가 언마운트될 때 interval 제거
-  //   return () => clearInterval(interval);
+    // 컴포넌트가 언마운트될 때 interval 제거
+    return () => clearInterval(interval);
 
-  //   //console.log(itemId, itemType, userA)
-  // }, []);
+    //console.log(itemId, itemType, userA)
+  }, []);
 
 
   const [messages, setMessages] = useState([]);
 
   const [newMessage, setNewMessage] = useState("");
 
-  // const handleSendMessage = async() => {
-  //   console.log(itemId, itemType, receiverId, newMessage)
-  //   //let newReceiverId = senderId;
-  //   let userA
-  //   if(localStorage.getItem("userID") == localStorage.getItem("localReceiverId")){
-  //     userA = localStorage.getItem("localSenderId")
-  //   }else{
-  //     userA = localStorage.getItem("localReceiverId")
-  //   }
-  //   const response = await sendMessage(itemId, itemType, userA, newMessage)
-  //   //console.log(response)
-  //   window.location.reload();
-  // };
+  const handleSendMessage = async() => {
+    console.log(itemId, itemType, receiverId, newMessage)
+    //let newReceiverId = senderId;
+    let userA
+    if(localStorage.getItem("userID") == localStorage.getItem("localReceiverId")){
+      userA = localStorage.getItem("localSenderId")
+    }else{
+      userA = localStorage.getItem("localReceiverId")
+    }
+    const response = await sendMessage(itemId, itemType, userA, newMessage)
+    //console.log(response)
+    window.location.reload();
+
+  };
 
   const handleInputChange = (e) => {
     setNewMessage(e.target.value);
   };
-
-  const fetchMessages = async () => {
-    try {
-      const response = await getMessage(
-        localStorage.getItem("localSenderId"),
-        localStorage.getItem("localReceiverId"),
-        itemId,
-        itemType
-      );
-      const formattedMessages = response.map((msg) => ({
-        sender: localStorage.getItem("userID") === msg.senderId ? "me" : "you",
-        timestamp: `${msg.timestamp.slice(0, 10)} ${msg.timestamp.slice(11, 16)}`,
-        message: msg.message,
-      }));
-        setMessages(formattedMessages);
-      
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchMessages(); // 처음 렌더링 시 메시지 가져오기
-
-    const interval = setInterval(() => {
-      fetchMessages(); // 2초마다 메시지 가져오기
-    }, 2000);
-
-    return () => clearInterval(interval); // 컴포넌트 언마운트 시 interval 제거
-  }, [messages]);
-
-  const handleSendMessage = async () => {
-    let userA = localStorage.getItem("userID") === localStorage.getItem("localReceiverId")
-      ? localStorage.getItem("localSenderId")
-      : localStorage.getItem("localReceiverId");
-
-    try {
-      await sendMessage(itemId, itemType, userA, newMessage);
-      setNewMessage(""); // 입력창 초기화
-      fetchMessages(); // 메시지 전송 후 최신 메시지 가져오기
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
 
   // const handleKeyDown = (e) => {
   //   if (e.key === "Enter") {
