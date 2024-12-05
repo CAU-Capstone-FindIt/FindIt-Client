@@ -109,7 +109,6 @@ const CategoryBox = styled.h5`
 `;
 
 const DetailBtn = styled.button`
-  width: 40%;
   padding: 0.5rem 1rem;
   text-align: center;
   border-radius: 10px;

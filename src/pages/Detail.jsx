@@ -135,11 +135,10 @@ const Detail = () => {
         }
       );
       console.log(response.data);
-      window.location.reload(true);
+      navigate("/find");
       return response;
     } catch (error) {
       console.error("거래 실패:", error);
-
       if (error.response.status === 401) {
         console.log(error.response.status);
         alert("게시글을 등록하려면 로그인해주세요");
@@ -167,11 +166,11 @@ const Detail = () => {
       );
 
       console.log(response.data);
-      window.location.reload(true);
+      // window.location.reload(true);
+      navigate("/lost");
       return response;
     } catch (error) {
       console.error("거래 실패:", error);
-
       if (error.response.status === 401) {
         console.log(error.response.status);
         alert("게시글을 등록하려면 로그인해주세요");
@@ -192,8 +191,10 @@ const Detail = () => {
       }
       let itemId = report.id;
       let receiverId = report.userId;
-      let senderId = localStorage.getItem("userID")
-      navigate("/messageDetail", { state: { itemId, itemType, receiverId, senderId } });
+      let senderId = localStorage.getItem("userID");
+      navigate("/messageDetail", {
+        state: { itemId, itemType, receiverId, senderId },
+      });
     }
   };
 
@@ -239,7 +240,7 @@ const Detail = () => {
                   </LabelBox>
                   <LabelBox>
                     <Label>분류번호 :</Label>
-                    <LabelData>몰라</LabelData>
+                    <LabelData>{report.id}</LabelData>
                   </LabelBox>
                 </div>
               </ContentDetailBox>
@@ -391,6 +392,7 @@ const TitleBox = styled.div`
   width: 100%;
   display: flex;
   justify-content: end;
+  align-items: center;
   @media (max-width: 400px) {
     font-size: 13px;
   }
@@ -431,11 +433,9 @@ const LabelBox = styled.div`
 
 const Label = styled.div`
   font-weight: bold;
-  width: 40%;
 `;
 
 const LabelData = styled.div`
-  width: 60%;
   font-weight: 550;
 `;
 const ShareIconBox = styled.div`
