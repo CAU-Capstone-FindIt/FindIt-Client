@@ -5,7 +5,7 @@ export const handleLogout = async () => {
       alert('로그아웃 되었습니다.');
       window.location.href = "/";
     // try {
-    //   await axios.post('http://findit.p-e.kr:8080/api/users/logout', {}, {
+    //   await axios.post('https://findit.p-e.kr:8443/api/users/logout', {}, {
     //     headers: {
     //       'Authorization': `Bearer ${token}`
     //     }
