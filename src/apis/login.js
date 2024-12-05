@@ -3,8 +3,9 @@ import { createBrowserHistory } from "history";
 
 const REST_API_KEY = process.env.REACT_APP_KAKAO_LOGIN_KEY;
 const REDIRECT_URI1 = "http://localhost:3000/oauth";
-const REDIRECT_URI2 = "https://finditcau.netlify.app/oauth";
-const kakao_login_uri = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI1}&response_type=code`;
+
+const REDIRECT_URI2 ="https://finditcau.netlify.app/oauth";
+const kakao_login_uri = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI2}&response_type=code`;
 
 export const loginHandler = () => {
   //localStorage.setItem("access", "key")
