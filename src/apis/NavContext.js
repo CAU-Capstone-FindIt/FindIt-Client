@@ -15,8 +15,7 @@ export const NavProvider = ({ children }) => {
 
   useEffect(() => {
     const pathname = location;
-    // findIndex는 현재 URL의 경로(location.pathname)와 일치하는 경로를 ["/", "/find", "/lost", "/search", "/userpage"] 배열에서 찾아
-    // 그 인덱스를 activeNav에 설정합니다.
+
     const pathMap = {
       "/": 0,
       "/find": 1,

@@ -1,16 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import styled from "styled-components";
 import TopNav from "./TopNav";
 import Item from "../component/item/Item";
 import Nav from "./Nav";
-import { useFindListQuery } from "../apis/FindQuery";
+import { useFindListQuery, useFindListSuspenseQuery } from "../apis/FindQuery";
 import { useNavContext } from "../apis/NavContext";
 
 const ITEMS_PER_PAGE = 6; // 한 페이지에 보여줄 아이템 수
 const MAX_PAGE_BUTTONS = 5; // 한 번에 표시할 페이지 버튼 수
 
 const Find = () => {
-  const { data: findReports = [], isLoading } = useFindListQuery();
+  return (
+    <Container>
+      <TopNav />
+      <ListContainer>
+        <Suspense fallback={<NoReportsMessage></NoReportsMessage>}>
+          <Findlist></Findlist>
+        </Suspense>
+      </ListContainer>
+      <Nav />
+    </Container>
+  );
+};
+
+const Findlist = () => {
+  const { data: findReports = [], isLoading } = useFindListSuspenseQuery();
   const { setActiveNav } = useNavContext();
   const [currentPage, setCurrentPage] = useState(1);
   const [currentRange, setCurrentRange] = useState(1); // 현재 페이지 범위 (1부터 시작)
@@ -55,50 +69,38 @@ const Find = () => {
       setCurrentPage(currentRange * MAX_PAGE_BUTTONS + 1); // 범위의 첫 번째 페이지로 이동
     }
   };
-
   return (
-    <Container>
-      <TopNav />
-      <ListContainer>
-        {!isLoading ? (
-          <>
-            <Item findReports={paginatedReports} pageType="find" />
-            {findReports.length > 0 && (
-              <PaginationContainer>
-                <ArrowButton
-                  src="img/arrowleft.png"
-                  onClick={handlePrevRange}
-                  disabled={currentRange === 1}
-                />
+    <>
+      <Item findReports={paginatedReports} pageType="find" />
+      {findReports.length > 0 && (
+        <PaginationContainer>
+          <ArrowButton
+            src="img/arrowleft.png"
+            onClick={handlePrevRange}
+            disabled={currentRange === 1}
+          />
 
-                <div>
-                  {pageButtons.map((page) => (
-                    <PageButton
-                      key={page}
-                      onClick={() => handlePageClick(page)}
-                      isActive={page === currentPage}
-                    >
-                      {page}
-                    </PageButton>
-                  ))}
-                </div>
-                <ArrowButton
-                  src="img/arrowright.png"
-                  onClick={handleNextRange}
-                  disabled={currentRange === totalRanges}
-                />
-              </PaginationContainer>
-            )}
-          </>
-        ) : (
-          <NoReportsMessage>No reports found.</NoReportsMessage>
-        )}
-      </ListContainer>
-      <Nav />
-    </Container>
+          <div>
+            {pageButtons.map((page) => (
+              <PageButton
+                key={page}
+                onClick={() => handlePageClick(page)}
+                isActive={page === currentPage}
+              >
+                {page}
+              </PageButton>
+            ))}
+          </div>
+          <ArrowButton
+            src="img/arrowright.png"
+            onClick={handleNextRange}
+            disabled={currentRange === totalRanges}
+          />
+        </PaginationContainer>
+      )}
+    </>
   );
 };
-
 export default Find;
 
 const Container = styled.div`
@@ -165,8 +167,55 @@ const PageButton = styled.button`
   }
 `;
 
-const NoReportsMessage = styled.p`
-  color: white;
+const NoReportsMessage = styled.div`
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 16px;
+  background-color: #f2f2f2;
+  color: #666;
+  font-size: 1.2rem;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  &::before {
+    content: "데이터 로딩 중...";
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    animation: bounce 1.5s infinite;
+  }
+
+  &::after {
+    content: "";
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top: 4px solid #1876d2;
+    border-radius: 50%;
+    margin-top: 1rem;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `;

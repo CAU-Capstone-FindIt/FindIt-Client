@@ -14,8 +14,6 @@ const Form = () => {
   const [selectedCategory, setSelectedCategory] = useState(""); // 선택된 카테고리 상태
   const [description, setDescription] = useState(""); // 설명 상태
 
-  const [error1, setError1] = useState(null);
-
   const { mutate, isLoading, isError, error } = usePostFindItem(); // 훅 사용
 
   const navigate = useNavigate();
@@ -55,9 +53,9 @@ const Form = () => {
 
     //console.log(message)
 
-    const gptResponse = await revise_gpt(JSON.stringify(message))
+    const gptResponse = await revise_gpt(JSON.stringify(message));
 
-    console.log(gptResponse)
+    console.log(gptResponse);
     //console.log(gptResponse.name)
 
     let data;
