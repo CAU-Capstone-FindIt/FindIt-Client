@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TopNavBack from "../TopNavBack";
 import Nav from "../Nav";
 import styled from "styled-components";
@@ -33,6 +33,14 @@ const MessageDetail = () => {
 
   const [newMessage, setNewMessage] = useState("");
 
+  const chatBoxRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  };
+
   useEffect(() => {
     const messageList = async () => {
       try {
@@ -46,6 +54,7 @@ const MessageDetail = () => {
         }));
         setMessages(formattedMessages);
         console.log(response)
+        scrollToBottom();
       } catch (error) {
         console.error(error);
         //console.log(userA, userID)
@@ -76,6 +85,7 @@ const MessageDetail = () => {
     const response = await sendMessage(itemId, itemType, userA, newMessage)
     //console.log(response)
     window.location.reload();
+    scrollToBottom();
 
   };
 
@@ -95,6 +105,8 @@ const MessageDetail = () => {
     const newMessage = message.slice(12,-2)
     return newMessage
   }
+
+  
 
   return (
     <Container>
