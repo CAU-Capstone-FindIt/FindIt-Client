@@ -96,16 +96,30 @@ const Map = (selectedCategory) => {
       const filteredFindReports =
         selectedCategory && selectedCategory.selectedCategory
           ? findReports.filter(
-              (report) => report.category === selectedCategory.selectedCategory
+              (report) =>
+                report.category === selectedCategory.selectedCategory &&
+                report.status !== "RETURNED" && // RETURNED 상태 제외
+                isWithinTwoWeeks(report.createdDate) // 2주 이내 데이터만 포함
             )
-          : findReports;
+          : findReports.filter(
+              (report) =>
+                report.status !== "RETURNED" && // RETURNED 상태 제외
+                isWithinTwoWeeks(report.createdDate) // 2주 이내 데이터만 포함
+            );
 
       const filteredLostReports =
         selectedCategory && selectedCategory.selectedCategory
           ? lostReports.filter(
-              (report) => report.category === selectedCategory.selectedCategory
+              (report) =>
+                report.category === selectedCategory.selectedCategory &&
+                report.status !== "RETURNED" && // RETURNED 상태 제외
+                isWithinTwoWeeks(report.createdDate) // 2주 이내 데이터만 포함
             )
-          : lostReports;
+          : lostReports.filter(
+              (report) =>
+                report.status !== "RETURNED" && // RETURNED 상태 제외
+                isWithinTwoWeeks(report.createdDate) // 2주 이내 데이터만 포함
+            );
 
       console.log(filteredFindReports);
       console.log(filteredLostReports);
@@ -218,6 +232,17 @@ const Map = (selectedCategory) => {
   const closeModal = () => {
     setIsModalOpen(false); // 모달 닫기
     setSelectedReport(null); // 선택된 신고 정보 초기화
+  };
+
+  const isWithinTwoWeeks = (createdDate) => {
+    const currentDate = new Date(); // 현재 날짜
+    const reportDate = new Date(createdDate); // 생성 날짜 파싱
+    const timeDifference = currentDate - reportDate; // 시간 차이 (밀리초)
+    const twoWeeksInMilliseconds = 14 * 24 * 60 * 60 * 1000; // 2주를 밀리초로 변환
+
+    console.log(timeDifference <= twoWeeksInMilliseconds);
+
+    return timeDifference <= twoWeeksInMilliseconds; // 2주 이내인지 확인
   };
 
   return (

@@ -1,30 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
-// const postFindItem = async (newItem) => {
-//   try {
-//     const response = await axios.post(
-//       "https://findit.p-e.kr:8443/api/items/found",
-//       newItem
-//     );
-//     return response.data;
-//   } catch (error) {
-//     console.error("데이터 등록 실패:", error);
-//     throw error;
-//   }
-// };
-
-// export const usePostFindItem = () => {
-//   const queryClient = useQueryClient();
-
-//   return useMutation({
-//     mutationFn: postFindItem,
-//     onSuccess: () => {
-//       // 성공적으로 데이터를 등록한 후 findlist를 재조회
-//       queryClient.invalidateQueries(["findlist"]);
-//     },
-//   });
-// };
 
 // Form.jsx에서 report모드에 맞게 apiUrl을 동적으로 가져온다.
 const postFindItem = async ({ apiUrl, data }) => {
