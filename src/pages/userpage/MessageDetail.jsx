@@ -159,7 +159,6 @@ const MessageDetail = () => {
             placeholder="메세지를 입력하세요..."
             value={newMessage}
             onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
           />
           <SendButton onClick={handleSendMessage}>전송</SendButton>
         </InputContainer>
