@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export const useLostListQuery = () => {
@@ -8,20 +8,23 @@ export const useLostListQuery = () => {
     initialData: undefined,
 
     staleTime: 10000, // 데이터를 1분(60초) 동안 유지
+    refetchInterval: 30000, // 30초마다 데이터 새로고침
+    cashetime: 10000,
   });
 };
 
-// const initializeLostList = async () => {
-//   // api로 데이터 가져오기
+export const useLostListSuspenseQuery = () => {
+  return useSuspenseQuery({
+    // "findlist"라는 키를 기반으로 데이터를 캐싱하고 관리하며, 첫 번째 호출 시 지정한 엔드포인트 URL에서 데이터를 가져온다
+    queryKey: ["lostlist"],
+    queryFn: () => initializeLostList(),
+    initialData: undefined,
 
-//   try {
-//     const responseFind = await axios.get("http://localhost:3001/lostlist");
-
-//     console.log(responseFind);
-
-//     return responseFind.data;
-//   } catch {}
-// };
+    staleTime: 10000, // 데이터를 1분(60초) 동안 유지
+    refetchInterval: 30000, // 30초마다 데이터 새로고침
+    cashetime: 10000,
+  });
+};
 
 const initializeLostList = async () => {
   try {

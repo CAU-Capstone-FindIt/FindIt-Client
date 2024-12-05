@@ -1,21 +1,35 @@
-import React, { useState } from "react";
-import Nav from "./Nav";
+import React, { Suspense, useEffect, useState } from "react";
 import styled from "styled-components";
 import TopNav from "./TopNav";
 import Item from "../component/item/Item";
-import { useNavigate } from "react-router-dom";
-import { useLostListQuery } from "../apis/LostQuery";
+import Nav from "./Nav";
+import { useNavContext } from "../apis/NavContext";
+import { useLostListSuspenseQuery } from "../apis/LostQuery";
 
 const ITEMS_PER_PAGE = 6; // 한 페이지에 보여줄 아이템 수
 const MAX_PAGE_BUTTONS = 5; // 한 번에 표시할 페이지 버튼 수
 
 const Lost = () => {
-  const { data: lostReports = [], isLoading } = useLostListQuery();
+  return (
+    <Container>
+      <TopNav />
+      <ListContainer>
+        <Suspense fallback={<NoReportsMessage></NoReportsMessage>}>
+          <Lostlist></Lostlist>
+        </Suspense>
+      </ListContainer>
+      <Nav />
+    </Container>
+  );
+};
 
+const Lostlist = () => {
+  const { data: lostReports = [], isLoading } = useLostListSuspenseQuery();
+  const { setActiveNav } = useNavContext();
   const [currentPage, setCurrentPage] = useState(1);
   const [currentRange, setCurrentRange] = useState(1); // 현재 페이지 범위 (1부터 시작)
-  console.log(lostReports);
 
+  // findReports를 역순으로 정렬
   const sortedReports = [...lostReports].reverse();
 
   const totalPages = Math.ceil(lostReports.length / ITEMS_PER_PAGE); // 전체 페이지 수
@@ -51,50 +65,38 @@ const Lost = () => {
       setCurrentPage(currentRange * MAX_PAGE_BUTTONS + 1); // 범위의 첫 번째 페이지로 이동
     }
   };
-
   return (
-    <Container>
-      <TopNav></TopNav>
-      <ListContainer>
-        {!isLoading ? (
-          <>
-            <Item findReports={paginatedReports} pageType="lost"></Item>
-            {lostReports.length > 0 && (
-              <PaginationContainer>
-                <ArrowButton
-                  src="img/arrowleft.png"
-                  onClick={handlePrevRange}
-                  disabled={currentRange === 1}
-                />
+    <>
+      <Item findReports={paginatedReports} pageType="lost" />
+      {lostReports.length > 0 && (
+        <PaginationContainer>
+          <ArrowButton
+            src="img/arrowleft.png"
+            onClick={handlePrevRange}
+            disabled={currentRange === 1}
+          />
 
-                <div>
-                  {pageButtons.map((page) => (
-                    <PageButton
-                      key={page}
-                      onClick={() => handlePageClick(page)}
-                      isActive={page === currentPage}
-                    >
-                      {page}
-                    </PageButton>
-                  ))}
-                </div>
-                <ArrowButton
-                  src="img/arrowright.png"
-                  onClick={handleNextRange}
-                  disabled={currentRange === totalRanges}
-                />
-              </PaginationContainer>
-            )}
-          </>
-        ) : (
-          <NoReportsMessage>No reports found.</NoReportsMessage>
-        )}
-      </ListContainer>
-      <Nav></Nav>
-    </Container>
+          <div>
+            {pageButtons.map((page) => (
+              <PageButton
+                key={page}
+                onClick={() => handlePageClick(page)}
+                isActive={page === currentPage}
+              >
+                {page}
+              </PageButton>
+            ))}
+          </div>
+          <ArrowButton
+            src="img/arrowright.png"
+            onClick={handleNextRange}
+            disabled={currentRange === totalRanges}
+          />
+        </PaginationContainer>
+      )}
+    </>
   );
 };
-
 export default Lost;
 
 const Container = styled.div`
@@ -110,35 +112,21 @@ const ListContainer = styled.div`
   padding: 0.5rem;
   overflow-y: auto;
   height: 100%;
-  max-height: calc(
-    100% - 141px
-  ); // 위 아래 네브바 합쳐서 16vh안으로 보이게 한다.
+  max-height: calc(100% - 141px);
   box-sizing: border-box;
 
-  // 스크롤바 숨기기
   &::-webkit-scrollbar {
     width: 5px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba(150, 150, 150); //스크롤바 색상
-    border-radius: 10px; //스크롤바 둥근 테두리
+    background: rgba(150, 150, 150);
+    border-radius: 10px;
   }
 
   &::-webkit-scrollbar-track {
-    background: rgba(150, 150, 150, 0.1); //스크롤바 뒷 배경 색상
+    background: rgba(150, 150, 150, 0.1);
   }
-
-  // @media (max-width: 600px) {
-  //   top: calc(var(--vh, 1vh) * 8);
-  //   max-height: calc(100% - (calc(var(--vh, 1vh) * 16)));
-  // }
-`;
-
-const NoReportsMessage = styled.p`
-  color: white;
-  text-align: center;
-  padding: 16px;
 `;
 
 const PaginationContainer = styled.div`
@@ -172,5 +160,58 @@ const PageButton = styled.button`
 
   &:hover {
     text-decoration: underline;
+  }
+`;
+
+const NoReportsMessage = styled.div`
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #f2f2f2;
+  color: #666;
+  font-size: 1.2rem;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  &::before {
+    content: "데이터 로딩 중...";
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    animation: bounce 1.5s infinite;
+  }
+
+  &::after {
+    content: "";
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top: 4px solid #1876d2;
+    border-radius: 50%;
+    margin-top: 1rem;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
