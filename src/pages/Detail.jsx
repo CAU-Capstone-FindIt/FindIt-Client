@@ -124,7 +124,7 @@ const Detail = () => {
     console.log(accessToken);
     try {
       const response = await axios.put(
-        `http://findit.p-e.kr:8080/api/items/found/${report.id}/status`,
+        `https://findit.p-e.kr:8443/api/items/found/${report.id}/status`,
         {
           status: "REGISTERED",
         },
@@ -155,7 +155,7 @@ const Detail = () => {
     console.log(accessToken);
     try {
       const response = await axios.put(
-        `http://findit.p-e.kr:8080/api/items/lost/${report.id}/status`,
+        `https://findit.p-e.kr:8443/api/items/lost/${report.id}/status`,
         {
           status: "REGISTERED",
         },

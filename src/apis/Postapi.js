@@ -4,7 +4,7 @@ import axios from "axios";
 // const postFindItem = async (newItem) => {
 //   try {
 //     const response = await axios.post(
-//       "http://findit.p-e.kr:8080/api/items/found",
+//       "https://findit.p-e.kr:8443/api/items/found",
 //       newItem
 //     );
 //     return response.data;
@@ -57,10 +57,10 @@ export const usePostFindItem = () => {
     mutationFn: postFindItem,
     onSuccess: ({ apiUrl }) => {
       // apiUrl에 따라 해당하는 리스트를 재조회
-      if (apiUrl === "http://findit.p-e.kr:8080/api/items/lost/register") {
+      if (apiUrl === "https://findit.p-e.kr:8443/api/items/lost/register") {
         queryClient.invalidateQueries(["lostlist"]); // findlist 데이터 새로고침
       } else if (
-        apiUrl === "http://findit.p-e.kr:8080/api/items/found/report"
+        apiUrl === "https://findit.p-e.kr:8443/api/items/found/report"
       ) {
         queryClient.invalidateQueries(["findlist"]); // lostlist 데이터 새로고침
       }
