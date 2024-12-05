@@ -29,6 +29,10 @@ const MessageDetail = () => {
     userA = localStorage.getItem("localReceiverId")
   }
 
+  const [messages, setMessages] = useState([]);
+
+  const [newMessage, setNewMessage] = useState("");
+
   useEffect(() => {
     const messageList = async () => {
       try {
@@ -50,13 +54,15 @@ const MessageDetail = () => {
 
     messageList();
 
+    const interval = setInterval(() => {
+      messageList(); // 2초마다 메시지 가져오기
+    }, 2000);
+
+    return () => clearInterval(interval);
+
     //console.log(itemId, itemType, userA)
-  }, []);
+  }, [setMessages]);
 
-
-  const [messages, setMessages] = useState([]);
-
-  const [newMessage, setNewMessage] = useState("");
 
   const handleSendMessage = async() => {
     console.log(itemId, itemType, receiverId, newMessage)
