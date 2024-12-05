@@ -11,7 +11,7 @@ const MessageDetail = () => {
   const location = useLocation();
   //const senderId = location.state?.senderId;
   //const userID = useRecoilValue(userIDAtom);
-  const userID = parseInt(localStorage.getItem("userID"));
+  const userID = localStorage.getItem("userID");
   //console.log(userID)
   const yourId = useRecoilValue(yourIdAtom);
   //console.log(yourId)
@@ -19,20 +19,24 @@ const MessageDetail = () => {
   //console.log(itemId)
   const itemType = location.state?.itemType;
   const receiverId = location.state?.receiverId;
+  const senderId = location.state?.senderId;
+  localStorage.setItem("localReceiverId", receiverId)
+  localStorage.setItem("localSenderId", senderId)
   let userA;
-  if(receiverId){
-    userA = receiverId
+  if(localStorage.getItem("userID") != localStorage.getItem("localReceiverId")){
+    userA = localStorage.getItem("localSenderId")
   }else{
-    userA = yourId
+    userA = localStorage.getItem("localReceiverId")
   }
 
   useEffect(() => {
     const messageList = async () => {
       try {
-        const response = await getMessage(receiverId, userID, itemId, itemType);
+        //console.log(receiverId)
+        const response = await getMessage(localStorage.getItem("localSenderId"), localStorage.getItem("localReceiverId"), itemId, itemType);
         //console.log(userA, userID)
         const formattedMessages = response.map((msg) => ({
-          sender: msg.senderId === userID ? "me" : "you",
+          sender: localStorage.getItem("userID") == msg.senderId ? "me" : "you",
           timestamp: `${msg.timestamp.slice(0, 10)} ${msg.timestamp.slice(11, 16)}`,
           message: msg.message
         }));
@@ -54,8 +58,16 @@ const MessageDetail = () => {
   const [newMessage, setNewMessage] = useState("");
 
   const handleSendMessage = async() => {
-    //console.log(itemId, itemType, userA, newMessage)
+    console.log(itemId, itemType, receiverId, newMessage)
+    //let newReceiverId = senderId;
+    let userA
+    if(localStorage.getItem("userID") == localStorage.getItem("localReceiverId")){
+      userA = localStorage.getItem("localSenderId")
+    }else{
+      userA = localStorage.getItem("localReceiverId")
+    }
     const response = await sendMessage(itemId, itemType, userA, newMessage)
+    //console.log(response)
     window.location.reload();
 
   };

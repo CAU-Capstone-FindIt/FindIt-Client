@@ -4,13 +4,13 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { yourIdAtom } from "../../recoil/userID";
 
-const MessageAlert = ({ message, receiverId, timestamp, itemId, itemType, itemName, itemImageUrl }) => {
+const MessageAlert = ({ message, receiverId, timestamp, itemId, itemType, itemName, itemImageUrl, senderId }) => {
   const navigate = useNavigate();
   //const [yourId, setYourIdAtom] = useRecoilState(yourIdAtom)
 
   const handleClick = () => {
     //setYourIdAtom(senderId)
-    navigate("/messageDetail", { state: { itemId, itemType, receiverId } });
+    navigate("/messageDetail", { state: { itemId, itemType, senderId, receiverId } });
   };
 
   const formatDate = (date) => {

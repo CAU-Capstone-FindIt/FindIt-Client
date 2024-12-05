@@ -124,7 +124,7 @@ const Detail = () => {
     console.log(accessToken);
     try {
       const response = await axios.put(
-        `http://findit.p-e.kr:8443/api/items/found/${report.id}/status`,
+        `https://findit.p-e.kr:8443/api/items/found/${report.id}/status`,
         {
           status: "REGISTERED",
         },
@@ -155,7 +155,7 @@ const Detail = () => {
     console.log(accessToken);
     try {
       const response = await axios.put(
-        `http://findit.p-e.kr:8443/api/items/lost/${report.id}/status`,
+        `https://findit.p-e.kr:8443/api/items/lost/${report.id}/status`,
         {
           status: "REGISTERED",
         },
@@ -192,7 +192,8 @@ const Detail = () => {
       }
       let itemId = report.id;
       let receiverId = report.userId;
-      navigate("/messageDetail", { state: { itemId, itemType, receiverId } });
+      let senderId = localStorage.getItem("userID")
+      navigate("/messageDetail", { state: { itemId, itemType, receiverId, senderId } });
     }
   };
 

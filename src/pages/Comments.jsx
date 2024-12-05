@@ -21,9 +21,9 @@ const Comments = ({ report, pageType }) => {
   const fetchComments = async () => {
     let url;
     if (pageType === "find") {
-      url = `http://findit.p-e.kr:8443/api/items/found/${report.id}`;
+      url = `https://findit.p-e.kr:8443/api/items/found/${report.id}`;
     } else {
-      url = `http://findit.p-e.kr:8443/api/items/lost/${report.id}`;
+      url = `https://findit.p-e.kr:8443/api/items/lost/${report.id}`;
     }
 
     try {
@@ -54,14 +54,14 @@ const Comments = ({ report, pageType }) => {
         content: newComment,
         parentCommentId: null,
       };
-      url = `http://findit.p-e.kr:8443/api/items/found/comment`;
+      url = `https://findit.p-e.kr:8443/api/items/found/comment`;
     } else {
       commentData = {
         lostItemId: report.id,
         content: newComment,
         parentCommentId: null,
       };
-      url = `http://findit.p-e.kr:8443/api/items/lost/comment`;
+      url = `https://findit.p-e.kr:8443/api/items/lost/comment`;
     }
 
     try {
@@ -103,14 +103,14 @@ const Comments = ({ report, pageType }) => {
         content: newReply, // 대댓글 내용
         parentCommentId: parentCommentId, // 부모 댓글 ID
       };
-      url = `http://findit.p-e.kr:8443/api/items/found/comment`;
+      url = `https://findit.p-e.kr:8443/api/items/found/comment`;
     } else {
       replyData = {
         lostItemId: report.id, // 현재 신고된 물품 ID
         content: newReply, // 대댓글 내용
         parentCommentId: parentCommentId, // 부모 댓글 ID
       };
-      url = `http://findit.p-e.kr:8443/api/items/lost/comment`;
+      url = `https://findit.p-e.kr:8443/api/items/lost/comment`;
     }
 
     try {
@@ -157,14 +157,14 @@ const Comments = ({ report, pageType }) => {
         content: editContent, // 대댓글 내용
         parentCommentId: editParentIndex, // 부모 댓글 ID
       };
-      url = `http://findit.p-e.kr:8443/api/items/found/comment/${editIndex}`;
+      url = `https://findit.p-e.kr:8443/api/items/found/comment/${editIndex}`;
     } else {
       editData = {
         lostItemId: report.id, // 현재 신고된 물품 ID
         content: editContent, // 대댓글 내용
         parentCommentId: editParentIndex, // 부모 댓글 ID
       };
-      url = `http://findit.p-e.kr:8443/api/items/lost/comment/${editIndex}`;
+      url = `https://findit.p-e.kr:8443/api/items/lost/comment/${editIndex}`;
     }
 
     try {
@@ -193,9 +193,9 @@ const Comments = ({ report, pageType }) => {
     }
     let url;
     if (pageType === "find") {
-      url = `http://findit.p-e.kr:8443/api/items/found/comment/${commentId}`;
+      url = `https://findit.p-e.kr:8443/api/items/found/comment/${commentId}`;
     } else {
-      url = `http://findit.p-e.kr:8443/api/items/lost/comment/${commentId}`;
+      url = `https://findit.p-e.kr:8443/api/items/lost/comment/${commentId}`;
     }
 
     console.log(commentId);

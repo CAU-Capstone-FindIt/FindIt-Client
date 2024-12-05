@@ -140,8 +140,8 @@ const Form = () => {
       {
         apiUrl:
           reportInfo.mode === "found"
-            ? "http://findit.p-e.kr:8080/api/items/found/report"
-            : "http://findit.p-e.kr:8080/api/items/lost/register",
+            ? "https://findit.p-e.kr:8443/api/items/found/report"
+            : "https://findit.p-e.kr:8443/api/items/lost/register",
         data: data, // FormData 객체
       },
       {
