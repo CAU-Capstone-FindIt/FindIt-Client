@@ -49,6 +49,14 @@ const MessageDetail = () => {
     };
 
     messageList();
+
+    const interval = setInterval(() => {
+      window.location.reload();
+    }, 2000); // 1000ms = 1초
+
+    // 컴포넌트가 언마운트될 때 interval 제거
+    return () => clearInterval(interval);
+
     //console.log(itemId, itemType, userA)
   }, []);
 
@@ -78,6 +86,7 @@ const MessageDetail = () => {
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
+      e.preventDefault();
       handleSendMessage();
       window.location.reload();
     }
