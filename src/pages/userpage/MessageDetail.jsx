@@ -50,14 +50,6 @@ const MessageDetail = () => {
 
     messageList();
 
-    const interval = setInterval(() => {
-      //window.location.reload();
-      messageList();
-    }, 2000); // 1000ms = 1초
-
-    // 컴포넌트가 언마운트될 때 interval 제거
-    return () => clearInterval(interval);
-
     //console.log(itemId, itemType, userA)
   }, []);
 
