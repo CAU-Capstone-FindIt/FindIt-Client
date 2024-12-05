@@ -29,7 +29,7 @@ export const useLostListSuspenseQuery = () => {
 const initializeLostList = async () => {
   try {
     const responseFind = await axios.get(
-      "http://findit.p-e.kr:8080/api/items/lost/all"
+      "http://findit.p-e.kr:8443/api/items/lost/all"
     );
 
     console.log(responseFind);
