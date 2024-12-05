@@ -29,6 +29,10 @@ const MessageDetail = () => {
     userA = localStorage.getItem("localReceiverId")
   }
 
+  const [messages, setMessages] = useState([]);
+
+  const [newMessage, setNewMessage] = useState("");
+  
   useEffect(() => {
     const messageList = async () => {
       try {
@@ -59,10 +63,6 @@ const MessageDetail = () => {
     //console.log(itemId, itemType, userA)
   }, [messages]);
 
-
-  const [messages, setMessages] = useState([]);
-
-  const [newMessage, setNewMessage] = useState("");
 
   const handleSendMessage = async() => {
     console.log(itemId, itemType, receiverId, newMessage)
