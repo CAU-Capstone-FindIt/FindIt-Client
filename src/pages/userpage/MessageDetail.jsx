@@ -65,6 +65,24 @@ const MessageDetail = () => {
 
   const [newMessage, setNewMessage] = useState("");
 
+  // const handleSendMessage = async() => {
+  //   console.log(itemId, itemType, receiverId, newMessage)
+  //   //let newReceiverId = senderId;
+  //   let userA
+  //   if(localStorage.getItem("userID") == localStorage.getItem("localReceiverId")){
+  //     userA = localStorage.getItem("localSenderId")
+  //   }else{
+  //     userA = localStorage.getItem("localReceiverId")
+  //   }
+  //   const response = await sendMessage(itemId, itemType, userA, newMessage)
+  //   //console.log(response)
+  //   window.location.reload();
+  // };
+
+  const handleInputChange = (e) => {
+    setNewMessage(e.target.value);
+  };
+
   const fetchMessages = async () => {
     try {
       const response = await getMessage(
@@ -78,10 +96,8 @@ const MessageDetail = () => {
         timestamp: `${msg.timestamp.slice(0, 10)} ${msg.timestamp.slice(11, 16)}`,
         message: msg.message,
       }));
-      // 상태가 변경된 경우만 업데이트
-      if (JSON.stringify(messages) !== JSON.stringify(formattedMessages)) {
         setMessages(formattedMessages);
-      }
+      
     } catch (error) {
       console.error(error);
     }
@@ -95,7 +111,7 @@ const MessageDetail = () => {
     }, 2000);
 
     return () => clearInterval(interval); // 컴포넌트 언마운트 시 interval 제거
-  }, []);
+  }, [messages]);
 
   const handleSendMessage = async () => {
     let userA = localStorage.getItem("userID") === localStorage.getItem("localReceiverId")
@@ -111,32 +127,14 @@ const MessageDetail = () => {
     }
   };
 
-  // const handleSendMessage = async() => {
-  //   console.log(itemId, itemType, receiverId, newMessage)
-  //   //let newReceiverId = senderId;
-  //   let userA
-  //   if(localStorage.getItem("userID") == localStorage.getItem("localReceiverId")){
-  //     userA = localStorage.getItem("localSenderId")
-  //   }else{
-  //     userA = localStorage.getItem("localReceiverId")
+
+  // const handleKeyDown = (e) => {
+  //   if (e.key === "Enter") {
+  //     e.preventDefault();
+  //     handleSendMessage();
+  //     window.location.reload();
   //   }
-  //   const response = await sendMessage(itemId, itemType, userA, newMessage)
-  //   //console.log(response)
-  //   window.location.reload();
-
   // };
-
-  const handleInputChange = (e) => {
-    setNewMessage(e.target.value);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleSendMessage();
-      //window.location.reload();
-    }
-  };
 
   const formatMessage = (message)=>{
     const newMessage = message.slice(12,-2)
