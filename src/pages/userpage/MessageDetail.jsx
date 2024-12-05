@@ -50,8 +50,14 @@ const MessageDetail = () => {
 
     messageList();
 
+    const interval = setInterval(() => {
+      messageList(); // 2초마다 메시지 가져오기
+    }, 2000);
+
+    return () => clearInterval(interval);
+
     //console.log(itemId, itemType, userA)
-  }, []);
+  }, [messages]);
 
 
   const [messages, setMessages] = useState([]);
