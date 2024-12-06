@@ -7,7 +7,7 @@ export const useLostListQuery = () => {
     queryFn: () => initializeLostList(),
     initialData: undefined,
 
-    staleTime: 10000, // 데이터를 1분(60초) 동안 유지
+    staleTime: 0, // 데이터를 (0초) 동안 유지
     refetchInterval: 30000, // 30초마다 데이터 새로고침
     cashetime: 10000,
   });
