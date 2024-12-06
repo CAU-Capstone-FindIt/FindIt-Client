@@ -98,44 +98,6 @@ const Form = () => {
       };
     }
 
-    console.log(data);
-
-    // const formData = {
-    //   mode: reportInfo.mode,
-    //   position: reportInfo.position,
-    //   name: e.target.name.value,
-    //   brand: e.target.brand.value,
-    //   location: e.target.location.value,
-    //   category: selectedCategory,
-    //   color: e.target.color.value,
-    //   date: e.target.date.value,
-    //   description: description,
-    //   image: selectedImage,
-    //   comments: [],
-    // };
-
-    // api에 넣기
-    // try {
-    //   let apiUrl = "";
-
-    //   // reportInfo.mode에 따라 API 엔드포인트 설정
-    //   if (reportInfo.mode === "found") {
-    //     apiUrl = "http://localhost:3001/findlist";
-
-    //   } else if (reportInfo.mode === "lost") {
-    //     apiUrl = "http://localhost:3001/lostlist";
-    //   }
-
-    //   // POST 요청으로 데이터 추가
-    //   const response = await axios.post(apiUrl, formData);
-    //   console.log("Response:", response.data);
-
-    //   // 성공 후 원하는 로직 추가 (예: 알림, 화면 전환)
-    // } catch (err) {
-    //   setError1(err.message);
-    //   console.error("Error:", err);
-    // }
-
     mutate(
       {
         apiUrl:
@@ -145,7 +107,7 @@ const Form = () => {
         data: data, // FormData 객체
       },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
           alert("등록 성공!");
           navigate("/"); // 메인 화면으로 이동
         },
@@ -157,7 +119,7 @@ const Form = () => {
     );
 
     // 메인 화면으로 네비게이트
-    navigate("/");
+    // navigate("/");
   };
 
   // 이미지 미리보기 클릭 시 파일 입력창 열기

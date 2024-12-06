@@ -13,7 +13,7 @@ export const useFindListQuery = () => {
     queryFn: () => initializeFindList(),
     initialData: undefined,
 
-    staleTime: 10000, // 데이터를 1분(60초) 동안 유지
+    staleTime: 0, // 데이터를 (0초) 동안 신선한 상태 유지
     refetchInterval: 30000, // 30초마다 데이터 새로고침
     cashetime: 10000,
   });
@@ -22,11 +22,11 @@ export const useFindListQuery = () => {
 export const useFindListSuspenseQuery = () => {
   return useSuspenseQuery({
     // "findlist"라는 키를 기반으로 데이터를 캐싱하고 관리하며, 첫 번째 호출 시 지정한 엔드포인트 URL에서 데이터를 가져온다
-    queryKey: ["findlist"],
+    queryKey: ["findlist"], // 이 queryKey가 invalidateQueries와 매칭됨
     queryFn: () => initializeFindList(),
     initialData: undefined,
 
-    staleTime: 10000, // 데이터를 1분(60초) 동안 유지
+    staleTime: 10000, // 데이터를 (10초) 동안 유지
     refetchInterval: 30000, // 30초마다 데이터 새로고침
     cashetime: 10000,
   });
