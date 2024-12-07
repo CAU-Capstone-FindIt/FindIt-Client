@@ -290,7 +290,7 @@ const InputBox = styled.div`
 `;
 
 const InputLabel = styled.label`
-  width: 20%;
+  width: 30%;
   font-weight: bold;
 `;
 
@@ -299,7 +299,7 @@ const InputFile = styled.input`
 `;
 
 const InputText = styled.input`
-  width: 80%;
+  width: 70%;
   padding: 10px;
   border: none;
   border-bottom: 1px solid #ccc; /* 테두리 스타일 */
