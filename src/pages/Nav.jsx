@@ -78,11 +78,11 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  @media (max-width: 600px) {
-    height: calc(
-      var(--vh, 1vh) * 8
-    ); // 작은 화면에서는 화면 비율에 맞게 높이 설정 전체 높이의 &%
-  }
+  // @media (max-width: 600px) {
+  //   height: calc(
+  //     var(--vh, 1vh) * 8
+  //   ); // 작은 화면에서는 화면 비율에 맞게 높이 설정 전체 높이의 &%
+  // }
 
   z-index: 10000;
 `;
