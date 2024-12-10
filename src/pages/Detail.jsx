@@ -201,7 +201,7 @@ const Detail = () => {
   return (
     <Container isReturned={report.status === "RETURNED"}>
       <TopNavBack></TopNavBack>
-      {isModal && <SearchModal findReports={modalData} onClose={closeModal} />}
+      {isModal && <SearchModal findReports={modalData} onClose={closeModal} pageType={pageType} />}
       <Box isReturned={report.status === "RETURNED"}>
         {report.status === "RETURNED" && (
           <CompletedBadge src="/img/ClosedIcon.png" alt="거래완료" />
