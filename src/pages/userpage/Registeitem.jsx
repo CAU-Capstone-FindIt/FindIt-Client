@@ -9,7 +9,7 @@ import { useFindListQuery } from "../../apis/FindQuery";
 import { myFind, myLost } from "../../apis/MyRegister";
 
 const Registeitem = () => {
-  const [itemType, setItemType] = useState("lost");
+  const [itemType, setItemType] = useState("");
   const [findReports, setFindReports] = useState([])
 
   useEffect(() => {
@@ -33,6 +33,7 @@ const Registeitem = () => {
 
   const handleTypeChange = (event) => {
     setItemType(event.target.value);
+    console.log(itemType)
   };
 
   return (
