@@ -18,8 +18,8 @@ const Registeitem = () => {
         if(itemType == "lost"){
           const response = await myLost();
           setFindReports(response)
-        }else{
-          setItemType("find")
+        }else if(itemType == "find"){
+          //setItemType("find")
           const response = await myFind();
           setFindReports(response)
         }
