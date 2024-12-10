@@ -53,10 +53,10 @@ export default Userpage;
 
 const Container = styled.div`
   background-color: white;
-  //width: 100%;
+  width: 100%;
   max-width: 600px;
   // 스크롤 웹전체로 함 100%로 높이 변경
-  height: 100%;
+  //height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
