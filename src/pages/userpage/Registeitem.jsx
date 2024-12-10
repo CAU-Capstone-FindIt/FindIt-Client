@@ -18,8 +18,8 @@ const Registeitem = () => {
         if(itemType == "lost"){
           const response = await myLost();
           setFindReports(response)
-        }else if(itemType == "found"){
-          //setItemType("find")
+        }else{
+          setItemType("find")
           const response = await myFind();
           setFindReports(response)
         }
@@ -45,7 +45,7 @@ const Registeitem = () => {
           <SelectContainer>
             <Select onChange={handleTypeChange} value={itemType}>
               <option value="lost">분실물</option>
-              <option value="found">습득물</option>
+              <option value="find">습득물</option>
             </Select>
           </SelectContainer>
         </TitleSwitch>
