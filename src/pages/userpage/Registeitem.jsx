@@ -33,6 +33,7 @@ const Registeitem = () => {
 
   const handleTypeChange = (event) => {
     setItemType(event.target.value);
+    console.log(itemType)
   };
 
   return (
@@ -44,7 +45,7 @@ const Registeitem = () => {
           <SelectContainer>
             <Select onChange={handleTypeChange} value={itemType}>
               <option value="lost">분실물</option>
-              <option value="found">습득물</option>
+              <option value="find">습득물</option>
             </Select>
           </SelectContainer>
         </TitleSwitch>
