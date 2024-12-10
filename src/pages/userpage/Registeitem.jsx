@@ -9,7 +9,7 @@ import { useFindListQuery } from "../../apis/FindQuery";
 import { myFind, myLost } from "../../apis/MyRegister";
 
 const Registeitem = () => {
-  const [itemType, setItemType] = useState("");
+  const [itemType, setItemType] = useState("lost");
   const [findReports, setFindReports] = useState([])
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const Registeitem = () => {
         if(itemType == "lost"){
           const response = await myLost();
           setFindReports(response)
-        }else if(itemType == "find"){
+        }else if(itemType == "found"){
           //setItemType("find")
           const response = await myFind();
           setFindReports(response)
