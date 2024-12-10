@@ -208,6 +208,7 @@ const Map = (selectedCategory) => {
           let data = cluster._markers.map((item) => item.data);
           if (data.length) {
             setSelectedReport(data);
+            setMode("find"); // 모드 상태 설정
             setIsModalOpen(true);
           }
         }
@@ -220,6 +221,7 @@ const Map = (selectedCategory) => {
           let data = cluster._markers.map((item) => item.data);
           if (data.length) {
             setSelectedReport(data);
+            setMode("lost"); // 모드 상태 설정
             setIsModalOpen(true);
           }
         }
